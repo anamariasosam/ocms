@@ -61,7 +61,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   Programacion
-    .findOneAndRemove({ _id: req.query.programacionId }, 
+    .findOneAndDelete({ _id: req.query.programacionId }, 
     (
       err,
       programacion,
