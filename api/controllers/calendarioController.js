@@ -5,8 +5,8 @@ const utils = require('../handlers/utils')
 exports.show = (req, res) => {
   const { calendarioId } = req.query
   if (calendarioId) {
-    Calendario.findById(calendarioId).exec((err, calendario) => {
-      utils.show(res, err, calendario)
+    Calendario.find({ nombre: calendarioId }).exec((err, calendario) => {
+      utils.show(res, err, calendario[0])
     })
   } else {
     Calendario.find({}).exec((err, calendarios) => {
@@ -42,6 +42,8 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   Calendario.findOneAndDelete({ _id: req.query.calendarioId }, (err, calendario) => {
-    utils.show(res, err, calendario)
+    Calendario.find({}).exec((err, calendarios) => {
+      utils.show(res, err, calendarios)
+    })
   })
 }
