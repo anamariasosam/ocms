@@ -14,12 +14,11 @@ const EventoAcademico = new Schema(
       type: ObjectId,
       ref: 'Programacion',
       required: true,
-    }
+    },
   },
   {
     collection: 'eventosAcademicos',
-  }
+  },
 )
-
 
 module.exports = mongoose.model('EventoAcademico', EventoAcademico)

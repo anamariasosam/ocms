@@ -16,8 +16,7 @@ const Programacion = new Schema(
   },
   {
     collection: 'programaciones',
-  }
+  },
 )
-
 
 module.exports = mongoose.model('Programacion', Programacion)

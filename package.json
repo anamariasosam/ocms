@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "precommit": "pretty-quick --staged",
+    "pretty": "prettier --write \"api/**/*.js\""
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "precommit": "pretty-quick --staged"
+      "pre-commit": "npm run precommit"
     }
   }
 }

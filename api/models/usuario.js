@@ -9,11 +9,11 @@ const Usuario = new Schema(
   },
   {
     toJSON: { virtuals: true },
-  }
+  },
 )
 
-Usuario.virtual('fullName').get( () => {
-  this.nombre + ' ' + this.apellido
-});
+Usuario.virtual('fullName').get(function () {
+  return this.nombre + ' ' + this.apellido
+})
 
 module.exports = mongoose.model('Usuario', Usuario)
