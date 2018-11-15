@@ -16,7 +16,7 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { fechaInicio, fechaFin, nombre } = req.body
+  const { fechaInicio, fechaFin, nombre } = req.body.data
 
   const calendario = new Calendario({
     fechaInicio,
