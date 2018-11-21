@@ -6,7 +6,7 @@ const utils = require('../handlers/utils')
 exports.show = (req, res) => {
   const { programacionId, calendarioId } = req.query
   if (programacionId) {
-    Programacion.findById(programacionId).exec((err, programacion) => {
+    Programacion.findOne({ nombre: programacionId }).exec((err, programacion) => {
       utils.show(res, err, programacion)
     })
   } else if (calendarioId) {
@@ -17,7 +17,8 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { calendarioId, nombre, fechaInicio, fechaFin, tipo } = req.body
+  console.log(req.body.data)
+  const { calendarioId, nombre, fechaInicio, fechaFin, tipo } = req.body.data
 
   const calendario = new Calendario({ _id: calendarioId })
 
@@ -35,18 +36,19 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  Programacion.findByIdAndUpdate(
-    { _id: req.query.programacionId },
-    req.body,
-    { new: true },
-    (err, programacion) => {
-      utils.show(res, err, programacion)
-    },
-  )
+  const nombre = req.body.params.programacionId
+  const data = req.body.data
+
+  Programacion.findOneAndUpdate({ nombre: nombre }, data, { new: true }, (err, programacion) => {
+    utils.show(res, err, programacion)
+  })
 }
 
 exports.delete = (req, res) => {
-  Programacion.findOneAndDelete({ _id: req.query.programacionId }, (err, programacion) => {
-    utils.show(res, err, programacion)
+  const { calendarioId, programacionId } = req.query
+  Programacion.findOneAndDelete({ _id: programacionId }, (err, calendario) => {
+    Programacion.find({ calendario: calendarioId }).exec((err, programaciones) => {
+      utils.show(res, err, programaciones)
+    })
   })
 }

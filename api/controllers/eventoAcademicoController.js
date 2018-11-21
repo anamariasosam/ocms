@@ -17,7 +17,7 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { nombre, fecha, aforo, asignatura, grupos, encargado, programacionId } = req.body
+  const { nombre, fecha, aforo, asignatura, grupos, encargado, programacionId } = req.body.data
 
   const programacion = new Programacion({ _id: programacionId })
 
