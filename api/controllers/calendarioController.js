@@ -3,26 +3,28 @@ const Calendario = mongoose.model('Calendario')
 const utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
-  const { calendarioId } = req.query
-  if (calendarioId) {
-    Calendario.findOne({ nombre: calendarioId }).exec((err, calendario) => {
+  const { semestre } = req.query
+  if (semestre) {
+    Calendario.findOne({ semestre }).exec((err, calendario) => {
       utils.show(res, err, calendario)
     })
   } else {
-    Calendario.find({}).exec((err, calendarios) => {
-      utils.show(res, err, calendarios)
-    })
+    Calendario.find({})
+      .sort('semestre')
+      .exec((err, calendarios) => {
+        utils.show(res, err, calendarios)
+      })
   }
 }
 
 exports.create = (req, res) => {
-  let { fechaInicio, fechaFin, nombre } = req.body.data
+  let { fechaInicio, fechaFin, semestre } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
   const calendario = new Calendario({
     fechaInicio,
     fechaFin,
-    nombre,
+    semestre,
   })
 
   calendario.save((err, calendario) => {
@@ -31,14 +33,14 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const nombreCalendario = req.body.params.calendarioId
+  const semestre = req.body.params.semestre
 
   let { fechaInicio, fechaFin } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 
   Calendario.findOneAndUpdate(
-    { nombre: nombreCalendario },
+    { semestre },
     {
       fechaInicio,
       fechaFin,

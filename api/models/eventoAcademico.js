@@ -10,6 +10,7 @@ const EventoAcademico = new Schema(
     asignatura: String,
     grupos: Array,
     encargado: String,
+    medios: String,
     programacion: {
       type: ObjectId,
       ref: 'Programacion',

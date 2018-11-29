@@ -4,15 +4,17 @@ const Programacion = mongoose.model('Programacion')
 const utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
-  const { eventoAcademicoId, programacionId } = req.query
-  if (eventoAcademicoId) {
-    EventoAcademico.findOne({ nombre: eventoAcademicoId }).exec((err, eventoAcademico) => {
+  const { nombre, programacionId } = req.query
+  if (nombre) {
+    EventoAcademico.findOne({ nombre: nombre }).exec((err, eventoAcademico) => {
       utils.show(res, err, eventoAcademico)
     })
   } else if (programacionId) {
-    EventoAcademico.find({ programacion: programacionId }).exec((err, eventosAcademicos) => {
-      utils.show(res, err, eventosAcademicos)
-    })
+    EventoAcademico.find({ programacion: programacionId })
+      .sort('fecha')
+      .exec((err, eventosAcademicos) => {
+        utils.show(res, err, eventosAcademicos)
+      })
   }
 }
 
@@ -38,14 +40,14 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const nombre = req.body.params.eventoAcademicoId
+  const { nombre } = req.body.params
 
   const { aforo, asignatura, grupos, encargado } = req.body.data
   let { fecha } = req.body.data
   fecha = new Date(fecha)
 
   EventoAcademico.findOneAndUpdate(
-    { nombre: nombre },
+    { nombre },
     {
       aforo,
       asignatura,

@@ -4,23 +4,28 @@ const Calendario = mongoose.model('Calendario')
 const utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
-  const { programacionId, calendarioId } = req.query
-  if (programacionId) {
-    Programacion.findOne({ nombre: programacionId }).exec((err, programacion) => {
+  const { nombre, calendarioId } = req.query
+  if (nombre) {
+    Programacion.findOne({ nombre }).exec((err, programacion) => {
       utils.show(res, err, programacion)
     })
   } else if (calendarioId) {
-    Programacion.find({ calendario: calendarioId }).exec((err, programaciones) => {
-      utils.show(res, err, programaciones)
-    })
+    Programacion.find({ calendario: calendarioId })
+      .sort('nombre')
+      .exec((err, programaciones) => {
+        utils.show(res, err, programaciones)
+      })
   }
 }
 
-exports.create = (req, res) => {
-  const { calendarioId, nombre, tipo } = req.body.data
+exports.create = async (req, res) => {
+  const { calendarioId, tipo, calendarioSemestre } = req.body.data
   let { fechaInicio, fechaFin } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
+
+  const contadorProgramaciones = await Programacion.count({ calendario: calendarioId })
+  const nombre = `${calendarioSemestre}-${contadorProgramaciones + 1}`
 
   const calendario = new Calendario({ _id: calendarioId })
 
@@ -38,14 +43,14 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const nombre = req.body.params.programacionId
+  const { nombre } = req.body.params
   const { tipo } = req.body.data
   let { fechaInicio, fechaFin } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 
   Programacion.findOneAndUpdate(
-    { nombre: nombre },
+    { nombre },
     {
       fechaInicio,
       fechaFin,
