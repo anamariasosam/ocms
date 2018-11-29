@@ -27,5 +27,13 @@
     "hooks": {
       "pre-commit": "npm run precommit"
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anamariasosam/ocms_api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anamariasosam/ocms_api/issues"
+  },
+  "homepage": "https://github.com/anamariasosam/ocms_api#readme"
 }
