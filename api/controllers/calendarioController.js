@@ -16,8 +16,9 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { fechaInicio, fechaFin, nombre } = req.body.data
-
+  let { fechaInicio, fechaFin, nombre } = req.body.data
+  fechaInicio = new Date(fechaInicio)
+  fechaFin = new Date(fechaFin)
   const calendario = new Calendario({
     fechaInicio,
     fechaFin,
@@ -30,12 +31,23 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const nombre = req.body.params.calendarioId
-  const data = req.body.data
+  const nombreCalendario = req.body.params.calendarioId
 
-  Calendario.findOneAndUpdate({ nombre: nombre }, data, { new: true }, (err, calendario) => {
-    utils.show(res, err, calendario)
-  })
+  let { fechaInicio, fechaFin } = req.body.data
+  fechaInicio = new Date(fechaInicio)
+  fechaFin = new Date(fechaFin)
+
+  Calendario.findOneAndUpdate(
+    { nombre: nombreCalendario },
+    {
+      fechaInicio,
+      fechaFin,
+    },
+    { new: true },
+    (err, calendario) => {
+      utils.show(res, err, calendario)
+    },
+  )
 }
 
 exports.delete = (req, res) => {

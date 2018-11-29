@@ -6,7 +6,7 @@ const utils = require('../handlers/utils')
 exports.show = (req, res) => {
   const { eventoAcademicoId, programacionId } = req.query
   if (eventoAcademicoId) {
-    EventoAcademico.findById(eventoAcademicoId).exec((err, eventoAcademico) => {
+    EventoAcademico.findOne({ nombre: eventoAcademicoId }).exec((err, eventoAcademico) => {
       utils.show(res, err, eventoAcademico)
     })
   } else if (programacionId) {
@@ -17,8 +17,9 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { nombre, fecha, aforo, asignatura, grupos, encargado, programacionId } = req.body.data
-
+  const { nombre, aforo, asignatura, grupos, encargado, programacionId } = req.body.data
+  let { fecha } = req.body.data
+  fecha = new Date(fecha)
   const programacion = new Programacion({ _id: programacionId })
 
   const eventoAcademico = new EventoAcademico({
@@ -37,19 +38,33 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  EventoAcademico.findByIdAndUpdate(
-    { _id: req.query.eventoAcademicoId },
-    req.body,
+  const nombre = req.body.params.eventoAcademicoId
+
+  const { aforo, asignatura, grupos, encargado } = req.body.data
+  let { fecha } = req.body.data
+  fecha = new Date(fecha)
+
+  EventoAcademico.findOneAndUpdate(
+    { nombre: nombre },
+    {
+      aforo,
+      asignatura,
+      grupos,
+      encargado,
+      fecha,
+    },
     { new: true },
-    (err, programacion) => {
-      utils.show(res, err, programacion)
+    (err, evento) => {
+      utils.show(res, err, evento)
     },
   )
 }
 
 exports.delete = (req, res) => {
-  EventoAcademico.findOneAndDelete({ _id: req.query.eventoAcademicoId }, (err, programacion) => {
-    console.log(programacion)
-    utils.show(res, err, programacion)
+  const { eventoAcademicoId, programacionId } = req.query
+  EventoAcademico.findOneAndDelete({ _id: eventoAcademicoId }, (err, evento) => {
+    EventoAcademico.find({ programacion: programacionId }).exec((err, eventos) => {
+      utils.show(res, err, eventos)
+    })
   })
 }
