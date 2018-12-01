@@ -9,8 +9,10 @@ exports.show = (req, res) => {
       utils.show(res, err, asignatura)
     })
   } else {
-    Asignatura.find({}).exec((err, asignaturas) => {
-      utils.show(res, err, asignaturas)
-    })
+    Asignatura.find({})
+      .sort('nombre')
+      .exec((err, asignaturas) => {
+        utils.show(res, err, asignaturas)
+      })
   }
 }

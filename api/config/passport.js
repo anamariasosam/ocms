@@ -6,14 +6,14 @@ const passport = require('passport'),
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local')
 
-// Setting username field to email rather than username
+// Setting username field to correo rather than username
 const localOptions = {
-  usernameField: 'email',
+  usernameField: 'correo',
 }
 
 // Setting up local login strategy
-const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  User.findOne({ email }, (err, user) => {
+const localLogin = new LocalStrategy(localOptions, (correo, password, done) => {
+  User.findOne({ correo }, (err, user) => {
     if (err) {
       return done(err)
     }

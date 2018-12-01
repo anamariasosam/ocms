@@ -6,7 +6,7 @@ const Usuario = new Schema(
   {
     nombre: String,
     apellido: String,
-    email: {
+    correo: {
       type: String,
       lowercase: true,
       unique: true,
@@ -16,9 +16,17 @@ const Usuario = new Schema(
       type: String,
       required: true,
     },
+    uoc: {
+      type: String,
+      required: true,
+    },
+    programa: {
+      type: String,
+      required: true,
+    },
     rol: {
       type: String,
-      enum: ['Jefe de Programa', 'Estudiante', 'Profesor'],
+      enum: ['Jefe de Programa', 'Estudiante', 'Profesor', 'Monitor'],
       default: 'Estudiante',
     },
   },

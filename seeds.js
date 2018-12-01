@@ -7,6 +7,7 @@ const usuario = require('./api/models/usuario')
 const programacion = require('./api/models/programacion')
 const grupo = require('./api/models/grupo')
 const evento = require('./api/models/eventoAcademico')
+const tipo = require('./api/models/tipoProgramacion')
 
 var calendarios = [
   {
@@ -54,17 +55,17 @@ const usuarios = [
   {
     nombre: 'Bell',
     apellido: 'Manrique',
-    email: 'bm@udem.edu.co',
+    correo: 'bm@udem.edu.co',
   },
   {
     nombre: 'Juan Bernardo',
     apellido: 'Quintero',
-    email: 'jq@udem.edu.co',
+    correo: 'jq@udem.edu.co',
   },
   {
     nombre: 'Gloria Piedad',
     apellido: 'Gasca',
-    email: 'gg@udem.edu.co',
+    correo: 'gg@udem.edu.co',
   },
 ]
 
@@ -139,13 +140,36 @@ const eventos = [
   },
 ]
 
+const tipoProgramaciones = [
+  {
+    nombre: 'Ceremonia de Grados',
+  },
+  {
+    nombre: 'Supletorio Parciales',
+  },
+  {
+    nombre: 'Supletorio Finales',
+  },
+  {
+    nombre: 'Examenes Finales',
+  },
+  {
+    nombre: 'Examenes Parciales',
+  },
+  {
+    nombre: 'Programacion Academica',
+  },
+]
+
 db.then(async () => {
   // await evento.insertMany(eventos)
   // await grupo.insertMany(grupos)
-  await programacion.insertMany(programaciones)
+  // await programacion.insertMany(programaciones)
   // await usuario.insertMany(usuarios)
   // await calendario.insertMany(calendarios)
   // await asignatura.insertMany(asignaturas)
+  // await calendario.insertMany(calendarios)
+  await tipo.insertMany(tipoProgramaciones)
 
   process.exit(1)
 })

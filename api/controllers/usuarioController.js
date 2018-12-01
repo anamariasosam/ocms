@@ -9,8 +9,10 @@ exports.show = (req, res) => {
       utils.show(res, err, usuario)
     })
   } else {
-    Usuario.find({}).exec((err, usuarios) => {
-      utils.show(res, err, usuarios)
-    })
+    Usuario.find({})
+      .sort('nombre')
+      .exec((err, usuarios) => {
+        utils.show(res, err, usuarios)
+      })
   }
 }

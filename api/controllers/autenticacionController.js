@@ -10,12 +10,11 @@ function generateToken(usuario) {
 }
 
 function setUsuarioInfo(request) {
-  console.log(request)
   return {
     _id: request._id,
     nombre: request.nombre,
     apellido: request.apellido,
-    email: request.email,
+    correo: request.correo,
     password: request.password,
     rol: request.rol,
   }
@@ -25,7 +24,7 @@ function setUsuarioInfo(request) {
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-  Usuario.findOne({ email: req.body.email }).exec((err, usuario) => {
+  Usuario.findOne({ correo: req.body.correo }).exec((err, usuario) => {
     let usuarioInfo = setUsuarioInfo(usuario)
 
     res.status(201).json({
@@ -42,13 +41,13 @@ exports.register = function(req, res, next) {
   // Check for registration errors
   const nombre = req.body.nombre
   const apellido = req.body.apellido
-  const email = req.body.email
+  const correo = req.body.correo
   const password = req.body.password
   const rol = req.body.rol
 
-  // Return error if no email provided
-  if (!email) {
-    return res.status(422).send({ error: 'You must enter an email address.' })
+  // Return error if no correo provided
+  if (!correo) {
+    return res.status(422).send({ error: 'You must enter an correo address.' })
   }
 
   // Return error if no password provided
@@ -56,21 +55,21 @@ exports.register = function(req, res, next) {
     return res.status(422).send({ error: 'You must enter a password.' })
   }
 
-  Usuario.findOne({ email: email }, function(err, existingUsuario) {
+  Usuario.findOne({ correo: correo }, function(err, existingUsuario) {
     if (err) {
       return next(err)
     }
 
     // If usuario is not unique, return error
     if (existingUsuario) {
-      return res.status(422).send({ error: 'That email address is already in use.' })
+      return res.status(422).send({ error: 'That correo address is already in use.' })
     }
 
-    // If email is unique and password was provided, create account
+    // If correo is unique and password was provided, create account
     let usuario = new Usuario({
       nombre,
       apellido,
-      email,
+      correo,
       password,
       rol,
     })

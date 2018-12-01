@@ -9,6 +9,7 @@ require('../api/models/grupo')
 require('../api/models/asignatura')
 require('../api/models/usuario')
 require('../api/models/eventoAcademico')
+require('../api/models/tipoProgramacion')
 
 const db = mongoose.connect(
   keys.mongoURI,
