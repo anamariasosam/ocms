@@ -1,14 +1,16 @@
 const jwt = require('jsonwebtoken'),
   Usuario = require('../models/usuario'),
-  keys = require('../../config/keys')
+  keys = require('../../config/keys'),
+  utils = require('../handlers/utils')
 
 function generateToken(usuario) {
   return jwt.sign(usuario, keys.secret, {
-    expiresIn: 10080, // in seconds
+    expiresIn: 36000, // in seconds
   })
 }
 
 function setUsuarioInfo(request) {
+  console.log(request)
   return {
     _id: request._id,
     nombre: request.nombre,
@@ -23,11 +25,13 @@ function setUsuarioInfo(request) {
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-  let usuarioInfo = setUsuarioInfo(req.body)
+  Usuario.findOne({ email: req.body.email }).exec((err, usuario) => {
+    let usuarioInfo = setUsuarioInfo(usuario)
 
-  res.status(200).json({
-    token: 'JWT ' + generateToken(usuarioInfo),
-    usuario: usuarioInfo,
+    res.status(201).json({
+      token: 'JWT ' + generateToken(usuarioInfo),
+      usuario: usuarioInfo,
+    })
   })
 }
 
@@ -71,18 +75,8 @@ exports.register = function(req, res, next) {
       rol,
     })
 
-    usuario.save(function(err, usuario) {
-      if (err) {
-        return next(err)
-      }
-      // Respond with JWT if usuario was created
-
-      let usuarioInfo = setUsuarioInfo(usuario)
-
-      res.status(201).json({
-        token: 'JWT ' + generateToken(usuarioInfo),
-        usuario: usuarioInfo,
-      })
+    usuario.save((err, usuario) => {
+      utils.show(res, err, usuario)
     })
   })
 }

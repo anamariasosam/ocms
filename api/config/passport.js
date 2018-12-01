@@ -1,46 +1,56 @@
-// Importing Passport, strategies, and keys
+// Importing Passport, strategies, and config
 const passport = require('passport'),
-  Usuario = require('../models/usuario'),
-  keys = require('../../config/keys')
-;(JwtStrategy = require('passport-jwt').Strategy),
-  (ExtractJwt = require('passport-jwt').ExtractJwt),
-  (LocalStrategy = require('passport-local'))
+  User = require('../models/usuario'),
+  config = require('../../config/keys'),
+  JwtStrategy = require('passport-jwt').Strategy,
+  ExtractJwt = require('passport-jwt').ExtractJwt,
+  LocalStrategy = require('passport-local')
 
-const localOptions = { usernameField: 'email' }
-
-const jwtOptions = {
-  // Telling Passport to check authorization headers for JWT
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-  // Telling Passport where to find the secret
-  secretOrKey: keys.secret,
+// Setting username field to email rather than username
+const localOptions = {
+  usernameField: 'email',
 }
 
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-  Usuario.findOne({ email }, function(err, usuario) {
+// Setting up local login strategy
+const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+  User.findOne({ email }, (err, user) => {
     if (err) {
       return done(err)
     }
-    if (usuario) {
-      usuario.comparePassword(password, function(err, isMatch) {
-        if (err) {
-          return done(err)
-        }
-        if (!isMatch) {
-          return done(null, false, {
-            error: 'Your login details could not be verified. Please try again.',
-          })
-        }
-
-        return done(null, usuario)
+    if (!user) {
+      return done(null, false, {
+        error: 'Your login details could not be verified. Please try again.',
       })
-    } else {
-      done(null, false)
     }
+
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) {
+        return done(err)
+      }
+      if (!isMatch) {
+        return done(null, false, {
+          error: 'Your login details could not be verified. Please try again.',
+        })
+      }
+
+      return done(null, user)
+    })
   })
 })
 
-const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-  User.findById(payload._id, function(err, user) {
+// Setting JWT strategy options
+const jwtOptions = {
+  // Telling Passport to check authorization headers for JWT
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
+  // Telling Passport where to find the secret
+  secretOrKey: config.secret,
+
+  // TO-DO: Add issuer and audience checks
+}
+
+// Setting up JWT login strategy
+const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+  User.findById(payload._id, (err, user) => {
     if (err) {
       return done(err, false)
     }
