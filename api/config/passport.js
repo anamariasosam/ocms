@@ -1,62 +1,53 @@
-// Importing Passport, strategies, and config
 const passport = require('passport'),
-  User = require('../models/usuario'),
+  Usuario = require('../models/usuario'),
   config = require('../../config/keys'),
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local')
 
-// Setting username field to correo rather than username
 const localOptions = {
   usernameField: 'correo',
 }
 
-// Setting up local login strategy
 const localLogin = new LocalStrategy(localOptions, (correo, password, done) => {
-  User.findOne({ correo }, (err, user) => {
+  Usuario.findOne({ correo }, (err, usuario) => {
     if (err) {
       return done(err)
     }
-    if (!user) {
+    if (!usuario) {
       return done(null, false, {
-        error: 'Your login details could not be verified. Please try again.',
+        error: 'Por favor intentalo de nuevo',
       })
     }
 
-    user.comparePassword(password, (err, isMatch) => {
+    usuario.comparePassword(password, (err, isMatch) => {
       if (err) {
         return done(err)
       }
       if (!isMatch) {
         return done(null, false, {
-          error: 'Your login details could not be verified. Please try again.',
+          error: 'No se pudo verificar la contraseña. Intentalo de nuevo',
         })
       }
 
-      return done(null, user)
+      return done(null, usuario)
     })
   })
 })
 
-// Setting JWT strategy options
 const jwtOptions = {
-  // Telling Passport to check authorization headers for JWT
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
-  // Telling Passport where to find the secret
   secretOrKey: config.secret,
-
-  // TO-DO: Add issuer and audience checks
 }
 
-// Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  User.findById(payload._id, (err, user) => {
+  Usuario.findById(payload._id, (err, usuario) => {
     if (err) {
       return done(err, false)
     }
 
-    if (user) {
-      done(null, user)
+    if (usuario) {
+      done(null, usuario)
     } else {
       done(null, false)
     }

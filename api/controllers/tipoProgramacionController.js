@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Tipo = mongoose.model('TipoProgramacion')
-const utils = require('../handlers/utils')
+const mongoose = require('mongoose'),
+  Tipo = mongoose.model('TipoProgramacion'),
+  utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
   const { tipoId } = req.query

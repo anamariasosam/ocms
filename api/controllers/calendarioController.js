@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Calendario = mongoose.model('Calendario')
-const utils = require('../handlers/utils')
+const mongoose = require('mongoose'),
+  Calendario = mongoose.model('Calendario'),
+  utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
   const { semestre } = req.query

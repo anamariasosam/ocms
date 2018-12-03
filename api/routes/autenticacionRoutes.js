@@ -10,10 +10,8 @@ const router = express.Router(),
 
 router.use('/auth', authRoutes)
 
-// Registration route
 authRoutes.post('/register', autenticacion.register)
 
-// Login route
 authRoutes.post('/login', requireLogin, autenticacion.login)
 
 module.exports = router

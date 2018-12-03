@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const EventoAcademico = mongoose.model('EventoAcademico')
-const Programacion = mongoose.model('Programacion')
-const utils = require('../handlers/utils')
+const mongoose = require('mongoose'),
+  EventoAcademico = mongoose.model('EventoAcademico'),
+  Programacion = mongoose.model('Programacion'),
+  utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
   const { nombre, programacionId } = req.query

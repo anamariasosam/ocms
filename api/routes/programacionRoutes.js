@@ -1,5 +1,5 @@
-const express = require('express')
-const programacion = require('../controllers/programacionController')
+const express = require('express'),
+  programacion = require('../controllers/programacionController')
 
 const router = express.Router()
 

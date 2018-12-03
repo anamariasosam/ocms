@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken'),
 
 function generateToken(usuario) {
   return jwt.sign(usuario, keys.secret, {
-    expiresIn: 36000, // in seconds
+    expiresIn: 36000,
   })
 }
 
@@ -20,12 +20,9 @@ function setUsuarioInfo(request) {
   }
 }
 
-//========================================
-// Login Route
-//========================================
 exports.login = function(req, res, next) {
   Usuario.findOne({ correo: req.body.correo }).exec((err, usuario) => {
-    let usuarioInfo = setUsuarioInfo(usuario)
+    const usuarioInfo = setUsuarioInfo(usuario)
 
     res.status(201).json({
       token: 'JWT ' + generateToken(usuarioInfo),
@@ -34,25 +31,20 @@ exports.login = function(req, res, next) {
   })
 }
 
-//========================================
-// Registration Route
-//========================================
 exports.register = function(req, res, next) {
-  // Check for registration errors
-  const nombre = req.body.nombre
-  const apellido = req.body.apellido
-  const correo = req.body.correo
-  const password = req.body.password
-  const rol = req.body.rol
+  const nombre = req.body.nombre,
+    apellido = req.body.apellido,
+    correo = req.body.correo,
+    password = req.body.password,
+    rol = req.body.rol,
+    programa = req.body.programa
 
-  // Return error if no correo provided
   if (!correo) {
-    return res.status(422).send({ error: 'You must enter an correo address.' })
+    return res.status(422).send({ error: 'Debes ingresar un correo.' })
   }
 
-  // Return error if no password provided
   if (!password) {
-    return res.status(422).send({ error: 'You must enter a password.' })
+    return res.status(422).send({ error: 'Debes ingresar un password.' })
   }
 
   Usuario.findOne({ correo: correo }, function(err, existingUsuario) {
@@ -60,18 +52,17 @@ exports.register = function(req, res, next) {
       return next(err)
     }
 
-    // If usuario is not unique, return error
     if (existingUsuario) {
-      return res.status(422).send({ error: 'That correo address is already in use.' })
+      return res.status(422).send({ error: 'El correo ya está en uso' })
     }
 
-    // If correo is unique and password was provided, create account
-    let usuario = new Usuario({
+    const usuario = new Usuario({
       nombre,
       apellido,
       correo,
       password,
       rol,
+      programa,
     })
 
     usuario.save((err, usuario) => {
@@ -82,20 +73,19 @@ exports.register = function(req, res, next) {
 
 exports.roleAuthorization = function(role) {
   return function(req, res, next) {
-    const usuario = req.usuario
+    const usuario = req.user
 
     Usuario.findById(usuario._id, function(err, foundUsuario) {
       if (err) {
-        res.status(422).json({ error: 'No usuario was found.' })
+        res.status(422).json({ error: 'No se encontró el usuario.' })
         return next(err)
       }
 
-      // If usuario is found, check role.
-      if (foundUsuario.role == role) {
+      if (foundUsuario.rol == role) {
         return next()
       }
 
-      res.status(401).json({ error: 'You are not authorized to view this content.' })
+      res.status(401).json({ error: 'No tienes permisos para relizar esta acción.' })
       return next('Unauthorized')
     })
   }

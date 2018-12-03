@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Asignatura = mongoose.model('Asignatura')
-const utils = require('../handlers/utils')
+const mongoose = require('mongoose'),
+  Asignatura = mongoose.model('Asignatura'),
+  utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
   const { asignaturaId } = req.query

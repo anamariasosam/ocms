@@ -1,6 +1,10 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  bcrypt = require('bcrypt-nodejs')
+  bcrypt = require('bcrypt-nodejs'),
+  ROLE_ESTUDIANTE = require('../../constants').ROLE_ESTUDIANTE,
+  ROLE_JEFE_DE_PROGRAMA = require('../../constants').ROLE_JEFE_DE_PROGRAMA,
+  ROLE_PROFESOR = require('../../constants').ROLE_PROFESOR,
+  ROLE_ADMIN = require('../../constants').ROLE_ADMIN
 
 const Usuario = new Schema(
   {
@@ -16,18 +20,14 @@ const Usuario = new Schema(
       type: String,
       required: true,
     },
-    uoc: {
-      type: String,
-      required: true,
-    },
     programa: {
       type: String,
       required: true,
     },
     rol: {
       type: String,
-      enum: ['Jefe de Programa', 'Estudiante', 'Profesor', 'Monitor'],
-      default: 'Estudiante',
+      enum: [ROLE_ESTUDIANTE, ROLE_JEFE_DE_PROGRAMA, ROLE_PROFESOR, ROLE_ADMIN],
+      default: ROLE_ESTUDIANTE,
     },
   },
   {
@@ -36,17 +36,17 @@ const Usuario = new Schema(
 )
 
 Usuario.pre('save', function(next) {
-  const user = this,
+  const usuario = this,
     SALT_FACTOR = 5
 
-  if (!user.isModified('password')) return next()
+  if (!usuario.isModified('password')) return next()
 
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     if (err) return next(err)
 
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
+    bcrypt.hash(usuario.password, salt, null, function(err, hash) {
       if (err) return next(err)
-      user.password = hash
+      usuario.password = hash
       next()
     })
   })

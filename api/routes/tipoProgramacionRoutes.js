@@ -1,5 +1,5 @@
-const express = require('express')
-const tipoProgramacion = require('../controllers/tipoProgramacionController')
+const express = require('express'),
+  tipoProgramacion = require('../controllers/tipoProgramacionController')
 
 const router = express.Router()
 

@@ -1,13 +1,12 @@
-const express = require('express')
-
-const calendarioRoutes = require('./calendarioRoutes')
-const programacionRoutes = require('./programacionRoutes')
-const grupoRoutes = require('./grupoRoutes')
-const asignaturaRoutes = require('./asignaturaRoutes')
-const usuarioRoutes = require('./usuarioRoutes')
-const eventoAcademicoRoutes = require('./eventoAcademicoRoutes')
-const autenticacionRoutes = require('./autenticacionRoutes')
-const tipoProgramacionRoutes = require('./tipoProgramacionRoutes')
+const express = require('express'),
+  calendarioRoutes = require('./calendarioRoutes'),
+  programacionRoutes = require('./programacionRoutes'),
+  grupoRoutes = require('./grupoRoutes'),
+  asignaturaRoutes = require('./asignaturaRoutes'),
+  usuarioRoutes = require('./usuarioRoutes'),
+  eventoAcademicoRoutes = require('./eventoAcademicoRoutes'),
+  autenticacionRoutes = require('./autenticacionRoutes'),
+  tipoProgramacionRoutes = require('./tipoProgramacionRoutes')
 
 const router = express.Router()
 

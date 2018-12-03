@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const keys = require('../config/keys')
+const mongoose = require('mongoose'),
+  keys = require('../config/keys')
 
 mongoose.Promise = global.Promise
 
