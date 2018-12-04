@@ -19,8 +19,8 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { nombre, aforo, asignatura, grupos, encargado, programacionId } = req.body.data
-  let { fecha } = req.body.data
+  const { nombre, aforo, asignatura, grupos, encargado, programacionId } = req.body
+  let { fecha } = req.body
   fecha = new Date(fecha)
   const programacion = new Programacion({ _id: programacionId })
 
@@ -42,8 +42,8 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, asignatura, grupos, encargado } = req.body.data
-  let { fecha } = req.body.data
+  const { aforo, asignatura, grupos, encargado } = req.body
+  let { fecha } = req.body
   fecha = new Date(fecha)
 
   EventoAcademico.findOneAndUpdate(

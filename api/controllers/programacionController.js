@@ -19,8 +19,9 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { calendarioId, tipo, calendarioSemestre } = req.body.data
-  let { fechaInicio, fechaFin } = req.body.data
+  const { calendarioId, tipo, calendarioSemestre } = req.body
+  let { fechaInicio, fechaFin } = req.body
+
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 
@@ -44,8 +45,8 @@ exports.create = async (req, res) => {
 
 exports.update = (req, res) => {
   const { nombre } = req.body.params
-  const { tipo } = req.body.data
-  let { fechaInicio, fechaFin } = req.body.data
+  const { tipo } = req.body
+  let { fechaInicio, fechaFin } = req.body
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 
