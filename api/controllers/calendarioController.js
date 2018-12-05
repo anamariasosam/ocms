@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   const semestre = req.body.params.semestre
 
-  let { fechaInicio, fechaFin } = req.body
+  let { fechaInicio, fechaFin } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 

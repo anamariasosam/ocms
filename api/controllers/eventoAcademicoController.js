@@ -5,7 +5,6 @@ const mongoose = require('mongoose'),
 
 exports.show = (req, res) => {
   const { nombre, programacionNombre } = req.query
-  console.log(req.query)
   if (nombre) {
     EventoAcademico.findOne({ nombre: nombre }).exec((err, eventoAcademico) => {
       utils.show(res, err, eventoAcademico)
@@ -16,7 +15,6 @@ exports.show = (req, res) => {
       EventoAcademico.find({ programacion: programacionId })
         .sort('fecha')
         .exec((err, eventosAcademicos) => {
-          console.log(eventosAcademicos)
           utils.show(res, err, eventosAcademicos)
         })
     })
@@ -47,8 +45,8 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, asignatura, grupos, encargado } = req.body
-  let { fecha } = req.body
+  const { aforo, asignatura, grupos, encargado } = req.body.data
+  let { fecha } = req.body.data
   fecha = new Date(fecha)
 
   EventoAcademico.findOneAndUpdate(

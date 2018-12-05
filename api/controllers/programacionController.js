@@ -51,7 +51,7 @@ exports.create = async (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
   const { tipo } = req.body
-  let { fechaInicio, fechaFin } = req.body
+  let { fechaInicio, fechaFin } = req.body.data
   fechaInicio = new Date(fechaInicio)
   fechaFin = new Date(fechaFin)
 
