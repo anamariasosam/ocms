@@ -4,17 +4,22 @@ const mongoose = require('mongoose'),
   utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
-  const { nombre, programacionId } = req.query
+  const { nombre, programacionNombre } = req.query
+  console.log(req.query)
   if (nombre) {
     EventoAcademico.findOne({ nombre: nombre }).exec((err, eventoAcademico) => {
       utils.show(res, err, eventoAcademico)
     })
-  } else if (programacionId) {
-    EventoAcademico.find({ programacion: programacionId })
-      .sort('fecha')
-      .exec((err, eventosAcademicos) => {
-        utils.show(res, err, eventosAcademicos)
-      })
+  } else if (programacionNombre) {
+    Programacion.findOne({ nombre: programacionNombre }).exec((err, programacion) => {
+      const programacionId = programacion._id
+      EventoAcademico.find({ programacion: programacionId })
+        .sort('fecha')
+        .exec((err, eventosAcademicos) => {
+          console.log(eventosAcademicos)
+          utils.show(res, err, eventosAcademicos)
+        })
+    })
   }
 }
 

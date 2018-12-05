@@ -4,17 +4,22 @@ const mongoose = require('mongoose'),
   utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
-  const { nombre, calendarioId } = req.query
+  const { nombre, semestre } = req.query
   if (nombre) {
     Programacion.findOne({ nombre }).exec((err, programacion) => {
       utils.show(res, err, programacion)
     })
-  } else if (calendarioId) {
-    Programacion.find({ calendario: calendarioId })
-      .sort('nombre')
-      .exec((err, programaciones) => {
-        utils.show(res, err, programaciones)
-      })
+  } else if (semestre) {
+    Calendario.findOne({ semestre }).exec((err, calendario) => {
+      if (calendario) {
+        const calendarioId = calendario._id
+        Programacion.find({ calendario: calendarioId })
+          .sort('nombre')
+          .exec((err, programaciones) => {
+            utils.show(res, err, programaciones)
+          })
+      }
+    })
   }
 }
 
