@@ -1,10 +1,10 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   bcrypt = require('bcrypt-nodejs'),
-  ROLE_ESTUDIANTE = require('../../constants').ROLE_ESTUDIANTE,
-  ROLE_JEFE_DE_PROGRAMA = require('../../constants').ROLE_JEFE_DE_PROGRAMA,
-  ROLE_PROFESOR = require('../../constants').ROLE_PROFESOR,
-  ROLE_ADMIN = require('../../constants').ROLE_ADMIN
+  ROL_ESTUDIANTE = require('../../constants').ROL_ESTUDIANTE,
+  ROL_JEFE_DE_PROGRAMA = require('../../constants').ROL_JEFE_DE_PROGRAMA,
+  ROL_PROFESOR = require('../../constants').ROL_PROFESOR,
+  ROL_ADMIN = require('../../constants').ROL_ADMIN
 
 const Usuario = new Schema(
   {
@@ -26,8 +26,8 @@ const Usuario = new Schema(
     },
     rol: {
       type: String,
-      enum: [ROLE_ESTUDIANTE, ROLE_JEFE_DE_PROGRAMA, ROLE_PROFESOR, ROLE_ADMIN],
-      default: ROLE_ESTUDIANTE,
+      enum: [ROL_ESTUDIANTE, ROL_JEFE_DE_PROGRAMA, ROL_PROFESOR, ROL_ADMIN],
+      default: ROL_ESTUDIANTE,
     },
   },
   {

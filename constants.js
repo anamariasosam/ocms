@@ -1,11 +1,11 @@
-const ROLE_ESTUDIANTE = 'Estudiante',
-  ROLE_JEFE_DE_PROGRAMA = 'Jefe de Programa',
-  ROLE_PROFESOR = 'Profesor',
-  ROLE_ADMIN = 'Admin'
+const ROL_ESTUDIANTE = 'Estudiante',
+  ROL_JEFE_DE_PROGRAMA = 'Jefe de Programa',
+  ROL_PROFESOR = 'Profesor',
+  ROL_ADMIN = 'Admin'
 
 module.exports = {
-  ROLE_ESTUDIANTE,
-  ROLE_JEFE_DE_PROGRAMA,
-  ROLE_PROFESOR,
-  ROLE_ADMIN,
+  ROL_ESTUDIANTE,
+  ROL_JEFE_DE_PROGRAMA,
+  ROL_PROFESOR,
+  ROL_ADMIN,
 }
