@@ -24,8 +24,6 @@ exports.profesores = (req, res) => {
   Usuario.find({ rol: ROL_PROFESOR })
     .sort('nombre')
     .exec((err, usuarios) => {
-      console.log(usuarios)
-
       utils.show(res, err, usuarios)
     })
 }
@@ -34,8 +32,6 @@ exports.estudiantes = (req, res) => {
   Usuario.find({ rol: ROL_ESTUDIANTE })
     .sort('nombre')
     .exec((err, usuarios) => {
-      console.log(usuarios)
-
       utils.show(res, err, usuarios)
     })
 }
@@ -44,8 +40,6 @@ exports.jefesDePrograma = (req, res) => {
   Usuario.find({ rol: ROL_JEFE_DE_PROGRAMA })
     .sort('nombre')
     .exec((err, usuarios) => {
-      console.log(usuarios)
-
       utils.show(res, err, usuarios)
     })
 }
