@@ -15,13 +15,18 @@ router.post(
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   calendario.create,
 )
-router.get('/calendarios', calendario.show)
 router.put(
   '/calendarios',
   requireAuth,
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   calendario.update,
 )
-router.delete('/calendarios', calendario.delete)
+router.delete(
+  '/calendarios',
+  requireAuth,
+  autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
+  calendario.delete,
+)
+router.get('/calendarios', calendario.show)
 
 module.exports = router

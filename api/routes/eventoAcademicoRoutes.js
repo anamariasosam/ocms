@@ -14,13 +14,17 @@ router.post(
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   eventoAcademico.create,
 )
-router.get('/eventosAcademicos', eventoAcademico.show)
 router.put(
   '/eventosAcademicos',
   requireAuth,
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   eventoAcademico.update,
 )
-router.delete('/eventosAcademicos', eventoAcademico.delete)
-
+router.delete(
+  '/eventosAcademicos',
+  requireAuth,
+  autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
+  eventoAcademico.delete,
+)
+router.get('/eventosAcademicos', eventoAcademico.show)
 module.exports = router

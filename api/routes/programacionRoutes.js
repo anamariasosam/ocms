@@ -15,13 +15,20 @@ router.post(
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   programacion.create,
 )
-router.get('/programaciones', programacion.show)
+
 router.put(
   '/programaciones',
   requireAuth,
   autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
   programacion.update,
 )
-router.delete('/programaciones', programacion.delete)
+router.delete(
+  '/programaciones',
+  requireAuth,
+  autenticacion.roleAuthorization(ROLE_JEFE_DE_PROGRAMA),
+  programacion.delete,
+)
+
+router.get('/programaciones', programacion.show)
 
 module.exports = router
