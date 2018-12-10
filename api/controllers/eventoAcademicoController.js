@@ -18,6 +18,12 @@ exports.show = (req, res) => {
           utils.show(res, err, eventosAcademicos)
         })
     })
+  } else {
+    EventoAcademico.find({})
+      .sort('fecha')
+      .exec((err, eventosAcademicos) => {
+        utils.show(res, err, eventosAcademicos)
+      })
   }
 }
 
