@@ -7,15 +7,19 @@ const EventoAcademico = new Schema(
     nombre: String,
     fecha: Date,
     aforo: Number,
-    asignatura: String,
-    grupos: Array,
-    encargado: String,
+    grupos: [
+      {
+        type: ObjectId,
+        ref: 'Grupo',
+      },
+    ],
+    encargado: { type: ObjectId, ref: 'Usuario' },
     medios: String,
     programacion: {
       type: ObjectId,
       ref: 'Programacion',
-      required: true,
     },
+    reservas: [{ type: ObjectId, ref: 'Reserva' }],
   },
   {
     collection: 'eventosAcademicos',

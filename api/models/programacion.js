@@ -11,8 +11,13 @@ const Programacion = new Schema(
     calendario: {
       type: ObjectId,
       ref: 'Calendario',
-      required: true,
     },
+    eventos: [
+      {
+        type: ObjectId,
+        ref: 'EventoAcademico',
+      },
+    ],
   },
   {
     collection: 'programaciones',

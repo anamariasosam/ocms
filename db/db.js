@@ -3,13 +3,18 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-require('../api/models/calendario')
-require('../api/models/programacion')
-require('../api/models/grupo')
 require('../api/models/asignatura')
-require('../api/models/usuario')
+require('../api/models/calendario')
 require('../api/models/eventoAcademico')
+require('../api/models/grupo')
+require('../api/models/grupoUsuario')
+require('../api/models/lugar')
+require('../api/models/programacion')
+require('../api/models/recurso')
+require('../api/models/reserva')
 require('../api/models/tipoProgramacion')
+require('../api/models/uoc')
+require('../api/models/usuario')
 
 const db = mongoose.connect(
   keys.mongoURI,

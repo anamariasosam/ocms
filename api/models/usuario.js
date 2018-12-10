@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
+  ObjectId = Schema.Types.ObjectId,
   bcrypt = require('bcrypt-nodejs'),
   ROL_ESTUDIANTE = require('../../constants').ROL_ESTUDIANTE,
   ROL_JEFE_DE_PROGRAMA = require('../../constants').ROL_JEFE_DE_PROGRAMA,
@@ -14,21 +15,39 @@ const Usuario = new Schema(
       type: String,
       lowercase: true,
       unique: true,
-      required: true,
     },
     password: {
       type: String,
-      required: true,
     },
     programa: {
       type: String,
-      required: true,
     },
     rol: {
       type: String,
       enum: [ROL_ESTUDIANTE, ROL_JEFE_DE_PROGRAMA, ROL_PROFESOR, ROL_ADMIN],
       default: ROL_ESTUDIANTE,
     },
+    uoc: [
+      {
+        type: ObjectId,
+        ref: 'UOC',
+        required: true,
+      },
+    ],
+    eventos: [
+      {
+        type: ObjectId,
+        ref: 'EventoAcademico',
+        required: true,
+      },
+    ],
+    grupos: [
+      {
+        type: ObjectId,
+        ref: 'GrupoUsuario',
+        required: true,
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
