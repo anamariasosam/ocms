@@ -1,12 +1,19 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
+  ObjectId = Schema.Types.ObjectId,
+  ROL_ESTUDIANTE = require('../../constants').ROL_ESTUDIANTE,
+  ROL_JEFE_DE_PROGRAMA = require('../../constants').ROL_JEFE_DE_PROGRAMA,
+  ROL_PROFESOR = require('../../constants').ROL_PROFESOR,
+  ROL_ADMIN = require('../../constants').ROL_ADMIN
 
 const GrupoUsuario = new Schema(
   {
-    fechaInicio: Date,
-    fechaFin: Date,
-    tipo: String,
+    tipo: {
+      type: String,
+      enum: [ROL_ESTUDIANTE, ROL_JEFE_DE_PROGRAMA, ROL_PROFESOR, ROL_ADMIN],
+      default: ROL_ESTUDIANTE,
+    },
+    semestre: String,
     usuario: {
       type: ObjectId,
       ref: 'Usuario',
@@ -17,7 +24,7 @@ const GrupoUsuario = new Schema(
     },
   },
   {
-    collection: 'grupo_usuarios',
+    collection: 'grupoUsuarios',
   },
 )
 

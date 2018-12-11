@@ -10,6 +10,7 @@ exports.show = (req, res) => {
     })
   } else {
     Calendario.find({})
+      .populate('programacion')
       .sort('semestre')
       .exec((err, calendarios) => {
         utils.show(res, err, calendarios)

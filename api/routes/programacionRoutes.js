@@ -22,6 +22,7 @@ router.put(
   autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA),
   programacion.update,
 )
+
 router.delete(
   '/programaciones',
   requireAuth,

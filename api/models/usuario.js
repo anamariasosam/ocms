@@ -7,52 +7,42 @@ const mongoose = require('mongoose'),
   ROL_PROFESOR = require('../../constants').ROL_PROFESOR,
   ROL_ADMIN = require('../../constants').ROL_ADMIN
 
-const Usuario = new Schema(
-  {
-    nombre: String,
-    apellido: String,
-    correo: {
-      type: String,
-      lowercase: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-    },
-    programa: {
-      type: String,
-    },
-    rol: {
-      type: String,
-      enum: [ROL_ESTUDIANTE, ROL_JEFE_DE_PROGRAMA, ROL_PROFESOR, ROL_ADMIN],
-      default: ROL_ESTUDIANTE,
-    },
-    uoc: [
-      {
-        type: ObjectId,
-        ref: 'UOC',
-        required: true,
-      },
-    ],
-    eventos: [
-      {
-        type: ObjectId,
-        ref: 'EventoAcademico',
-        required: true,
-      },
-    ],
-    grupos: [
-      {
-        type: ObjectId,
-        ref: 'GrupoUsuario',
-        required: true,
-      },
-    ],
+const Usuario = new Schema({
+  nombre: String,
+  correo: {
+    type: String,
+    lowercase: true,
+    unique: true,
   },
-  {
-    toJSON: { virtuals: true },
+  password: {
+    type: String,
   },
-)
+  rol: {
+    type: String,
+    enum: [ROL_ESTUDIANTE, ROL_JEFE_DE_PROGRAMA, ROL_PROFESOR, ROL_ADMIN],
+    default: ROL_ESTUDIANTE,
+  },
+  uoc: [
+    {
+      type: ObjectId,
+      ref: 'UOC',
+    },
+  ],
+  eventos: [
+    {
+      type: ObjectId,
+      ref: 'EventoAcademico',
+      required: true,
+    },
+  ],
+  grupos: [
+    {
+      type: ObjectId,
+      ref: 'GrupoUsuario',
+      required: true,
+    },
+  ],
+})
 
 Usuario.pre('save', function(next) {
   const usuario = this,
@@ -80,9 +70,5 @@ Usuario.methods.comparePassword = function(candidatePassword, cb) {
     cb(null, isMatch)
   })
 }
-
-Usuario.virtual('nombreCompleto').get(function() {
-  return this.nombre + ' ' + this.apellido
-})
 
 module.exports = mongoose.model('Usuario', Usuario)

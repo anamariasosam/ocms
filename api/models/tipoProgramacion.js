@@ -3,9 +3,9 @@ const mongoose = require('mongoose'),
   CEREMONIA_DE_GRADOS = require('../../constants').CEREMONIA_DE_GRADOS,
   SUPLETORIOS_PARCIALES = require('../../constants').SUPLETORIOS_PARCIALES,
   EXAMENES_FINALES = require('../../constants').EXAMENES_FINALES,
-  PROGRAMACION_ACADEMICA = require('../../constants').PROGRAMACION_ACADEMICA
-EXAMENES_PARCIALES = require('../../constants').EXAMENES_PARCIALES
-SUPLETORIOS_FINALES = require('../../constants').PROGRAMACION_ACADEMICA
+  PROGRAMACION_ACADEMICA = require('../../constants').PROGRAMACION_ACADEMICA,
+  EXAMENES_PARCIALES = require('../../constants').EXAMENES_PARCIALES,
+  SUPLETORIOS_FINALES = require('../../constants').SUPLETORIOS_FINALES
 
 const TipoProgramacion = new Schema(
   {

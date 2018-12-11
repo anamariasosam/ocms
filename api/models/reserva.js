@@ -10,7 +10,7 @@ const Reserva = new Schema({
   estado: String,
   observaciones: String,
   lugar: { type: ObjectId, ref: 'Lugar' },
-  eventoAcademico: { type: ObjectId, ref: 'EventoAcademico' },
+  evento: { type: ObjectId, ref: 'EventoAcademico' },
 })
 
 module.exports = mongoose.model('Reserva', Reserva)

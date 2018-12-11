@@ -1,175 +1,39 @@
 const db = require('./db/db')
-const ObjectId = require('mongoose').Types.ObjectId
 
 const calendario = require('./api/models/calendario')
 const asignatura = require('./api/models/asignatura')
 const usuario = require('./api/models/usuario')
 const programacion = require('./api/models/programacion')
+const eventoAcademico = require('./api/models/eventoAcademico')
+const tipoProgramacion = require('./api/models/tipoProgramacion')
+const uoc = require('./api/models/uoc')
 const grupo = require('./api/models/grupo')
-const evento = require('./api/models/eventoAcademico')
-const tipo = require('./api/models/tipoProgramacion')
+const grupoUsuario = require('./api/models/grupoUsuario')
 
-var calendarios = [
-  {
-    nombre: '2017-1',
-    fechaInicio: '2017-01-23',
-    fechaFin: '2017-06-23',
-  },
-  {
-    nombre: '2017-2',
-    fechaInicio: '2017-06-23',
-    fechaFin: '2017-11-23',
-  },
-  {
-    nombre: '2018-1',
-    fechaInicio: '2018-01-23',
-    fechaFin: '2018-06-23',
-  },
-  {
-    nombre: '2018-2',
-    fechaInicio: '2018-06-23',
-    fechaFin: '2018-11-23',
-  },
-]
-
-const asignaturas = [
-  {
-    nombre: 'Ingeniería de Software I',
-    creditos: 2,
-  },
-  {
-    nombre: 'Ingeniería de Software II',
-    creditos: 2,
-  },
-  {
-    nombre: 'Ingeniería de Software III',
-    creditos: 2,
-  },
-  {
-    nombre: 'Ingeniería de Software VI',
-    creditos: 2,
-  },
-]
-
-const usuarios = [
-  {
-    nombre: 'Bell',
-    apellido: 'Manrique',
-    correo: 'bm@udem.edu.co',
-  },
-  {
-    nombre: 'Juan Bernardo',
-    apellido: 'Quintero',
-    correo: 'jq@udem.edu.co',
-  },
-  {
-    nombre: 'Gloria Piedad',
-    apellido: 'Gasca',
-    correo: 'gg@udem.edu.co',
-  },
-]
-
-const programaciones = [
-  {
-    _id: ObjectId('5be9a631bee4282a4e329463'),
-    nombre: '2017-1-1',
-    fechaInicio: '2017-09-11',
-    fechaFin: '2017-09-21',
-    tipo: 'Parciales',
-    calendario: ObjectId('5be9a32d93638328b927d678'),
-  },
-  {
-    _id: ObjectId('5be9a631bee4282a4e329464'),
-    nombre: '2017-1-2',
-    fechaInicio: '2017-11-14',
-    fechaFin: '2017-11-25',
-    tipo: 'Finales',
-    calendario: ObjectId('5be9a32d93638328b927d678'),
-  },
-  {
-    nombre: '2017-1-3',
-    fechaInicio: '2017-08-11',
-    fechaFin: '2017-11-25',
-    tipo: 'Foros',
-    calendario: ObjectId('5be9a32d93638328b927d678'),
-  },
-]
-
-const grupos = [
-  {
-    nombre: '061',
-  },
-  {
-    nombre: '062',
-  },
-  {
-    nombre: '063',
-  },
-  {
-    nombre: '065',
-  },
-]
-
-const eventos = [
-  {
-    nombre: '1.ISW1',
-    asignatura: 'Ingeniería de Software I',
-    encargado: 'Bell Manrique',
-    date: '2018-10-05T10:02',
-    aforo: '111',
-    grupos: ['061', '063', '062'],
-    programacion: ObjectId('5be9a631bee4282a4e329463'),
-  },
-  {
-    nombre: '2.ISW2',
-    asignatura: 'Ingeniería de Software II',
-    encargado: 'Juan Bernardo Quintero',
-    date: '2018-11-06T18:02',
-    aforo: '50',
-    grupos: ['061', '062'],
-    programacion: ObjectId('5be9a631bee4282a4e329463'),
-  },
-  {
-    nombre: '3.ISW3',
-    asignatura: 'Ingeniería de Software III',
-    encargado: 'Gloria Gasca',
-    date: '2018-11-08T06:02',
-    aforo: '30',
-    grupos: ['062'],
-    programacion: ObjectId('5be9a631bee4282a4e329464'),
-  },
-]
-
-const tipoProgramaciones = [
-  {
-    nombre: 'Ceremonia de Grados',
-  },
-  {
-    nombre: 'Supletorio Parciales',
-  },
-  {
-    nombre: 'Supletorio Finales',
-  },
-  {
-    nombre: 'Examenes Finales',
-  },
-  {
-    nombre: 'Examenes Parciales',
-  },
-  {
-    nombre: 'Programacion Academica',
-  },
-]
+const tipoProgramacionData = require('./data/tipoProgramacion')
+const calendarioData = require('./data/calendario')
+const programacionData = require('./data/programacion')
+const usuarioData = require('./data/usuario')
+const uocData = require('./data/uoc')
+const asignaturaData = require('./data/asignatura')
+const grupoData = require('./data/grupo')
+const grupoUsuarioData = require('./data/grupoUsuario')
+const eventoAcademicoData = require('./data/eventoAcademico')
 
 db.then(async () => {
-  // await evento.insertMany(eventos)
-  // await grupo.insertMany(grupos)
-  // await programacion.insertMany(programaciones)
-  // await usuario.insertMany(usuarios)
-  // await calendario.insertMany(calendarios)
-  // await asignatura.insertMany(asignaturas)
-  // await calendario.insertMany(calendarios)
-  await tipo.insertMany(tipoProgramaciones)
+  await tipoProgramacion.insertMany(tipoProgramacionData)
+  await calendario.insertMany(calendarioData)
+  await programacion.insertMany(programacionData)
+
+  for (let i = 0; i < usuarioData.length; i++) {
+    await new usuario(usuarioData[i]).save()
+  }
+
+  await uoc.insertMany(uocData)
+  await asignatura.insertMany(asignaturaData)
+  await grupo.insertMany(grupoData)
+  await grupoUsuario.insertMany(grupoUsuarioData)
+  await eventoAcademico.insertMany(eventoAcademicoData)
 
   process.exit(1)
 })
