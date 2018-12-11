@@ -13,6 +13,15 @@ exports.show = (req, res) => {
     Programacion.findOne({ nombre: programacionNombre }).exec((err, programacion) => {
       const programacionId = programacion._id
       EventoAcademico.find({ programacion: programacionId })
+        .populate('encargado', 'nombre')
+        .populate({
+          path: 'grupos',
+          select: 'nombre',
+          populate: {
+            path: 'asignatura',
+            select: 'nombre',
+          },
+        })
         .sort('fecha')
         .exec((err, eventosAcademicos) => {
           utils.show(res, err, eventosAcademicos)
