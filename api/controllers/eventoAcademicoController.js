@@ -15,6 +15,7 @@ exports.show = (req, res) => {
       const programacionId = programacion._id
       EventoAcademico.find({ programacion: programacionId })
         .populate('encargado', 'nombre')
+        .populate('programacion', 'tipo')
         .populate({
           path: 'grupos',
           select: 'nombre',
