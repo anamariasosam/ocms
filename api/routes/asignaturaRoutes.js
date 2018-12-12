@@ -4,5 +4,6 @@ const express = require('express'),
 const router = express.Router()
 
 router.get('/asignaturas', asignatura.show)
+router.get('/asignaturas/grupos', asignatura.grupos)
 
 module.exports = router

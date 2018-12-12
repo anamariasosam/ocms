@@ -13,7 +13,6 @@ function setUsuarioInfo(request) {
   return {
     _id: request._id,
     nombre: request.nombre,
-    apellido: request.apellido,
     correo: request.correo,
     password: request.password,
     rol: request.rol,
@@ -33,11 +32,9 @@ exports.login = function(req, res, next) {
 
 exports.register = function(req, res, next) {
   const nombre = req.body.nombre,
-    apellido = req.body.apellido,
     correo = req.body.correo,
     password = req.body.password,
-    rol = req.body.rol,
-    programa = req.body.programa
+    rol = req.body.rol
 
   if (!correo) {
     return res.status(422).send({ error: 'Debes ingresar un correo.' })
@@ -58,11 +55,9 @@ exports.register = function(req, res, next) {
 
     const usuario = new Usuario({
       nombre,
-      apellido,
       correo,
       password,
       rol,
-      programa,
     })
 
     usuario.save((err, usuario) => {

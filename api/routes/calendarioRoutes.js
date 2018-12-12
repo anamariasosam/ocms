@@ -9,6 +9,8 @@ const requireAuth = passport.authenticate('jwt', { session: false })
 
 const router = express.Router()
 
+autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA)
+
 router.post(
   '/calendarios',
   requireAuth,
@@ -27,6 +29,7 @@ router.delete(
   autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA),
   calendario.delete,
 )
+
 router.get('/calendarios', calendario.show)
 
 module.exports = router

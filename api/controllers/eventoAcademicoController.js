@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   EventoAcademico = mongoose.model('EventoAcademico'),
   Programacion = mongoose.model('Programacion'),
+  Usuario = mongoose.model('Usuario'),
   utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
@@ -37,16 +38,14 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const { nombre, aforo, asignatura, grupos, encargado, programacionId } = req.body
+  const { nombre, aforo, grupos, encargado, programacion } = req.body
   let { fecha } = req.body
   fecha = new Date(fecha)
-  const programacion = new Programacion({ _id: programacionId })
 
   const eventoAcademico = new EventoAcademico({
     nombre,
     fecha,
     aforo,
-    asignatura,
     grupos,
     encargado,
     programacion,
@@ -83,8 +82,19 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const { eventoAcademicoId, programacionId } = req.query
   EventoAcademico.findOneAndDelete({ _id: eventoAcademicoId }, (err, evento) => {
-    EventoAcademico.find({ programacion: programacionId }).exec((err, eventos) => {
-      utils.show(res, err, eventos)
-    })
+    EventoAcademico.find({ programacion: programacionId })
+      .populate('encargado', 'nombre')
+      .populate({
+        path: 'grupos',
+        select: 'nombre',
+        populate: {
+          path: 'asignatura',
+          select: 'nombre',
+        },
+      })
+      .sort('fecha')
+      .exec((err, eventos) => {
+        utils.show(res, err, eventos)
+      })
   })
 }

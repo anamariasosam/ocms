@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   Asignatura = mongoose.model('Asignatura'),
+  Grupo = mongoose.model('Grupo'),
   utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
@@ -15,4 +16,11 @@ exports.show = (req, res) => {
         utils.show(res, err, asignaturas)
       })
   }
+}
+
+exports.grupos = (req, res) => {
+  const { asignaturaId } = req.query
+  Grupo.find({ asignatura: asignaturaId }).exec((err, grupos) => {
+    utils.show(res, err, grupos)
+  })
 }
