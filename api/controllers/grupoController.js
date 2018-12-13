@@ -9,8 +9,10 @@ exports.show = (req, res) => {
       utils.show(res, err, grupo)
     })
   } else {
-    Grupo.find({}).exec((err, grupos) => {
-      utils.show(res, err, grupos)
-    })
+    Grupo.find({})
+      .populate('asignatura', 'nombre')
+      .exec((err, grupos) => {
+        utils.show(res, err, grupos)
+      })
   }
 }

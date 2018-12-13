@@ -7,9 +7,20 @@ const mongoose = require('mongoose'),
 exports.show = (req, res) => {
   const { nombre, programacionNombre } = req.query
   if (nombre) {
-    EventoAcademico.findOne({ nombre: nombre }).exec((err, eventoAcademico) => {
-      utils.show(res, err, eventoAcademico)
-    })
+    EventoAcademico.findOne({ nombre: nombre })
+      .populate('encargado', 'nombre')
+      .populate('programacion', 'tipo')
+      .populate({
+        path: 'grupos',
+        select: 'nombre',
+        populate: {
+          path: 'asignatura',
+          select: 'nombre',
+        },
+      })
+      .exec((err, eventoAcademico) => {
+        utils.show(res, err, eventoAcademico)
+      })
   } else if (programacionNombre) {
     Programacion.findOne({ nombre: programacionNombre }).exec((err, programacion) => {
       const programacionId = programacion._id
@@ -60,7 +71,7 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, asignatura, grupos, encargado } = req.body.data
+  const { aforo, grupos, encargado } = req.body.data
   let { fecha } = req.body.data
   fecha = new Date(fecha)
 
@@ -68,13 +79,14 @@ exports.update = (req, res) => {
     { nombre },
     {
       aforo,
-      asignatura,
       grupos,
       encargado,
       fecha,
     },
     { new: true },
     (err, evento) => {
+      console.log(err)
+
       utils.show(res, err, evento)
     },
   )
