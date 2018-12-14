@@ -6,7 +6,8 @@ const express = require('express'),
   usuarioRoutes = require('./usuarioRoutes'),
   eventoAcademicoRoutes = require('./eventoAcademicoRoutes'),
   autenticacionRoutes = require('./autenticacionRoutes'),
-  tipoProgramacionRoutes = require('./tipoProgramacionRoutes')
+  tipoProgramacionRoutes = require('./tipoProgramacionRoutes'),
+  estudianteRoutes = require('./estudianteRoutes')
 
 const router = express.Router()
 
@@ -18,5 +19,6 @@ router.use('/api', usuarioRoutes)
 router.use('/api', eventoAcademicoRoutes)
 router.use('/api', autenticacionRoutes)
 router.use('/api', tipoProgramacionRoutes)
+router.use('/api', estudianteRoutes)
 
 module.exports = router
