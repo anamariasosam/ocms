@@ -72,10 +72,14 @@ exports.show = (req, res) => {
   }
 }
 
-exports.create = (req, res) => {
-  const { nombre, aforo, grupos, encargado, programacion } = req.body
+exports.create = async (req, res) => {
+  const { aforo, grupos, encargado, programacion, programacionNombre } = req.body
   let { fecha } = req.body
   fecha = new Date(fecha)
+
+  const contadorEventos = await EventoAcademico.count({ programacion })
+  const nombre = `${programacionNombre}-${contadorEventos + 1}`
+  console.log(nombre)
 
   const eventoAcademico = new EventoAcademico({
     nombre,

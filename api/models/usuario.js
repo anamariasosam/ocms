@@ -48,14 +48,13 @@ Usuario.pre('save', function(next) {
   const usuario = this,
     SALT_FACTOR = 5
 
-  if (!usuario.isModified('password')) return next()
-
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     if (err) return next(err)
 
     bcrypt.hash(usuario.password, salt, null, function(err, hash) {
       if (err) return next(err)
       usuario.password = hash
+
       next()
     })
   })

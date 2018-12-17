@@ -31,10 +31,7 @@ exports.login = function(req, res, next) {
 }
 
 exports.register = function(req, res, next) {
-  const nombre = req.body.nombre,
-    correo = req.body.correo,
-    password = req.body.password,
-    rol = req.body.rol
+  const { nombre, correo, password, rol } = req.body
 
   if (!correo) {
     return res.status(422).send({ error: 'Debes ingresar un correo.' })
@@ -62,6 +59,24 @@ exports.register = function(req, res, next) {
 
     usuario.save((err, usuario) => {
       utils.show(res, err, usuario)
+    })
+  })
+}
+
+exports.update = (req, res) => {
+  const { correoAnterior, correo, password } = req.body
+
+  Usuario.findOne({ correo: correoAnterior }, (err, usuario) => {
+    usuario.correo = correo
+    usuario.password = password
+
+    usuario.save((err, usuario) => {
+      const usuarioInfo = setUsuarioInfo(usuario)
+
+      res.status(201).json({
+        token: 'JWT ' + generateToken(usuarioInfo),
+        usuario: usuarioInfo,
+      })
     })
   })
 }
