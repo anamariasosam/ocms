@@ -9,6 +9,8 @@ const tipoProgramacion = require('./api/models/tipoProgramacion')
 const uoc = require('./api/models/uoc')
 const grupo = require('./api/models/grupo')
 const grupoUsuario = require('./api/models/grupoUsuario')
+const recurso = require('./api/models/recurso')
+const lugar = require('./api/models/lugar')
 
 const tipoProgramacionData = require('./data/tipoProgramacion')
 const calendarioData = require('./data/calendario')
@@ -19,21 +21,25 @@ const asignaturaData = require('./data/asignatura')
 const grupoData = require('./data/grupo')
 const grupoUsuarioData = require('./data/grupoUsuario')
 const eventoAcademicoData = require('./data/eventoAcademico')
+const recursoData = require('./data/recurso')
+const lugarData = require('./data/lugar')
 
 db.then(async () => {
-  await tipoProgramacion.insertMany(tipoProgramacionData)
-  await calendario.insertMany(calendarioData)
-  await programacion.insertMany(programacionData)
+  // await tipoProgramacion.insertMany(tipoProgramacionData)
+  // await calendario.insertMany(calendarioData)
+  // await programacion.insertMany(programacionData)
 
-  for (let i = 0; i < usuarioData.length; i++) {
-    await new usuario(usuarioData[i]).save()
-  }
+  // for (let i = 0; i < usuarioData.length; i++) {
+  //   await new usuario(usuarioData[i]).save()
+  // }
 
-  await uoc.insertMany(uocData)
-  await asignatura.insertMany(asignaturaData)
-  await grupo.insertMany(grupoData)
-  await grupoUsuario.insertMany(grupoUsuarioData)
-  await eventoAcademico.insertMany(eventoAcademicoData)
+  // await uoc.insertMany(uocData)
+  // await asignatura.insertMany(asignaturaData)
+  // await grupo.insertMany(grupoData)
+  // await grupoUsuario.insertMany(grupoUsuarioData)
+  // await eventoAcademico.insertMany(eventoAcademicoData)
+  //await recurso.insertMany(recursoData)
+  await lugar.insertMany(lugarData)
 
   process.exit(1)
 })

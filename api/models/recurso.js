@@ -5,7 +5,10 @@ const Recurso = new Schema({
   nombre: String,
   descripcion: String,
   cantidad: Number,
-  observaciones: String,
+  observaciones: {
+    default: 'Ninguna',
+    type: String,
+  },
 })
 
 module.exports = mongoose.model('Recurso', Recurso)

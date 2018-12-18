@@ -9,18 +9,21 @@ module.exports = [
     grupo: ObjectId('5c0fdaee5e88a6307c4edba3'),
   },
   {
+    _id: ObjectId('5c1425949725a84c6427b759'),
     semestre: '2018-2',
     tipo: 'Estudiante',
     usuario: ObjectId('5c0fd732c0102b38448ad477'),
     grupo: ObjectId('5c0fdaee5e88a6307c4edba4'),
   },
   {
+    _id: ObjectId('5c1425949725a84c6427b75a'),
     semestre: '2018-2',
     tipo: 'Estudiante',
     usuario: ObjectId('5c0fd732c0102b38448ad477'),
     grupo: ObjectId('5c0fdaee5e88a6307c4edba2'),
   },
   {
+    _id: ObjectId('5c0fd731c0102b38448ad46f'),
     _id: ObjectId('5c0fd731c0102b38448ad46f'),
     semestre: '2018-2',
     tipo: 'Profesor',
