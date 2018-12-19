@@ -17,7 +17,12 @@ const Lugar = new Schema(
   },
   {
     collection: 'lugares',
+    toJSON: { virtuals: true },
   },
 )
+
+Lugar.virtual('nombreCompleto').get(function() {
+  return `${this.nombre} ${this.bloque}-${this.numero}`
+})
 
 module.exports = mongoose.model('Lugar', Lugar)

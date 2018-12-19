@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
   EventoAcademico = mongoose.model('EventoAcademico'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
-  Usuario = mongoose.model('Usuario'),
   utils = require('../handlers/utils')
 
 exports.show = (req, res) => {
@@ -79,7 +78,6 @@ exports.create = async (req, res) => {
 
   const contadorEventos = await EventoAcademico.count({ programacion })
   const nombre = `${programacionNombre}-${contadorEventos + 1}`
-  console.log(nombre)
 
   const eventoAcademico = new EventoAcademico({
     nombre,

@@ -3,12 +3,17 @@ const mongoose = require('mongoose'),
   ObjectId = Schema.Types.ObjectId
 
 const Reserva = new Schema({
-  fechaEvento: Date,
-  horaInicio: Date,
-  horaFin: Date,
+  fechaInicio: Date,
+  fechaFin: Date,
   fechaReserva: Date,
-  estado: String,
-  observaciones: String,
+  estado: {
+    default: 'Pendiente',
+    type: String,
+  },
+  observaciones: {
+    default: 'Ninguna',
+    type: String,
+  },
   lugar: { type: ObjectId, ref: 'Lugar' },
   evento: { type: ObjectId, ref: 'EventoAcademico' },
 })
