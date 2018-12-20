@@ -28,7 +28,7 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { fechaInicio, fechaFin, fechaReserva, lugar, estado, observaciones, evento } = req.body
+  const { lugar, estado, observaciones, evento, fechaInicio, fechaFin, fechaReserva } = req.body
 
   const reserva = new Reserva({
     fechaInicio,
@@ -46,20 +46,12 @@ exports.create = async (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const { _id } = req.body.params
+  const { reservaId } = req.body.params
 
-  const {
-    fechaInicio,
-    fechaFin,
-    fechaReserva,
-    lugar,
-    estado,
-    observaciones,
-    evento,
-  } = req.body.data
+  const { lugar, estado, observaciones, fechaInicio, fechaFin, fechaReserva } = req.body.data
 
   Reserva.findOneAndUpdate(
-    { _id },
+    { _id: reservaId },
     {
       fechaInicio,
       fechaFin,
@@ -67,7 +59,6 @@ exports.update = (req, res) => {
       lugar,
       estado,
       observaciones,
-      evento,
     },
     { new: true },
     (err, reserva) => {

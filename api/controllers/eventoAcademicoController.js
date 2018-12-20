@@ -41,41 +41,27 @@ exports.show = (req, res) => {
           utils.show(res, err, eventosAcademicos)
         })
     })
-  } else if (semestre) {
-    Calendario.findOne({ semestre }).exec((err, calendario) => {
-      if (calendario) {
-        const calendarioId = calendario._id
-        Programacion.find({ calendario: calendarioId })
-          .select('_id')
-          .exec((err, programaciones) => {
-            const ids = programaciones.map(programacion => programacion._id)
-
-            EventoAcademico.find({ programacion: { $in: ids } })
-              .populate('encargado', 'nombre')
-              .populate('programacion', 'tipo nombre')
-              .populate({
-                path: 'grupos',
-                select: 'nombre',
-                populate: {
-                  path: 'asignatura',
-                  select: 'nombre',
-                },
-              })
-              .sort('fecha')
-              .exec((err, eventosAcademicos) => {
-                utils.show(res, err, eventosAcademicos)
-              })
-          })
-      }
-    })
+  } else {
+    EventoAcademico.find({})
+      .populate('encargado', 'nombre')
+      .populate('programacion', 'tipo nombre')
+      .populate({
+        path: 'grupos',
+        select: 'nombre',
+        populate: {
+          path: 'asignatura',
+          select: 'nombre',
+        },
+      })
+      .sort('fecha')
+      .exec((err, eventosAcademicos) => {
+        utils.show(res, err, eventosAcademicos)
+      })
   }
 }
 
 exports.create = async (req, res) => {
-  const { aforo, grupos, encargado, programacion, programacionNombre } = req.body
-  let { fecha } = req.body
-  fecha = new Date(fecha)
-
+  const { aforo, grupos, encargado, programacion, programacionNombre, fecha } = req.body
   const contadorEventos = await EventoAcademico.count({ programacion })
   const nombre = `${programacionNombre}-${contadorEventos + 1}`
 
@@ -96,9 +82,7 @@ exports.create = async (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, grupos, encargado } = req.body.data
-  let { fecha } = req.body.data
-  fecha = new Date(fecha)
+  const { aforo, grupos, encargado, fecha } = req.body.data
 
   EventoAcademico.findOneAndUpdate(
     { nombre },

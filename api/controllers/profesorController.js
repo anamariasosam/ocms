@@ -31,49 +31,26 @@ exports.asignaturas = (req, res) => {
 }
 
 exports.eventos = (req, res) => {
-  const { usuario, semestre } = req.query
+  const { usuario } = req.query
 
-  if (semestre) {
-    GrupoUsuario.find({ usuario, tipo: ROL_PROFESOR, semestre })
-      .populate(asignaturas)
-      .exec((err, usuarios) => {
-        const ids = usuarios.map(usuario => usuario.grupo._id)
+  GrupoUsuario.find({ usuario, tipo: ROL_PROFESOR })
+    .populate(asignaturas)
+    .exec((err, usuarios) => {
+      const ids = usuarios.map(usuario => usuario.grupo._id)
 
-        EventoAcademico.find({ $or: [{ grupos: { $in: ids } }, { encargado: usuario }] })
-          .populate('encargado', 'nombre')
-          .populate('programacion', 'tipo')
-          .populate({
-            path: 'grupos',
+      EventoAcademico.find({ grupos: { $in: ids } })
+        .populate('encargado', 'nombre')
+        .populate('programacion', 'tipo')
+        .populate({
+          path: 'grupos',
+          select: 'nombre',
+          populate: {
+            path: 'asignatura',
             select: 'nombre',
-            populate: {
-              path: 'asignatura',
-              select: 'nombre',
-            },
-          })
-          .exec((err, eventos) => {
-            utils.show(res, err, eventos)
-          })
-      })
-  } else {
-    GrupoUsuario.find({ usuario, tipo: ROL_PROFESOR })
-      .populate(asignaturas)
-      .exec((err, usuarios) => {
-        const ids = usuarios.map(usuario => usuario.grupo._id)
-
-        EventoAcademico.find({ grupos: { $in: ids } })
-          .populate('encargado', 'nombre')
-          .populate('programacion', 'tipo')
-          .populate({
-            path: 'grupos',
-            select: 'nombre',
-            populate: {
-              path: 'asignatura',
-              select: 'nombre',
-            },
-          })
-          .exec((err, eventos) => {
-            utils.show(res, err, eventos)
-          })
-      })
-  }
+          },
+        })
+        .exec((err, eventos) => {
+          utils.show(res, err, eventos)
+        })
+    })
 }

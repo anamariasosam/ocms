@@ -24,11 +24,7 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { calendarioId, tipo, calendarioSemestre } = req.body
-  let { fechaInicio, fechaFin } = req.body
-
-  fechaInicio = new Date(fechaInicio)
-  fechaFin = new Date(fechaFin)
+  const { calendarioId, tipo, calendarioSemestre, fechaInicio, fechaFin } = req.body
 
   const contadorProgramaciones = await Programacion.count({ calendario: calendarioId })
   const nombre = `${calendarioSemestre}-${contadorProgramaciones + 1}`
@@ -50,10 +46,7 @@ exports.create = async (req, res) => {
 
 exports.update = (req, res) => {
   const { nombre } = req.body.params
-  const { tipo } = req.body.data
-  let { fechaInicio, fechaFin } = req.body.data
-  fechaInicio = new Date(fechaInicio)
-  fechaFin = new Date(fechaFin)
+  const { fechaInicio, fechaFin, tipo } = req.body.data
 
   Programacion.findOneAndUpdate(
     { nombre },

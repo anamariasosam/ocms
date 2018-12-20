@@ -19,9 +19,8 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  let { fechaInicio, fechaFin, semestre } = req.body
-  fechaInicio = new Date(fechaInicio)
-  fechaFin = new Date(fechaFin)
+  const { fechaInicio, fechaFin, semestre } = req.body
+
   const calendario = new Calendario({
     fechaInicio,
     fechaFin,
@@ -35,10 +34,7 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
   const semestre = req.body.params.semestre
-
-  let { fechaInicio, fechaFin } = req.body.data
-  fechaInicio = new Date(fechaInicio)
-  fechaFin = new Date(fechaFin)
+  const { fechaInicio, fechaFin } = req.body.data
 
   Calendario.findOneAndUpdate(
     { semestre },
