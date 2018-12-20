@@ -1,0 +1,62 @@
+{
+  "name": "ocms",
+  "version": "0.1.0",
+  "private": true,
+  "config": {
+    "url": {
+      "development": "http://localhost:3000",
+      "production": "https://ocms.herokuapp.com"
+    }
+  },
+  "proxy": "http://localhost:3001/",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-addons-shallow-compare": "^15.6.0",
+    "react-big-calendar": "^0.20.1",
+    "react-cookies": "^0.1.0",
+    "react-dom": "^16.6.3",
+    "react-dom-factories": "^1.0.2",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.5",
+    "react-selectize": "^3.0.1",
+    "react-transition-group": "^1.1.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "sweetalert": "^2.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && cp build/index.html build/200.html",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "eslint": "eslint src/.",
+    "pretty": "prettier --write \"src/**/*.js\""
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "husky": "^1.2.0",
+    "prettier": "^1.15.3",
+    "pretty-quick": "^1.8.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}

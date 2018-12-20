@@ -1,0 +1,508 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Arial;
+  font-size: 12px;
+}
+
+.reset--link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.reset--button {
+  width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-font-smoothing: inherit;
+  line-height: normal;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.reset--button:focus {
+  outline: 0;
+}
+
+/* LoginHeader */
+
+.login--header {
+  width: 100%;
+  height: 27px;
+  text-align: right;
+  background-color: #16343b;
+  background-image: url(../images/header_light.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  box-shadow: 0 7px 11px 0 #ccc;
+}
+
+.login--welcome,
+.log--link,
+.login--pipe {
+  display: inline-block;
+  margin: 7px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.log--link {
+  margin-right: 4%;
+}
+
+/* Nav */
+
+.nav--container {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  display: flex;
+  padding-bottom: 7px;
+  padding-left: 11px;
+  box-shadow: 0 4px 0 0 #eceaea;
+}
+
+.nav--list {
+  padding: 0;
+  margin-top: 39px;
+  margin-right: 5%;
+  font-size: 14px;
+  list-style-type: none;
+}
+
+.nav--list li {
+  display: inline-block;
+  margin-right: 35px;
+  color: #777;
+}
+
+/* Main Content */
+
+.main--content {
+  min-height: 340px;
+  margin: 3%;
+  margin-bottom: 15px;
+}
+
+/* Modules Menu */
+
+.modules--menu {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  display: flex;
+  padding: 20px 5% 26px;
+  margin-bottom: 100px;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.module--item {
+  width: 120px;
+  margin: 10px;
+  text-align: center;
+  background: #cdf4fb;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#b8c8d4));
+  background: -moz-linear-gradient(top, #fff, #b8c8d4);
+  background: -o-linear-gradient(top, #fff, #b8c8d4);
+  box-shadow: 6px 6px 20px 2px #8c8c8c;
+  border: solid 1px #192a2e;
+}
+
+.module--image {
+  margin: 20px 10px;
+}
+
+.module--name {
+  width: 119px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6e6e6e), to(#343434));
+  background: -moz-linear-gradient(top, #6e6e6e, #343434);
+  background: -o-linear-gradient(top, #6e6e6e, #343434);
+  border: solid 1px #313131;
+}
+
+.module--name p {
+  margin: 14px;
+}
+
+/* Credits */
+
+.footer--copyright {
+  padding: 35px 0;
+  color: #fff;
+  text-align: center;
+  background-color: #16343b;
+}
+
+/* Footer Menu */
+
+.footer--container {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  display: flex;
+  padding: 50px 20px;
+  margin-top: 100px;
+  color: #fff;
+  background-color: #173840;
+  background-image: url(../images/footer_light.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  box-shadow: 0 -5px 14px 0 #c2c2c2;
+}
+
+.footer--menu {
+  list-style: none;
+}
+
+.footer--menu li {
+  margin: 15px 0;
+}
+
+.footer--menu li:first-child {
+  margin-bottom: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.footer--icon {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* Login View */
+
+.login--container,
+.password--container {
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  display: flex;
+}
+
+.login--image,
+.password--image {
+  margin: 0 30px;
+}
+
+.form--title {
+  margin: 30px 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #565656;
+  font-weight: bold;
+}
+
+.required::before {
+  margin-right: 4px;
+  color: red;
+  content: '*';
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 20px;
+  color: #777;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.form--link {
+  margin-right: 30px;
+}
+
+.button {
+  padding: 10px 30px;
+  color: #fff;
+  font-size: 14px;
+  background: #203b42;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3a7e8e), to(#203b42));
+  background: -moz-linear-gradient(top, #3a7e8e, #203b42);
+  background: -o-linear-gradient(top, #3a7e8e, #203b42);
+  -webkit-box-shadow: 0 0 8px #8c8c8c;
+  box-shadow: 0 0 8px #8c8c8c;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+  -moz-box-shadow: 0 0 8px #8c8c8c;
+}
+
+.form--controls {
+  width: 105%;
+  margin-top: 30px;
+  text-align: right;
+}
+
+.select--input {
+  height: 30px;
+  min-width: 105%;
+  border: 0;
+  outline: 1.5px solid #ccc;
+  outline-offset: -1px;
+
+  -webkit-border-radius: 0;
+}
+
+.form--container {
+  max-width: 270px;
+}
+
+.checkbox {
+  display: block;
+  margin: 10px 7px 10px 0;
+}
+
+/* Alert Box */
+.alert--container {
+  align-items: center;
+  display: flex;
+  width: 100%;
+  padding: 5px;
+  margin: 20px auto;
+  -webkit-box-shadow: 0 0 8px #8c8c8c;
+  box-shadow: 0 0 8px #8c8c8c;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+
+  -moz-box-shadow: 0 0 8px #8c8c8c;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+}
+
+.alert--icon {
+  display: inline-block;
+  width: 40px;
+  margin: 0 10px;
+}
+
+.alert--danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert--success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+/* Module */
+.module--content {
+  display: flex;
+  margin: 3%;
+  margin-bottom: 15px;
+}
+
+.module--children {
+  width: calc(100% - 348px);
+}
+
+/* SideBar */
+.sidebar--container {
+  min-height: 100vh;
+  padding-right: 30px;
+  margin-right: 30px;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar--list {
+  list-style: none;
+}
+
+.sidebar--list li {
+  margin: 5px 0;
+}
+
+.sidebar--list li:before {
+  padding-right: 8px;
+  content: '»';
+}
+
+/* Tables */
+.table {
+  margin-bottom: 3rem;
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  padding: 0.75rem 2rem;
+  border: 1px solid #ddd;
+}
+
+.table td {
+  padding-left: 0.65rem;
+  text-align: left;
+}
+
+.table td:last-child {
+  padding: 0.45rem;
+  text-align: center;
+}
+
+.thead th {
+  color: #666;
+  text-align: center;
+  background-color: #d9d9d9;
+  border-color: #ddd;
+}
+
+/* Module */
+.module--container {
+  margin-top: 2rem;
+}
+
+/* Actions */
+.action--image {
+  margin: 0 8px;
+  vertical-align: middle;
+}
+
+/* Box */
+.box {
+  display: inline-block;
+  padding: 0.4rem;
+  padding-right: 1rem;
+  color: #8c8c8c;
+  text-align: left;
+  text-transform: uppercase;
+  border: 1px solid #ccc;
+}
+
+/* Calendar Info */
+.calendarInfo--list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 0;
+}
+
+.calendarInfo--list {
+  list-style: none;
+}
+
+.calendarInfo--list li {
+  margin-right: 60px;
+}
+
+.calendarInfo--list h3 {
+  text-transform: capitalize;
+}
+
+/* Page */
+
+.page--container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page--container p,
+.page--container li {
+  font-size: 16px;
+}
+
+.react-selectize-control {
+  border-radius: 0 !important;
+}
+
+.multi-select {
+  width: 105% !important;
+}
+
+.simple-value {
+  color: #2b6f7f !important;
+  background: #f2f9fc;
+  border: 1px solid #2b6f7f !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.event-block {
+  color: #fff;
+}
+
+.event--ceremonia-de-grados {
+  background-color: #f6511d;
+}
+.event--supletorios-parciales {
+  background-color: #ffb400;
+}
+.event--examenes-finales {
+  background-color: #00a6ed;
+}
+.event--programacion-académica {
+  background-color: #7fb800;
+}
+.event--examenes-parciales {
+  background-color: #0d2c54;
+}
+.event--supletorios-finales {
+  background-color: #339989;
+}
+
+.rbc-row-segment .rbc-event-content {
+  white-space: normal;
+}
+
+.calendarLabels--container {
+  margin: 20px 0;
+}
+
+.calendarLabels--list {
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+
+.calendarLabels--item {
+  display: inline-block;
+  margin-left: 22px;
+}
+
+.calendarLabels--item p {
+  display: inline-block;
+  margin-left: 8px;
+}
+.calendarLabels--bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+}
+
+.module-title--link {
+  color: black;
+}
+
+.profile--link {
+  color: #fff;
+}
+.semestre--input {
+  width: auto;
+  min-width: auto;
+}
