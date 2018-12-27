@@ -232,6 +232,7 @@ body {
 
 .button {
   padding: 10px 30px;
+  margin-right: 30px;
   color: #fff;
   font-size: 14px;
   background: #203b42;
@@ -354,11 +355,6 @@ body {
   border: 1px solid #ddd;
 }
 
-.table td {
-  padding-left: 0.65rem;
-  text-align: left;
-}
-
 .table td:last-child {
   padding: 0.45rem;
   text-align: center;
@@ -439,10 +435,6 @@ body {
   border: 1px solid #2b6f7f !important;
 }
 
-.center {
-  text-align: center;
-}
-
 .event-block {
   color: #fff;
 }
@@ -505,4 +497,21 @@ body {
 .semestre--input {
   width: auto;
   min-width: auto;
+}
+
+.impar {
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.par {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.events--inputs {
+  width: auto;
+  margin: 0;
+}
+
+.center {
+  text-align: center;
 }

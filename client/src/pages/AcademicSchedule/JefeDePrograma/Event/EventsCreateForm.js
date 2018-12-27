@@ -14,7 +14,7 @@ import {
 
 import 'react-selectize/themes/index.css'
 
-class EventCreateForm extends Component {
+class EventsCreateForm extends Component {
   constructor(props) {
     super(props)
 
@@ -71,35 +71,20 @@ class EventCreateForm extends Component {
 
         <AditionalInfo data={schedule} titles={titles} />
 
-        <div className="form--container">
-          <h3 className="form--title">Crear Evento</h3>
+        <div>
+          <h3 className="form--title">Crear Múltiples Eventos</h3>
           <form onSubmit={this.handleSubmit}>
-            <label htmlFor="encargado" className="required label">
-              Encargado:
-            </label>
-            <select id="encargado" className="input select--input" ref={this.encargado}>
-              {profesores.map(encargado => (
-                <option key={encargado._id} value={encargado._id}>
-                  {encargado.nombre}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="aforo" className="required label">
-              Aforo:
-            </label>
-            <input type="number" id="aforo" className="input" ref={this.aforo} required />
-
-            <label htmlFor="fecha" className="required label">
-              Fecha / Hora:
-            </label>
-            <input type="datetime-local" id="fecha" className="input" ref={this.fecha} required />
-
-            <label htmlFor="grupos" className="label">
-              Grupos:
-            </label>
-            {this.renderMultiSelect()}
-
+            <table className="table">
+              <thead className="thead">
+                <tr>
+                  <th>NIVEL</th>
+                  <th>NOMBRE</th>
+                  <th>CRÉDITOS</th>
+                  <th>ELEGIR FECHA</th>
+                </tr>
+              </thead>
+              <tbody>{this.renderAsignaturas()}</tbody>
+            </table>
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>
@@ -111,28 +96,29 @@ class EventCreateForm extends Component {
     )
   }
 
-  renderMultiSelect() {
-    const { asignaturas, grupos } = this.props
+  renderAsignaturas() {
+    const { asignaturas } = this.props
 
-    const asignaturasList = asignaturas.map(asignatura => ({
-      groupId: asignatura._id,
-      title: asignatura.nombre,
-    }))
+    return asignaturas.map(asignatura => {
+      const rowClass = asignatura.nivel % 2 == 0 ? 'par' : 'impar'
 
-    const gruposList = grupos.map(grupo => ({
-      groupId: grupo.asignatura._id,
-      label: `${grupo.asignatura.nombre}: ${grupo.nombre}`,
-      value: grupo._id,
-    }))
-
-    return (
-      <MultiSelect
-        groups={asignaturasList}
-        options={gruposList}
-        placeholder="Elige los grupos"
-        ref={this.grupos}
-      />
-    )
+      return (
+        <tr key={asignatura._id} className={rowClass}>
+          <td className="center">{asignatura.nivel}</td>
+          <td>{asignatura.nombre}</td>
+          <td className="center">{asignatura.creditos}</td>
+          <td>
+            <input
+              type="datetime-local"
+              id="fecha"
+              className="input events--inputs"
+              ref={this.fecha}
+              required
+            />
+          </td>
+        </tr>
+      )
+    })
   }
 
   renderAlert() {
@@ -148,7 +134,7 @@ class EventCreateForm extends Component {
   }
 }
 
-EventCreateForm.propTypes = {
+EventsCreateForm.propTypes = {
   fetchAsignaturas: PropTypes.func.isRequired,
   createEvent: PropTypes.func.isRequired,
   fetchGrupos: PropTypes.func.isRequired,
@@ -176,4 +162,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   { fetchAsignaturas, fetchGrupos, createEvent, fetchAttendats },
-)(EventCreateForm)
+)(EventsCreateForm)

@@ -11,7 +11,7 @@ exports.show = (req, res) => {
     })
   } else {
     Asignatura.find({})
-      .sort('nombre')
+      .sort('nivel')
       .exec((err, asignaturas) => {
         utils.show(res, err, asignaturas)
       })

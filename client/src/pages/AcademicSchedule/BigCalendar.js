@@ -9,7 +9,6 @@ import { fetchStudentEvents } from '../../actions/student'
 import { fetchTeacherEvents } from '../../actions/teacher'
 import { fetchEvent } from '../../actions/event'
 import CalendarLabels from '../../components/CalendarLabels'
-import SemestreInput from '../../components/SelectInput'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 

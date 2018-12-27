@@ -7,6 +7,7 @@ import JefeDeProgramaCalendar from '../JefeDePrograma/Calendar'
 import CalendarCreateForm from '../JefeDePrograma/Calendar/CalendarCreateForm'
 import AgendaCreateForm from '../JefeDePrograma/Agenda/AgendaCreateForm'
 import EventCreateForm from '../JefeDePrograma/Event/EventCreateForm'
+import EventsCreateForm from '../JefeDePrograma/Event/EventsCreateForm'
 import ReservaCreateForm from '../JefeDePrograma/Reserva/ReservaCreateForm'
 
 import CalendarEditForm from '../JefeDePrograma/Calendar/CalendarEditForm'
@@ -30,7 +31,7 @@ export const jefeDeProgramaMenu = [
     name: 'Eventos',
   },
   {
-    path: `/calendarioAcademico/reserva/show/${currentYear}-2-1-1`,
+    path: `/calendarioAcademico/reserva/show/Super%20Evento`,
     name: 'Reservas',
   },
 ]
@@ -69,6 +70,10 @@ export const jefeDeProgramaRoutes = [
     component: EventCreateForm,
   },
   {
+    path: '/calendarioAcademico/eventos/create',
+    component: EventsCreateForm,
+  },
+  {
     path: '/calendarioAcademico/evento/edit/:nombre/',
     component: EventEditForm,
   },
@@ -77,7 +82,7 @@ export const jefeDeProgramaRoutes = [
     component: Reserva,
   },
   {
-    path: '/calendarioAcademico/reserva/create',
+    path: '/calendarioAcademico/reserva/create/:nombre',
     component: ReservaCreateForm,
   },
   {

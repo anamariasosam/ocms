@@ -92,6 +92,15 @@ class Event extends Component {
           >
             + Evento
           </Link>
+          <Link
+            to={{
+              pathname: '/calendarioAcademico/eventos/create',
+              state: { schedule: schedules },
+            }}
+            className="reset--link button"
+          >
+            + Múltiples Eventos
+          </Link>
         </div>
       </Fragment>
     )
