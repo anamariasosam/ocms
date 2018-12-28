@@ -12,8 +12,6 @@ const Lugar = new Schema(
       default: 'Ninguna',
       type: String,
     },
-    recursos: [{ type: ObjectId, ref: 'Recurso' }],
-    reservas: [{ type: ObjectId, ref: 'Reserva' }],
   },
   {
     collection: 'lugares',

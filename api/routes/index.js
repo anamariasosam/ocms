@@ -9,8 +9,7 @@ const express = require('express'),
   tipoProgramacionRoutes = require('./tipoProgramacionRoutes'),
   estudianteRoutes = require('./estudianteRoutes'),
   profesorRoutes = require('./profesorRoutes'),
-  lugarRoutes = require('./lugarRoutes'),
-  reservaRoutes = require('./reservaRoutes')
+  lugarRoutes = require('./lugarRoutes')
 
 const router = express.Router()
 
@@ -25,6 +24,5 @@ router.use('/api', tipoProgramacionRoutes)
 router.use('/api', estudianteRoutes)
 router.use('/api', profesorRoutes)
 router.use('/api', lugarRoutes)
-router.use('/api', reservaRoutes)
 
 module.exports = router

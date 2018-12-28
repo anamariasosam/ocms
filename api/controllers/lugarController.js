@@ -5,7 +5,6 @@ const mongoose = require('mongoose'),
 exports.show = (req, res) => {
   Lugar.find({})
     .sort('nombre')
-    .populate('recurso')
     .exec((err, lugares) => {
       utils.show(res, err, lugares)
     })

@@ -49,8 +49,10 @@ class BigCalendar extends Component {
   }
 
   renderCalendar() {
-    const { events } = this.props
-
+    const { events, calendarDate } = this.props
+    console.log('====================================')
+    console.log(calendarDate)
+    console.log('====================================')
     if (events.length > 0) {
       const labels = new Set()
 
@@ -77,6 +79,7 @@ class BigCalendar extends Component {
             style={{ height: '100vh' }}
             startAccessor="start"
             endAccessor="end"
+            defaultDate={moment(calendarDate).toDate()}
             popup
             onSelectEvent={e =>
               swal({

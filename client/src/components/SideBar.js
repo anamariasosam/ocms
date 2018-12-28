@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SideBarElement from './SideBarElement'
 import { Link } from 'react-router-dom'
+import SideBarElement from './SideBarElement'
 
 const renderElements = menu =>
   menu.map(element => <SideBarElement key={element.name} path={element.path} name={element.name} />)
 
 const SideBar = ({ menu }) => {
-  const active = window.location.pathname === '/calendarioAcademico' ? 'active' : ''
+  const url = window.location.pathname
+  const active = url.split('/')[1] === 'calendarioAcademico' ? 'active' : ''
 
   return (
     <div className="sidebar--container">

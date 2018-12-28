@@ -10,6 +10,7 @@ import {
   FETCH_GROUPS,
   GROUPS_ERROR,
   FETCH_ATTENDANTS,
+  FETCH_PLACES,
 } from './types'
 
 const EVENT_ENDPOINT = '/eventosAcademicos'
@@ -48,4 +49,9 @@ export const fetchGrupos = params => {
 export const fetchAttendats = () => {
   const url = '/usuarios/profesores'
   return dispatch => getData(FETCH_ATTENDANTS, EVENT_ERROR, false, url, dispatch)
+}
+
+export const fetchPlaces = () => {
+  const url = '/lugares'
+  return dispatch => getData(FETCH_PLACES, EVENT_ERROR, false, url, dispatch)
 }

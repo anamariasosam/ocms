@@ -9,6 +9,7 @@ import {
   FETCH_GROUPS,
   GROUPS_ERROR,
   FETCH_ATTENDANTS,
+  FETCH_PLACES,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -36,6 +37,8 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, grupos: action.payload }
     case FETCH_ATTENDANTS:
       return { ...state, profesores: action.payload }
+    case FETCH_PLACES:
+      return { ...state, lugares: action.payload }
     case EVENT_ERROR:
     case GROUPS_ERROR:
     case SUBJECTS_ERROR:

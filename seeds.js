@@ -9,7 +9,6 @@ const tipoProgramacion = require('./api/models/tipoProgramacion')
 const uoc = require('./api/models/uoc')
 const grupo = require('./api/models/grupo')
 const grupoUsuario = require('./api/models/grupoUsuario')
-const recurso = require('./api/models/recurso')
 const lugar = require('./api/models/lugar')
 
 const tipoProgramacionData = require('./data/tipoProgramacion')
@@ -21,7 +20,6 @@ const asignaturaData = require('./data/asignatura')
 const grupoData = require('./data/grupo')
 const grupoUsuarioData = require('./data/grupoUsuario')
 const eventoAcademicoData = require('./data/eventoAcademico')
-const recursoData = require('./data/recurso')
 const lugarData = require('./data/lugar')
 
 db.then(async () => {
@@ -38,7 +36,6 @@ db.then(async () => {
   // await grupo.insertMany(grupoData)
   // await grupoUsuario.insertMany(grupoUsuarioData)
   // await eventoAcademico.insertMany(eventoAcademicoData)
-  //await recurso.insertMany(recursoData)
   await lugar.insertMany(lugarData)
 
   process.exit(1)

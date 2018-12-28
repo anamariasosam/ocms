@@ -19,7 +19,7 @@ const EventoAcademico = new Schema(
       type: ObjectId,
       ref: 'Programacion',
     },
-    reservas: [{ type: ObjectId, ref: 'Reserva' }],
+    lugar: { type: ObjectId, ref: 'Lugar' },
   },
   {
     collection: 'eventosAcademicos',

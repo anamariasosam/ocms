@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { MultiSelect } from 'react-selectize'
+import { MultiSelect, SimpleSelect } from 'react-selectize'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
@@ -10,6 +10,7 @@ import {
   fetchGrupos,
   createEvent,
   fetchAttendats,
+  fetchPlaces,
 } from '../../../../actions/event'
 
 import 'react-selectize/themes/index.css'
@@ -23,12 +24,14 @@ class EventCreateForm extends Component {
     this.fecha = React.createRef()
     this.aforo = React.createRef()
     this.grupos = React.createRef()
+    this.lugar = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchGrupos, fetchAttendats } = this.props
+    const { fetchAsignaturas, fetchGrupos, fetchAttendats, fetchPlaces } = this.props
+    fetchPlaces()
     fetchAsignaturas()
     fetchGrupos()
     fetchAttendats()
@@ -40,6 +43,7 @@ class EventCreateForm extends Component {
     const fecha = this.fecha.current.value
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
+    const lugar = this.lugar.current.value
     const { createEvent, location } = this.props
     const { schedule } = location.state
 
@@ -56,6 +60,7 @@ class EventCreateForm extends Component {
       encargado,
       programacion,
       programacionNombre,
+      lugar,
     }
 
     createEvent(data)
@@ -63,7 +68,9 @@ class EventCreateForm extends Component {
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { profesores, location } = this.props
+    const { profesores, location, lugares } = this.props
+    console.log(lugares)
+
     const { schedule } = location.state
     return (
       <Fragment>
@@ -95,6 +102,18 @@ class EventCreateForm extends Component {
             </label>
             <input type="datetime-local" id="fecha" className="input" ref={this.fecha} required />
 
+            <label htmlFor="lugar" className="required label">
+              Lugar:
+            </label>
+            <select id="lugar" className="input select--input" ref={this.lugar}>
+              {lugares &&
+                lugares.map(lugar => (
+                  <option key={lugar._id} value={lugar._id}>
+                    {lugar.nombreCompleto}
+                  </option>
+                ))}
+            </select>
+
             <label htmlFor="grupos" className="label">
               Grupos:
             </label>
@@ -124,7 +143,6 @@ class EventCreateForm extends Component {
       label: `${grupo.asignatura.nombre}: ${grupo.nombre}`,
       value: grupo._id,
     }))
-
     return (
       <MultiSelect
         groups={asignaturasList}
@@ -159,10 +177,11 @@ EventCreateForm.propTypes = {
   successMessage: PropTypes.string,
   profesores: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired,
+  lugares: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, successMessage, asignaturas, grupos, profesores } = state.event
+  const { errorMessage, successMessage, asignaturas, grupos, profesores, lugares } = state.event
 
   return {
     errorMessage,
@@ -170,10 +189,11 @@ function mapStateToProps(state) {
     asignaturas,
     grupos,
     profesores,
+    lugares,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, fetchGrupos, createEvent, fetchAttendats },
+  { fetchAsignaturas, fetchGrupos, createEvent, fetchAttendats, fetchPlaces },
 )(EventCreateForm)
