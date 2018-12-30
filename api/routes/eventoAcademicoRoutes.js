@@ -27,4 +27,7 @@ router.delete(
   eventoAcademico.delete,
 )
 router.get('/eventosAcademicos', eventoAcademico.show)
+
+router.get('/calendario/eventos', eventoAcademico.calendario)
+
 module.exports = router

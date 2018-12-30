@@ -118,3 +118,54 @@ exports.delete = (req, res) => {
       })
   })
 }
+
+exports.calendario = (req, res) => {
+  const { semestre } = req.query
+
+  Calendario.findOne({ semestre }).exec((err, calendario) => {
+    const { fechaInicio, fechaFin } = calendario
+    const agenda = {
+      fechaInicio,
+      fechaFin,
+    }
+
+    EventoAcademico.find({
+      fecha: {
+        $gt: fechaInicio,
+        $lt: fechaFin,
+      },
+    })
+      .populate('encargado', 'nombre')
+      .populate('programacion', 'tipo')
+      .populate({
+        path: 'grupos',
+        select: 'nombre',
+        populate: {
+          path: 'asignatura',
+          select: 'nombre',
+        },
+      })
+      .sort('fecha')
+      .exec((err, eventosAcademicos) => {
+        const evento = {
+          nombre: 'Algebra y Trigonometría',
+          lugar: '4-202',
+          hora: '6:00 am',
+          tipo: 'Supletorios Parciales',
+        }
+
+        const eventos = eventosAcademicos.map(evento => {
+          console.log('====================================')
+          console.log(evento.fecha.getDate())
+          console.log('====================================')
+          const fecha = evento.fecha.toString().split('T')
+          console.log(fecha[0])
+          console.log(evento.grupos.asignatura)
+          console.log(evento.fecha.toTimeString())
+          console.log(evento.programacion.tipo)
+        })
+
+        utils.show(res, err, eventosAcademicos)
+      })
+  })
+}
