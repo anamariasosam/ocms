@@ -160,6 +160,7 @@ const crearCalendario = (inicio, fin) => {
 
   const calendario = {}
 
+  calendario[moment(new Date()).format('YYYY-MM-DD')] = []
   dateArray.forEach(fecha => (calendario[fecha] = []))
 
   return calendario
