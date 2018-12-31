@@ -170,6 +170,12 @@ exports.calendario = (req, res) => {
 
   Calendario.findOne({ semestre }).exec((err, calendario) => {
     const { fechaInicio, fechaFin } = calendario
+
+    const agenda = {
+      minDate: moment(fechaInicio).format('YYYY-MM-DD'),
+      maxDate: moment(fechaFin).format('YYYY-MM-DD'),
+    }
+
     EventoAcademico.find({
       fecha: {
         $gt: fechaInicio,
@@ -197,7 +203,10 @@ exports.calendario = (req, res) => {
 
         const eventos = Object.assign(fechasCalendario, eventosAgenda)
 
-        utils.show(res, err, eventos)
+        res.status(200).json({
+          agenda,
+          eventos,
+        })
       })
   })
 }
