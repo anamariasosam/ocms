@@ -4,7 +4,6 @@ const mongoose = require('mongoose'),
 
 const Lugar = new Schema(
   {
-    nombre: String,
     numero: Number,
     bloque: Number,
     capacidad: Number,
@@ -19,8 +18,8 @@ const Lugar = new Schema(
   },
 )
 
-Lugar.virtual('nombreCompleto').get(function() {
-  return `${this.nombre} ${this.bloque}-${this.numero}`
+Lugar.virtual('nombre').get(function() {
+  return `${this.bloque}-${this.numero}`
 })
 
 module.exports = mongoose.model('Lugar', Lugar)

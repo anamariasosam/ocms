@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+  moment = require('moment'),
   EventoAcademico = mongoose.model('EventoAcademico'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
@@ -119,16 +120,56 @@ exports.delete = (req, res) => {
   })
 }
 
+const getEventosAcademicos = eventosAcademicos => {
+  const eventos = {}
+  eventosAcademicos.forEach(evento => {
+    const fecha = moment(evento.fecha)
+      .utc()
+      .format('YYYY-MM-DD')
+    const hora = moment(evento.fecha)
+      .utc()
+      .format('h:mm a')
+    const nombre = evento.grupo.asignatura.nombre
+    const lugar = evento.lugar.nombre
+    const tipo = evento.programacion.tipo
+
+    const agenda = {
+      nombre,
+      lugar,
+      hora,
+      tipo,
+    }
+
+    if (Boolean(eventos[fecha])) {
+      eventos[fecha].push(agenda)
+    } else {
+      eventos[fecha] = [agenda]
+    }
+  })
+  return eventos
+}
+
+const crearCalendario = (inicio, fin) => {
+  var dateArray = []
+  var currentDate = moment(inicio).utc()
+  var stopDate = moment(fin).utc()
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'))
+    currentDate = moment(currentDate).add(1, 'days')
+  }
+
+  const calendario = {}
+
+  dateArray.forEach(fecha => (calendario[fecha] = []))
+
+  return calendario
+}
+
 exports.calendario = (req, res) => {
   const { semestre } = req.query
 
   Calendario.findOne({ semestre }).exec((err, calendario) => {
     const { fechaInicio, fechaFin } = calendario
-    const agenda = {
-      fechaInicio,
-      fechaFin,
-    }
-
     EventoAcademico.find({
       fecha: {
         $gt: fechaInicio,
@@ -138,7 +179,11 @@ exports.calendario = (req, res) => {
       .populate('encargado', 'nombre')
       .populate('programacion', 'tipo')
       .populate({
-        path: 'grupos',
+        path: 'lugar',
+        select: 'bloque numero nombre',
+      })
+      .populate({
+        path: 'grupo',
         select: 'nombre',
         populate: {
           path: 'asignatura',
@@ -147,25 +192,12 @@ exports.calendario = (req, res) => {
       })
       .sort('fecha')
       .exec((err, eventosAcademicos) => {
-        const evento = {
-          nombre: 'Algebra y Trigonometría',
-          lugar: '4-202',
-          hora: '6:00 am',
-          tipo: 'Supletorios Parciales',
-        }
+        const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
+        const eventosAgenda = getEventosAcademicos(eventosAcademicos)
 
-        const eventos = eventosAcademicos.map(evento => {
-          console.log('====================================')
-          console.log(evento.fecha.getDate())
-          console.log('====================================')
-          const fecha = evento.fecha.toString().split('T')
-          console.log(fecha[0])
-          console.log(evento.grupos.asignatura)
-          console.log(evento.fecha.toTimeString())
-          console.log(evento.programacion.tipo)
-        })
+        const eventos = Object.assign(fechasCalendario, eventosAgenda)
 
-        utils.show(res, err, eventosAcademicos)
+        utils.show(res, err, eventos)
       })
   })
 }
