@@ -13,6 +13,11 @@ const asignaturas = {
   },
 }
 
+const lugar = {
+  path: 'lugar',
+  select: 'bloque numero nombre',
+}
+
 exports.asignaturas = (req, res) => {
   const { usuario, semestre } = req.query
   if (semestre) {
@@ -38,11 +43,12 @@ exports.eventos = (req, res) => {
     .exec((err, usuarios) => {
       const ids = usuarios.map(usuario => usuario.grupo._id)
 
-      EventoAcademico.find({ grupos: { $in: ids } })
+      EventoAcademico.find({ grupo: { $in: ids } })
         .populate('encargado', 'nombre')
         .populate('programacion', 'tipo')
+        .populate(lugar)
         .populate({
-          path: 'grupos',
+          path: 'grupo',
           select: 'nombre',
           populate: {
             path: 'asignatura',

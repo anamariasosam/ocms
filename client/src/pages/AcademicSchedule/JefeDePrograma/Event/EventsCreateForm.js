@@ -100,7 +100,7 @@ class EventsCreateForm extends Component {
     const { asignaturas } = this.props
 
     return asignaturas.map(asignatura => {
-      const rowClass = asignatura.nivel % 2 == 0 ? 'par' : 'impar'
+      const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
 
       return (
         <tr key={asignatura._id} className={rowClass}>

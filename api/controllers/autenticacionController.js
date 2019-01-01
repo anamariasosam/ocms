@@ -4,9 +4,7 @@ const jwt = require('jsonwebtoken'),
   utils = require('../handlers/utils')
 
 function generateToken(usuario) {
-  return jwt.sign(usuario, keys.secret, {
-    expiresIn: 36000,
-  })
+  return jwt.sign(usuario, keys.secret)
 }
 
 function setUsuarioInfo(request) {

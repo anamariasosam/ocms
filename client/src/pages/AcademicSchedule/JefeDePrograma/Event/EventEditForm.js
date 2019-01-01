@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { MultiSelect } from 'react-selectize'
 import moment from 'moment'
 import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
@@ -12,6 +11,7 @@ import {
   fetchEvent,
   updateEvent,
   fetchAttendats,
+  fetchPlaces,
 } from '../../../../actions/event'
 
 class EventEditForm extends Component {
@@ -21,16 +21,18 @@ class EventEditForm extends Component {
     this.encargado = React.createRef()
     this.fecha = React.createRef()
     this.aforo = React.createRef()
-    this.grupos = React.createRef()
+    this.grupo = React.createRef()
+    this.lugar = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchGrupos, fetchAttendats } = this.props
+    const { fetchAsignaturas, fetchGrupos, fetchAttendats, fetchPlaces } = this.props
     fetchAsignaturas()
     fetchGrupos()
     fetchAttendats()
+    fetchPlaces()
     this.getEventValues()
   }
 
@@ -48,9 +50,8 @@ class EventEditForm extends Component {
     const fecha = this.fecha.current.value
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
-    const selectedGroups = this.grupos.current.state.values
-
-    const grupos = selectedGroups.map(grupo => grupo.value)
+    const lugar = this.lugar.current.value
+    const grupo = this.grupo.current.value
 
     const { nombre } = match.params
 
@@ -64,7 +65,8 @@ class EventEditForm extends Component {
       data: {
         fecha,
         aforo,
-        grupos,
+        grupo,
+        lugar,
         encargado,
         programacionNombre,
       },
@@ -74,8 +76,9 @@ class EventEditForm extends Component {
   }
 
   render() {
-    const { profesores, location } = this.props
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
+    const { profesores, location, lugares, grupos } = this.props
+
     const { schedule } = location.state
 
     this.renderEventValues()
@@ -109,10 +112,29 @@ class EventEditForm extends Component {
             </label>
             <input type="datetime-local" id="fecha" className="input" ref={this.fecha} required />
 
-            <label htmlFor="grupos" className="label">
+            <label htmlFor="lugar" className="required label">
+              Lugar:
+            </label>
+            <select id="lugar" className="input select--input" ref={this.lugar}>
+              {lugares &&
+                lugares.map(lugar => (
+                  <option key={lugar._id} value={lugar._id}>
+                    {lugar.nombre}
+                  </option>
+                ))}
+            </select>
+
+            <label htmlFor="grupo" className="label">
               Grupos:
             </label>
-            {this.renderMultiSelect()}
+            <select id="grupo" className="input select--input" ref={this.grupo}>
+              {grupos &&
+                grupos.map(grupo => (
+                  <option key={grupo._id} value={grupo._id}>
+                    {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
+                  </option>
+                ))}
+            </select>
 
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
@@ -123,40 +145,6 @@ class EventEditForm extends Component {
         </div>
       </Fragment>
     )
-  }
-
-  renderMultiSelect() {
-    const { asignaturas, grupos, events } = this.props
-
-    const asignaturasList = asignaturas.map(asignatura => ({
-      groupId: asignatura._id,
-      title: asignatura.nombre,
-    }))
-
-    const gruposList = grupos.map(grupo => ({
-      groupId: grupo.asignatura._id,
-      label: `${grupo.asignatura.nombre}: ${grupo.nombre}`,
-      value: grupo._id,
-    }))
-
-    if (Object.keys(events).length > 0 && events.grupos) {
-      const defaultValues = events.grupos.map(grupo => ({
-        groupId: grupo.asignatura._id,
-        label: `${grupo.asignatura.nombre}: ${grupo.nombre}`,
-        value: grupo._id,
-      }))
-
-      return (
-        <MultiSelect
-          groups={asignaturasList}
-          options={gruposList}
-          placeholder="Elige los grupos"
-          ref={this.grupos}
-          defaultValues={defaultValues}
-          anchor
-        />
-      )
-    }
   }
 
   renderAlert() {
@@ -172,7 +160,9 @@ class EventEditForm extends Component {
 
   renderEventValues() {
     const { events } = this.props
-    const { fecha, aforo, encargado } = events
+    const { fecha, aforo, encargado, lugar, grupo } = events
+
+    console.log(events)
 
     if (fecha) {
       this.fecha.current.value = moment(fecha).format('YYYY-MM-DD[T]hh:mm')
@@ -184,6 +174,14 @@ class EventEditForm extends Component {
 
     if (encargado) {
       this.encargado.current.value = encargado._id
+    }
+
+    if (lugar) {
+      this.lugar.current.value = lugar._id
+    }
+
+    if (grupo) {
+      this.grupo.current.value = grupo._id
     }
   }
 }
@@ -197,6 +195,7 @@ EventEditForm.propTypes = {
   profesores: PropTypes.array.isRequired,
   events: PropTypes.any.isRequired,
   grupos: PropTypes.any.isRequired,
+  lugares: PropTypes.any,
   errorMessage: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   fetchEvent: PropTypes.func.isRequired,
@@ -205,7 +204,15 @@ EventEditForm.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, successMessage, asignaturas, grupos, events, profesores } = state.event
+  const {
+    errorMessage,
+    successMessage,
+    asignaturas,
+    grupos,
+    events,
+    profesores,
+    lugares,
+  } = state.event
 
   return {
     errorMessage,
@@ -214,10 +221,11 @@ function mapStateToProps(state) {
     grupos,
     events,
     profesores,
+    lugares,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, fetchGrupos, fetchEvent, updateEvent, fetchAttendats },
+  { fetchAsignaturas, fetchGrupos, fetchEvent, updateEvent, fetchAttendats, fetchPlaces },
 )(EventEditForm)

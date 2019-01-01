@@ -12,7 +12,7 @@ import CalendarEditForm from '../JefeDePrograma/Calendar/CalendarEditForm'
 import AgendaEditForm from '../JefeDePrograma/Agenda/AgendaEditForm'
 import EventEditForm from '../JefeDePrograma/Event/EventEditForm'
 
-const currentYear = new Date().getFullYear()
+const currentYear = 2018
 
 export const jefeDeProgramaMenu = [
   {

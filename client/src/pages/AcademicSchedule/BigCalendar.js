@@ -50,9 +50,7 @@ class BigCalendar extends Component {
 
   renderCalendar() {
     const { events, calendarDate } = this.props
-    console.log('====================================')
-    console.log(calendarDate)
-    console.log('====================================')
+
     if (events.length > 0) {
       const labels = new Set()
 
@@ -63,8 +61,10 @@ class BigCalendar extends Component {
           end: moment(event.fecha)
             .add(2, 'hours')
             .toDate(),
-          title: event.grupos.map(g => g.asignatura.nombre).join(', '),
-          category: event.programacion.tipo,
+          title: event.grupo.asignatura.nombre,
+          tipo: event.programacion.tipo,
+          lugar: event.lugar.nombre,
+          hora: moment(event.fecha).format('h:mm a'),
         }
       })
 
@@ -83,12 +83,12 @@ class BigCalendar extends Component {
             popup
             onSelectEvent={e =>
               swal({
-                title: e.category,
-                text: e.title,
+                title: e.tipo,
+                text: `${e.title} ${e.lugar} ${e.hora}`,
               })
             }
             eventPropGetter={event => ({
-              className: 'event-block event--' + event.category.replace(/\s+/g, '-').toLowerCase(),
+              className: 'event-block event--' + event.tipo.replace(/\s+/g, '-').toLowerCase(),
             })}
           />
         </Fragment>

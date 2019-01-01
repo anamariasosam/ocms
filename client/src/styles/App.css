@@ -314,12 +314,12 @@ body {
 /* Module */
 .module--content {
   display: flex;
-  margin: 3%;
+  margin: 2%;
   margin-bottom: 15px;
 }
 
 .module--children {
-  width: calc(100% - 348px);
+  width: calc(100% - 285px);
 }
 
 /* SideBar */
@@ -351,7 +351,7 @@ body {
 
 .table td,
 .table th {
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1rem;
   border: 1px solid #ddd;
 }
 
@@ -442,24 +442,25 @@ body {
 .event--ceremonia-de-grados {
   background-color: #f6511d;
 }
+
 .event--supletorios-parciales {
   background-color: #ffb400;
 }
+
 .event--examenes-finales {
   background-color: #00a6ed;
 }
+
 .event--programacion-académica {
   background-color: #7fb800;
 }
+
 .event--examenes-parciales {
   background-color: #0d2c54;
 }
+
 .event--supletorios-finales {
   background-color: #339989;
-}
-
-.rbc-row-segment .rbc-event-content {
-  white-space: normal;
 }
 
 .calendarLabels--container {
@@ -481,6 +482,7 @@ body {
   display: inline-block;
   margin-left: 8px;
 }
+
 .calendarLabels--bullet {
   display: inline-block;
   width: 8px;
@@ -494,6 +496,7 @@ body {
 .profile--link {
   color: #fff;
 }
+
 .semestre--input {
   width: auto;
   min-width: auto;

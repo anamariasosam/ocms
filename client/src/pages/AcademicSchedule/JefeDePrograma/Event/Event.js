@@ -77,6 +77,7 @@ class Event extends Component {
                 <th>FECHA</th>
                 <th>HORA</th>
                 <th>AFORO</th>
+                <th>LUGAR</th>
                 <th>ACCIONES</th>
               </tr>
             </thead>
@@ -111,19 +112,12 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td>
-            <ul>
-              {event.grupos.map(grupo => (
-                <li key={grupo.asignatura.nombre}>
-                  {`${grupo.asignatura.nombre} (Grupo: ${grupo.nombre})`}
-                </li>
-              ))}
-            </ul>
-          </td>
+          <td>{`${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`}</td>
           <td>{event.encargado.nombre}</td>
           <td>{moment(event.fecha).format('l')}</td>
           <td>{moment(event.fecha).format('h:mm a')}</td>
           <td>{event.aforo}</td>
+          <td>{event.lugar.nombre}</td>
           <td>
             <Options
               handleDelete={() => this.handleDelete(event._id)}

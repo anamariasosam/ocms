@@ -5,20 +5,28 @@ const mongoose = require('mongoose'),
   Calendario = mongoose.model('Calendario'),
   utils = require('../handlers/utils')
 
+const lugar = {
+  path: 'lugar',
+  select: 'bloque numero nombre',
+}
+
+const grupo = {
+  path: 'grupo',
+  select: 'nombre',
+  populate: {
+    path: 'asignatura',
+    select: 'nombre',
+  },
+}
+
 exports.show = (req, res) => {
   const { nombre, programacionNombre, semestre } = req.query
   if (nombre) {
     EventoAcademico.findOne({ nombre: nombre })
       .populate('encargado', 'nombre')
       .populate('programacion', 'tipo')
-      .populate({
-        path: 'grupos',
-        select: 'nombre',
-        populate: {
-          path: 'asignatura',
-          select: 'nombre',
-        },
-      })
+      .populate(lugar)
+      .populate(grupo)
       .sort('fecha')
       .exec((err, eventoAcademico) => {
         utils.show(res, err, eventoAcademico)
@@ -28,15 +36,9 @@ exports.show = (req, res) => {
       const programacionId = programacion._id
       EventoAcademico.find({ programacion: programacionId })
         .populate('encargado', 'nombre')
+        .populate(lugar)
         .populate('programacion', 'tipo')
-        .populate({
-          path: 'grupos',
-          select: 'nombre',
-          populate: {
-            path: 'asignatura',
-            select: 'nombre',
-          },
-        })
+        .populate(grupo)
         .sort('fecha')
         .exec((err, eventosAcademicos) => {
           utils.show(res, err, eventosAcademicos)
@@ -45,15 +47,9 @@ exports.show = (req, res) => {
   } else {
     EventoAcademico.find({})
       .populate('encargado', 'nombre')
+      .populate(lugar)
       .populate('programacion', 'tipo nombre')
-      .populate({
-        path: 'grupos',
-        select: 'nombre',
-        populate: {
-          path: 'asignatura',
-          select: 'nombre',
-        },
-      })
+      .populate(grupo)
       .sort('fecha')
       .exec((err, eventosAcademicos) => {
         utils.show(res, err, eventosAcademicos)
@@ -62,7 +58,7 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { aforo, grupos, encargado, programacion, programacionNombre, fecha } = req.body
+  const { aforo, grupo, encargado, programacion, programacionNombre, fecha, lugar } = req.body
   const contadorEventos = await EventoAcademico.count({ programacion })
   const nombre = `${programacionNombre}-${contadorEventos + 1}`
 
@@ -70,9 +66,10 @@ exports.create = async (req, res) => {
     nombre,
     fecha,
     aforo,
-    grupos,
+    grupo,
     encargado,
     programacion,
+    lugar,
   })
 
   eventoAcademico.save((err, eventoAcademico) => {
@@ -83,15 +80,16 @@ exports.create = async (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, grupos, encargado, fecha } = req.body.data
+  const { aforo, grupo, encargado, fecha, lugar } = req.body.data
 
   EventoAcademico.findOneAndUpdate(
     { nombre },
     {
       aforo,
-      grupos,
+      grupo,
       encargado,
       fecha,
+      lugar,
     },
     { new: true },
     (err, evento) => {
@@ -105,14 +103,8 @@ exports.delete = (req, res) => {
   EventoAcademico.findOneAndDelete({ _id: eventoAcademicoId }, (err, evento) => {
     EventoAcademico.find({ programacion: programacionId })
       .populate('encargado', 'nombre')
-      .populate({
-        path: 'grupos',
-        select: 'nombre',
-        populate: {
-          path: 'asignatura',
-          select: 'nombre',
-        },
-      })
+      .populate(lugar)
+      .populate(grupo)
       .sort('fecha')
       .exec((err, eventos) => {
         utils.show(res, err, eventos)
@@ -185,18 +177,8 @@ exports.calendario = (req, res) => {
     })
       .populate('encargado', 'nombre')
       .populate('programacion', 'tipo')
-      .populate({
-        path: 'lugar',
-        select: 'bloque numero nombre',
-      })
-      .populate({
-        path: 'grupo',
-        select: 'nombre',
-        populate: {
-          path: 'asignatura',
-          select: 'nombre',
-        },
-      })
+      .populate(lugar)
+      .populate(grupo)
       .sort('fecha')
       .exec((err, eventosAcademicos) => {
         const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
