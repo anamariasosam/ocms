@@ -3,6 +3,7 @@ const mongoose = require('mongoose'),
   EventoAcademico = mongoose.model('EventoAcademico'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
+  GrupoUsuario = mongoose.model('GrupoUsuario'),
   utils = require('../handlers/utils')
 
 const lugar = {
@@ -152,14 +153,13 @@ const crearCalendario = (inicio, fin) => {
 
   const calendario = {}
 
-  calendario[moment(new Date()).format('YYYY-MM-DD')] = []
   dateArray.forEach(fecha => (calendario[fecha] = []))
 
   return calendario
 }
 
 exports.calendario = (req, res) => {
-  const { semestre } = req.query
+  const { semestre, usuario, tipo } = req.query
 
   Calendario.findOne({ semestre }).exec((err, calendario) => {
     const { fechaInicio, fechaFin } = calendario
@@ -169,27 +169,32 @@ exports.calendario = (req, res) => {
       maxDate: moment(fechaFin).format('YYYY-MM-DD'),
     }
 
-    EventoAcademico.find({
-      fecha: {
-        $gt: fechaInicio,
-        $lt: fechaFin,
-      },
-    })
-      .populate('encargado', 'nombre')
-      .populate('programacion', 'tipo')
-      .populate(lugar)
-      .populate(grupo)
-      .sort('fecha')
-      .exec((err, eventosAcademicos) => {
-        const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
-        const eventosAgenda = getEventosAcademicos(eventosAcademicos)
+    GrupoUsuario.find({ usuario, tipo }).exec((err, usuarios) => {
+      const ids = usuarios.map(usuario => usuario.grupo._id)
 
-        const eventos = Object.assign(fechasCalendario, eventosAgenda)
-
-        res.status(200).json({
-          agenda,
-          eventos,
-        })
+      EventoAcademico.find({
+        fecha: {
+          $gt: fechaInicio,
+          $lt: fechaFin,
+        },
+        grupo: { $in: ids },
       })
+        .populate('encargado', 'nombre')
+        .populate('programacion', 'tipo')
+        .populate(lugar)
+        .populate(grupo)
+        .sort('fecha')
+        .exec((err, eventosAcademicos) => {
+          const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
+          const eventosAgenda = getEventosAcademicos(eventosAcademicos)
+
+          const eventos = Object.assign(fechasCalendario, eventosAgenda)
+
+          res.status(200).json({
+            agenda,
+            eventos,
+          })
+        })
+    })
   })
 }

@@ -318,8 +318,13 @@ body {
   margin-bottom: 15px;
 }
 
-.module--children {
+.module--children-sidebar {
   width: calc(100% - 285px);
+}
+
+.module--children-fullWidth {
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* SideBar */
@@ -440,27 +445,27 @@ body {
 }
 
 .event--ceremonia-de-grados {
-  background-color: #f6511d;
+  background-color: #f6511d !important;
 }
 
 .event--supletorios-parciales {
-  background-color: #ffb400;
+  background-color: #ffb400 !important;
 }
 
 .event--examenes-finales {
-  background-color: #00a6ed;
+  background-color: #00a6ed !important;
 }
 
 .event--programacion-académica {
-  background-color: #7fb800;
+  background-color: #7fb800 !important;
 }
 
 .event--examenes-parciales {
-  background-color: #0d2c54;
+  background-color: #0d2c54 !important;
 }
 
 .event--supletorios-finales {
-  background-color: #339989;
+  background-color: #339989 !important;
 }
 
 .calendarLabels--container {
