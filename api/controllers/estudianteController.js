@@ -1,8 +1,10 @@
 const mongoose = require('mongoose'),
   GrupoUsuario = mongoose.model('GrupoUsuario'),
   EventoAcademico = mongoose.model('EventoAcademico'),
+  Programacion = mongoose.model('Programacion'),
   utils = require('../handlers/utils'),
-  ROL_ESTUDIANTE = require('../../constants').ROL_ESTUDIANTE
+  ROL_ESTUDIANTE = require('../../constants').ROL_ESTUDIANTE,
+  PROGRAMACION_ACADEMICA = require('../../constants').PROGRAMACION_ACADEMICA
 
 const asignaturas = {
   path: 'grupo',
@@ -41,22 +43,27 @@ exports.eventos = (req, res) => {
   GrupoUsuario.find({ usuario, tipo: ROL_ESTUDIANTE })
     .populate(asignaturas)
     .exec((err, usuarios) => {
-      const ids = usuarios.map(usuario => usuario.grupo._id)
+      const grupoIds = usuarios.map(usuario => usuario.grupo._id)
 
-      EventoAcademico.find({ grupo: { $in: ids } })
-        .populate('encargado', 'nombre')
-        .populate('programacion', 'tipo')
-        .populate(lugar)
-        .populate({
-          path: 'grupo',
-          select: 'nombre',
-          populate: {
-            path: 'asignatura',
+      Programacion.find({ tipo: PROGRAMACION_ACADEMICA }).exec((err, programacion) => {
+        const programacionIds = programacion.map(p => p._id)
+
+        EventoAcademico.find()
+          .or([{ grupo: { $in: grupoIds } }, { programacion: { $in: programacionIds } }])
+          .populate('encargado', 'nombre')
+          .populate('programacion', 'tipo')
+          .populate(lugar)
+          .populate({
+            path: 'grupo',
             select: 'nombre',
-          },
-        })
-        .exec((err, eventos) => {
-          utils.show(res, err, eventos)
-        })
+            populate: {
+              path: 'asignatura',
+              select: 'nombre',
+            },
+          })
+          .exec((err, eventos) => {
+            utils.show(res, err, eventos)
+          })
+      })
     })
 }

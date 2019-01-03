@@ -61,6 +61,9 @@ class Event extends Component {
   render() {
     const { schedules } = this.props
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
+
+    const allType = schedules.tipo !== 'Programación Académica'
+
     return (
       <Fragment>
         <h2>Eventos</h2>
@@ -73,7 +76,7 @@ class Event extends Component {
             <table className="table">
               <thead className="thead">
                 <tr>
-                  <th>ASIGNATURA</th>
+                  <th>NOMBRE</th>
                   <th>ENCARGADO</th>
                   <th>FECHA</th>
                   <th>HORA</th>
@@ -95,15 +98,18 @@ class Event extends Component {
           >
             + Evento
           </Link>
-          <Link
-            to={{
-              pathname: '/calendarioAcademico/eventos/create',
-              state: { schedule: schedules },
-            }}
-            className="reset--link button"
-          >
-            + Múltiples Eventos
-          </Link>
+
+          {allType && (
+            <Link
+              to={{
+                pathname: '/calendarioAcademico/eventos/create',
+                state: { schedule: schedules },
+              }}
+              className="reset--link button"
+            >
+              + Múltiples Eventos
+            </Link>
+          )}
         </div>
       </Fragment>
     )
@@ -114,7 +120,10 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td>{`${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`}</td>
+          <td>
+            {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
+              event.nombre}
+          </td>
           <td>{event.encargado.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
           <td>{moment(event.fechaInicio).format('h:mm a')}</td>

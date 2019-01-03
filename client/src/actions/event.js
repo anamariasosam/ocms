@@ -21,6 +21,13 @@ export const createEvent = data => {
     postData(CREATE_EVENT, EVENT_ERROR, true, EVENT_ENDPOINT, dispatch, data, redirect)
 }
 
+export const createEvents = data => {
+  const redirect = `/calendarioAcademico/evento/show/${data.programacionNombre}`
+  const url = '/eventosAcademicos/eventos'
+
+  return dispatch => postData(CREATE_EVENT, EVENT_ERROR, true, url, dispatch, data, redirect)
+}
+
 export const deleteEvent = params => {
   return dispatch => deleteData(DELETE_EVENT, EVENT_ERROR, true, EVENT_ENDPOINT, dispatch, params)
 }

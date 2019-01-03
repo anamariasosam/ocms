@@ -14,6 +14,12 @@ router.post(
   autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA),
   eventoAcademico.create,
 )
+router.post(
+  '/eventosAcademicos/eventos',
+  requireAuth,
+  autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA),
+  eventoAcademico.createMultipleEvents,
+)
 router.put(
   '/eventosAcademicos',
   requireAuth,

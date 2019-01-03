@@ -60,7 +60,7 @@ class BigCalendar extends Component {
         return {
           start: moment(event.fechaInicio).toDate(),
           end: moment(event.fechaFin).toDate(),
-          title: event.grupo.asignatura.nombre,
+          title: (event.grupo && event.grupo.asignatura.nombre) || event.nombre,
           tipo: event.programacion.tipo,
           lugar: event.lugar.nombre,
         }

@@ -4,6 +4,8 @@ const mongoose = require('mongoose'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
   GrupoUsuario = mongoose.model('GrupoUsuario'),
+  Asignatura = mongoose.model('Asignatura'),
+  Grupo = mongoose.model('Grupo'),
   utils = require('../handlers/utils')
 
 const lugar = {
@@ -63,6 +65,7 @@ exports.create = async (req, res) => {
     aforo,
     grupo,
     encargado,
+    nombre,
     programacion,
     programacionNombre,
     fechaInicio,
@@ -70,10 +73,10 @@ exports.create = async (req, res) => {
     lugar,
   } = req.body
   const contadorEventos = await EventoAcademico.count({ programacion })
-  const nombre = `${programacionNombre}-${contadorEventos + 1}`
+  const nombreEvento = nombre || `${programacionNombre}-${contadorEventos + 1}`
 
   const eventoAcademico = new EventoAcademico({
-    nombre,
+    nombre: nombreEvento,
     fechaInicio,
     fechaFin,
     aforo,
@@ -88,11 +91,60 @@ exports.create = async (req, res) => {
   })
 }
 
+exports.createMultipleEvents = (req, res) => {
+  const { eventos, programacion, programacionNombre } = req.body
+
+  const asignaturas = Object.keys(eventos)
+
+  asignaturas.map(asignatura => {
+    Grupo.find({ asignatura }).exec((err, grupos) => {
+      grupos.map(grupo => {
+        const grupoId = grupo._id
+
+        GrupoUsuario.findOne({ grupo: grupoId, tipo: 'Profesor', semestre: '2018-2' }).exec(
+          async (err, grupo) => {
+            const contadorEventos = await EventoAcademico.count({ programacion })
+            const nombre = `${programacionNombre}-${contadorEventos + 1}`
+
+            const evento = {
+              nombre,
+              fechaInicio: eventos[asignatura],
+              fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
+              aforo: 30,
+              grupo: grupoId,
+              encargado: grupo.usuario,
+              programacion,
+              lugar: '5c1940efbfe2bf4774a2186a',
+            }
+
+            const eventoAcademico = new EventoAcademico(evento)
+
+            eventoAcademico.save()
+          },
+        )
+      })
+    })
+  })
+
+  res.status(200).json({
+    creado: 'hi',
+  })
+}
+
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, grupo, encargado, fechaInicio, fechaFin, lugar } = req.body.data
+  const {
+    aforo,
+    grupo,
+    encargado,
+    fechaInicio,
+    fechaFin,
+    lugar,
+    nombre: nombreEvento,
+  } = req.body.data
 
+  const nombreNuevo = nombreEvento || nombre
   EventoAcademico.findOneAndUpdate(
     { nombre },
     {
@@ -102,6 +154,7 @@ exports.update = (req, res) => {
       fechaInicio,
       fechaFin,
       lugar,
+      nombre: nombreNuevo,
     },
     { new: true },
     (err, evento) => {

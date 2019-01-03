@@ -23,6 +23,7 @@ class EventEditForm extends Component {
     this.fechaFin = React.createRef()
     this.aforo = React.createRef()
     this.grupo = React.createRef()
+    this.nombre = React.createRef()
     this.lugar = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -53,16 +54,17 @@ class EventEditForm extends Component {
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
     const lugar = this.lugar.current.value
-    const grupo = this.grupo.current.value
+    const grupo = this.grupo.current && this.grupo.current.value
+    const nombre = this.nombre.current && this.nombre.current.value
 
-    const { nombre } = match.params
+    const { nombre: nombreEvento } = match.params
 
     const { schedule } = location.state
     const { nombre: programacionNombre } = schedule
 
     const data = {
       params: {
-        nombre,
+        nombre: nombreEvento,
       },
       data: {
         fechaInicio,
@@ -72,6 +74,7 @@ class EventEditForm extends Component {
         lugar,
         encargado,
         programacionNombre,
+        nombre,
       },
     }
 
@@ -80,7 +83,7 @@ class EventEditForm extends Component {
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { profesores, location, lugares, grupos } = this.props
+    const { profesores, location, lugares } = this.props
 
     const { schedule } = location.state
 
@@ -94,6 +97,7 @@ class EventEditForm extends Component {
         <div className="form--container">
           <h3 className="form--title">Editar Evento</h3>
           <form onSubmit={this.handleSubmit}>
+            {this.renderGroups()}
             <label htmlFor="encargado" className="required label">
               Encargado:
             </label>
@@ -111,7 +115,7 @@ class EventEditForm extends Component {
             <input type="number" id="aforo" className="input" ref={this.aforo} required />
 
             <label htmlFor="fechaInicio" className="required label">
-              Fecha / Hora - Inicio:
+              Fecha Inicio:
             </label>
             <input
               type="datetime-local"
@@ -122,7 +126,7 @@ class EventEditForm extends Component {
             />
 
             <label htmlFor="fechaFin" className="required label">
-              Fecha / Hora - Fin:
+              Fecha Fin:
             </label>
             <input
               type="datetime-local"
@@ -144,18 +148,6 @@ class EventEditForm extends Component {
                 ))}
             </select>
 
-            <label htmlFor="grupo" className="label">
-              Grupos:
-            </label>
-            <select id="grupo" className="input select--input" ref={this.grupo}>
-              {grupos &&
-                grupos.map(grupo => (
-                  <option key={grupo._id} value={grupo._id}>
-                    {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
-                  </option>
-                ))}
-            </select>
-
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>
@@ -163,6 +155,38 @@ class EventEditForm extends Component {
 
           {this.renderAlert()}
         </div>
+      </Fragment>
+    )
+  }
+
+  renderGroups() {
+    const { grupos, location } = this.props
+    const { schedule } = location.state
+
+    if (schedule.tipo === 'Programación Académica') {
+      return (
+        <Fragment>
+          <label htmlFor="nombre" className="required label">
+            Nombre:
+          </label>
+          <input type="text" id="nombre" className="input" ref={this.nombre} required />
+        </Fragment>
+      )
+    }
+
+    return (
+      <Fragment>
+        <label htmlFor="grupo" className="label">
+          Grupo:
+        </label>
+        <select id="grupo" className="input select--input" ref={this.grupo}>
+          {grupos &&
+            grupos.map(grupo => (
+              <option key={grupo._id} value={grupo._id}>
+                {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
+              </option>
+            ))}
+        </select>
       </Fragment>
     )
   }
@@ -180,7 +204,7 @@ class EventEditForm extends Component {
 
   renderEventValues() {
     const { events } = this.props
-    const { fechaInicio, fechaFin, aforo, encargado, lugar, grupo } = events
+    const { fechaInicio, fechaFin, aforo, encargado, lugar, grupo, nombre } = events
 
     if (fechaInicio) {
       this.fechaInicio.current.value = moment(fechaInicio).format('YYYY-MM-DD[T]hh:mm')
@@ -202,8 +226,12 @@ class EventEditForm extends Component {
       this.lugar.current.value = lugar._id
     }
 
-    if (grupo) {
+    if (grupo && this.grupo.current) {
       this.grupo.current.value = grupo._id
+    }
+
+    if (nombre && this.nombre.current) {
+      this.nombre.current.value = nombre
     }
   }
 }

@@ -1,70 +1,67 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { MultiSelect } from 'react-selectize'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
-import {
-  fetchAsignaturas,
-  fetchGrupos,
-  createEvent,
-  fetchAttendats,
-} from '../../../../actions/event'
-
-import 'react-selectize/themes/index.css'
+import { fetchAsignaturas, createEvents } from '../../../../actions/event'
 
 class EventsCreateForm extends Component {
   constructor(props) {
     super(props)
 
-    this.asignatura = React.createRef()
-    this.encargado = React.createRef()
     this.fecha = React.createRef()
-    this.aforo = React.createRef()
-    this.grupos = React.createRef()
+
+    this.state = {
+      eventos: {},
+    }
 
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchGrupos, fetchAttendats } = this.props
+    const { fetchAsignaturas } = this.props
     fetchAsignaturas()
-    fetchGrupos()
-    fetchAttendats()
   }
 
   handleSubmit(e) {
     e.preventDefault()
 
-    const fecha = this.fecha.current.value
-    const aforo = this.aforo.current.value
-    const encargado = this.encargado.current.value
-    const { createEvent, location } = this.props
+    const { eventos } = this.state
+
+    const { createEvents, location } = this.props
     const { schedule } = location.state
-
-    const selectedGroups = this.grupos.current.state.values
-
-    const grupos = selectedGroups.map(grupo => grupo.value)
-
     const { _id: programacion, nombre: programacionNombre } = schedule
 
     const data = {
-      fecha,
-      aforo,
-      grupos,
-      encargado,
+      eventos,
       programacion,
       programacionNombre,
     }
 
-    createEvent(data)
+    createEvents(data)
+  }
+
+  handleChange(e) {
+    const { eventos } = this.state
+
+    const { id: asignatura, value: fecha } = e.target
+    const evento = {}
+    evento[asignatura] = fecha
+
+    const newEvents = Object.assign(eventos, evento)
+
+    this.setState({
+      eventos: newEvents,
+    })
   }
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { profesores, location } = this.props
+    const { location } = this.props
     const { schedule } = location.state
+
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -110,10 +107,9 @@ class EventsCreateForm extends Component {
           <td>
             <input
               type="datetime-local"
-              id="fecha"
+              id={asignatura._id}
               className="input events--inputs"
-              ref={this.fecha}
-              required
+              onChange={this.handleChange}
             />
           </td>
         </tr>
@@ -136,14 +132,10 @@ class EventsCreateForm extends Component {
 
 EventsCreateForm.propTypes = {
   fetchAsignaturas: PropTypes.func.isRequired,
-  createEvent: PropTypes.func.isRequired,
-  fetchGrupos: PropTypes.func.isRequired,
-  fetchAttendats: PropTypes.func.isRequired,
+  createEvents: PropTypes.func.isRequired,
   asignaturas: PropTypes.array.isRequired,
-  grupos: PropTypes.any.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
-  profesores: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired,
 }
 
@@ -161,5 +153,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, fetchGrupos, createEvent, fetchAttendats },
+  { fetchAsignaturas, createEvents },
 )(EventsCreateForm)
