@@ -454,18 +454,18 @@ body {
   background-color: #ffb400 !important;
 }
 
-.rbc-event.event--examenes-finales,
-.bullet--examenes-finales {
+.rbc-event.event--exámenes-finales,
+.bullet--exámenes-finales {
   background-color: #00a6ed !important;
 }
 
-.rbc-event.event--programacion-académica,
-.bullet--programacion-académica {
+.rbc-event.event--programación-académica,
+.bullet--programación-académica {
   background-color: #7fb800 !important;
 }
 
-.rbc-event.event--examenes-parciales,
-.bullet--examenes-parciales {
+.rbc-event.event--exámenes-parciales,
+.bullet--exámenes-parciales {
   background-color: #0d2c54 !important;
 }
 
@@ -484,17 +484,17 @@ body {
   content: '◼ ';
 }
 
-.event--examenes-finales td.rbc-agenda-event-cell:before {
+.event--exámenes-finales td.rbc-agenda-event-cell:before {
   color: #00a6ed;
   content: '◼ ';
 }
 
-.event--programacion-académica td.rbc-agenda-event-cell:before {
+.event--programación-académica td.rbc-agenda-event-cell:before {
   color: #7fb800;
   content: '◼ ';
 }
 
-.event--examenes-parciales td.rbc-agenda-event-cell:before {
+.event--exámenes-parciales td.rbc-agenda-event-cell:before {
   color: #0d2c54;
   content: '◼ ';
 }
