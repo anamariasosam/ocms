@@ -34,6 +34,9 @@ class SelectInput extends Component {
         <Fragment>
           <option value="2018-2">2018-2</option>
           <option value="2019-1">2019-1</option>
+          <option value="2019-2">2019-2</option>
+          <option value="2020-1">2020-1</option>
+          <option value="2020-2">2020-2</option>
         </Fragment>
       )
     }
@@ -42,9 +45,9 @@ class SelectInput extends Component {
       <Fragment>
         <option value="Ceremonia de Grados">Ceremonia de Grados</option>
         <option value="Supletorios Parciales">Supletorios Parciales</option>
-        <option value="Examenes Finales">Examenes Finales</option>
-        <option value="Programacion Académica">Programacion Académica</option>
-        <option value="Examenes Parciales">Examenes Parciales</option>
+        <option value="Examenes Finales">Exámenes Finales</option>
+        <option value="Programacion Académica">Programación Académica</option>
+        <option value="Examenes Parciales">Exámenes Parciales</option>
         <option value="Supletorios Finales">Supletorios Finales</option>
       </Fragment>
     )

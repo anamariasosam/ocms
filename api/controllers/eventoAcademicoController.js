@@ -28,7 +28,7 @@ exports.show = (req, res) => {
       .populate('programacion', 'tipo')
       .populate(lugar)
       .populate(grupo)
-      .sort('fecha')
+      .sort('fechaInicio')
       .exec((err, eventoAcademico) => {
         utils.show(res, err, eventoAcademico)
       })
@@ -40,7 +40,7 @@ exports.show = (req, res) => {
         .populate(lugar)
         .populate('programacion', 'tipo')
         .populate(grupo)
-        .sort('fecha')
+        .sort('fechaInicio')
         .exec((err, eventosAcademicos) => {
           utils.show(res, err, eventosAcademicos)
         })
@@ -51,7 +51,7 @@ exports.show = (req, res) => {
       .populate(lugar)
       .populate('programacion', 'tipo nombre')
       .populate(grupo)
-      .sort('fecha')
+      .sort('fechaInicio')
       .exec((err, eventosAcademicos) => {
         utils.show(res, err, eventosAcademicos)
       })
@@ -59,13 +59,23 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { aforo, grupo, encargado, programacion, programacionNombre, fecha, lugar } = req.body
+  const {
+    aforo,
+    grupo,
+    encargado,
+    programacion,
+    programacionNombre,
+    fechaInicio,
+    fechaFin,
+    lugar,
+  } = req.body
   const contadorEventos = await EventoAcademico.count({ programacion })
   const nombre = `${programacionNombre}-${contadorEventos + 1}`
 
   const eventoAcademico = new EventoAcademico({
     nombre,
-    fecha,
+    fechaInicio,
+    fechaFin,
     aforo,
     grupo,
     encargado,
@@ -81,7 +91,7 @@ exports.create = async (req, res) => {
 exports.update = (req, res) => {
   const { nombre } = req.body.params
 
-  const { aforo, grupo, encargado, fecha, lugar } = req.body.data
+  const { aforo, grupo, encargado, fechaInicio, fechaFin, lugar } = req.body.data
 
   EventoAcademico.findOneAndUpdate(
     { nombre },
@@ -89,7 +99,8 @@ exports.update = (req, res) => {
       aforo,
       grupo,
       encargado,
-      fecha,
+      fechaInicio,
+      fechaFin,
       lugar,
     },
     { new: true },
@@ -106,7 +117,7 @@ exports.delete = (req, res) => {
       .populate('encargado', 'nombre')
       .populate(lugar)
       .populate(grupo)
-      .sort('fecha')
+      .sort('fechaInicio')
       .exec((err, eventos) => {
         utils.show(res, err, eventos)
       })
@@ -116,10 +127,10 @@ exports.delete = (req, res) => {
 const getEventosAcademicos = eventosAcademicos => {
   const eventos = {}
   eventosAcademicos.forEach(evento => {
-    const fecha = moment(evento.fecha)
+    const fecha = moment(evento.fechaInicio)
       .utc()
       .format('YYYY-MM-DD')
-    const hora = moment(evento.fecha)
+    const hora = moment(evento.fechaInicio)
       .utc()
       .format('h:mm a')
     const nombre = evento.grupo.asignatura.nombre
@@ -183,7 +194,7 @@ exports.calendario = (req, res) => {
         .populate('programacion', 'tipo')
         .populate(lugar)
         .populate(grupo)
-        .sort('fecha')
+        .sort('fechaInicio')
         .exec((err, eventosAcademicos) => {
           const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
           const eventosAgenda = getEventosAcademicos(eventosAcademicos)

@@ -7,7 +7,7 @@ const CalendarLabels = ({ labels }) => {
         {labels.map(label => (
           <li key={label} className="calendarLabels--item">
             <span
-              className={`calendarLabels--bullet event--${label
+              className={`calendarLabels--bullet bullet--${label
                 .replace(/\s+/g, '-')
                 .toLowerCase()}`}
             />

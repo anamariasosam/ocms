@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import Calendar from 'react-big-calendar'
 import moment from 'moment'
 import cookie from 'react-cookies'
-import swal from 'sweetalert'
+import swal from '@sweetalert/with-react'
 import { fetchStudentEvents } from '../../actions/student'
 import { fetchTeacherEvents } from '../../actions/teacher'
 import { fetchEvent } from '../../actions/event'
 import CalendarLabels from '../../components/CalendarLabels'
+import EventAlert from '../../components/EventAlert'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -57,14 +58,11 @@ class BigCalendar extends Component {
       const bigCalendarEvents = events.map(event => {
         labels.add(event.programacion.tipo)
         return {
-          start: moment(event.fecha).toDate(),
-          end: moment(event.fecha)
-            .add(2, 'hours')
-            .toDate(),
+          start: moment(event.fechaInicio).toDate(),
+          end: moment(event.fechaFin).toDate(),
           title: event.grupo.asignatura.nombre,
           tipo: event.programacion.tipo,
           lugar: event.lugar.nombre,
-          hora: moment(event.fecha).format('h:mm a'),
         }
       })
 
@@ -83,12 +81,11 @@ class BigCalendar extends Component {
             popup
             onSelectEvent={e =>
               swal({
-                title: e.tipo,
-                text: `${e.title} ${e.lugar} ${e.hora}`,
+                content: <EventAlert event={e} />,
               })
             }
             eventPropGetter={event => ({
-              className: 'event-block event--' + event.tipo.replace(/\s+/g, '-').toLowerCase(),
+              className: `event-block event--${event.tipo.replace(/\s+/g, '-').toLowerCase()}`,
             })}
           />
         </Fragment>

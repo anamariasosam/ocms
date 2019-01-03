@@ -379,7 +379,7 @@ body {
 
 /* Actions */
 .action--image {
-  margin: 0 8px;
+  margin: 0 4px;
   vertical-align: middle;
 }
 
@@ -440,32 +440,68 @@ body {
   border: 1px solid #2b6f7f !important;
 }
 
-.event-block {
+.rbc-event.event-block {
   color: #fff;
 }
 
-.event--ceremonia-de-grados {
+.rbc-event.event--ceremonia-de-grados,
+.bullet--ceremonia-de-grados {
   background-color: #f6511d !important;
 }
 
-.event--supletorios-parciales {
+.rbc-event.event--supletorios-parciales,
+.bullet--supletorios-parciales {
   background-color: #ffb400 !important;
 }
 
-.event--examenes-finales {
+.rbc-event.event--examenes-finales,
+.bullet--examenes-finales {
   background-color: #00a6ed !important;
 }
 
-.event--programacion-académica {
+.rbc-event.event--programacion-académica,
+.bullet--programacion-académica {
   background-color: #7fb800 !important;
 }
 
-.event--examenes-parciales {
+.rbc-event.event--examenes-parciales,
+.bullet--examenes-parciales {
   background-color: #0d2c54 !important;
 }
 
-.event--supletorios-finales {
+.rbc-event.event--supletorios-finales,
+.bullet--supletorios-finales {
   background-color: #339989 !important;
+}
+
+.event--ceremonia-de-grados td.rbc-agenda-event-cell:before {
+  color: #f6511d;
+  content: '◼ ';
+}
+
+.event--supletorios-parciales td.rbc-agenda-event-cell:before {
+  color: #ffb400;
+  content: '◼ ';
+}
+
+.event--examenes-finales td.rbc-agenda-event-cell:before {
+  color: #00a6ed;
+  content: '◼ ';
+}
+
+.event--programacion-académica td.rbc-agenda-event-cell:before {
+  color: #7fb800;
+  content: '◼ ';
+}
+
+.event--examenes-parciales td.rbc-agenda-event-cell:before {
+  color: #0d2c54;
+  content: '◼ ';
+}
+
+.event--supletorios-finales td.rbc-agenda-event-cell:before {
+  color: #339989;
+  content: '◼ ';
 }
 
 .calendarLabels--container {
@@ -522,4 +558,12 @@ body {
 
 .center {
   text-align: center;
+}
+
+.rbc-row-segment .rbc-event-content {
+  white-space: pre-line;
+}
+
+.table--responsive {
+  overflow-x: auto;
 }

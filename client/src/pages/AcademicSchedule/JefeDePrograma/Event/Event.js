@@ -69,20 +69,22 @@ class Event extends Component {
 
         <div className="module--container">
           <h3>Eventos</h3>
-          <table className="table">
-            <thead className="thead">
-              <tr>
-                <th>ASIGNATURA</th>
-                <th>ENCARGADO</th>
-                <th>FECHA</th>
-                <th>HORA</th>
-                <th>AFORO</th>
-                <th>LUGAR</th>
-                <th>ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderEvents()}</tbody>
-          </table>
+          <div className="table--responsive">
+            <table className="table">
+              <thead className="thead">
+                <tr>
+                  <th>ASIGNATURA</th>
+                  <th>ENCARGADO</th>
+                  <th>FECHA</th>
+                  <th>HORA</th>
+                  <th>AFORO</th>
+                  <th>LUGAR</th>
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>{this.renderEvents()}</tbody>
+            </table>
+          </div>
 
           <Link
             to={{
@@ -114,8 +116,8 @@ class Event extends Component {
         <tr key={event._id}>
           <td>{`${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`}</td>
           <td>{event.encargado.nombre}</td>
-          <td>{moment(event.fecha).format('l')}</td>
-          <td>{moment(event.fecha).format('h:mm a')}</td>
+          <td>{moment(event.fechaInicio).format('l')}</td>
+          <td>{moment(event.fechaInicio).format('h:mm a')}</td>
           <td>{event.aforo}</td>
           <td>{event.lugar.nombre}</td>
           <td>

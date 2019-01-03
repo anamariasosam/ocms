@@ -4,10 +4,7 @@ const year = () => new Date().getFullYear()
 
 const FooterCredits = () => (
   <div className="footer--copyright">
-    <p>
-      Copyright ©{year()}
-      OCMS Project - Universidad de Medellín
-    </p>
+    <p>Copyright ©{year()} OCMS Project - Universidad de Medellín</p>
   </div>
 )
 

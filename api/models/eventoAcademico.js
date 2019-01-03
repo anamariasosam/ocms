@@ -5,7 +5,8 @@ const mongoose = require('mongoose'),
 const EventoAcademico = new Schema(
   {
     nombre: String,
-    fecha: Date,
+    fechaInicio: Date,
+    fechaFin: Date,
     aforo: Number,
     grupo: {
       type: ObjectId,

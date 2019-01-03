@@ -18,7 +18,8 @@ class EventCreateForm extends Component {
 
     this.asignatura = React.createRef()
     this.encargado = React.createRef()
-    this.fecha = React.createRef()
+    this.fechaInicio = React.createRef()
+    this.fechaFin = React.createRef()
     this.aforo = React.createRef()
     this.grupo = React.createRef()
     this.lugar = React.createRef()
@@ -37,7 +38,8 @@ class EventCreateForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    const fecha = this.fecha.current.value
+    const fechaInicio = this.fechaInicio.current.value
+    const fechaFin = this.fechaFin.current.value
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
     const lugar = this.lugar.current.value
@@ -48,7 +50,8 @@ class EventCreateForm extends Component {
     const { _id: programacion, nombre: programacionNombre } = schedule
 
     const data = {
-      fecha,
+      fechaInicio,
+      fechaFin,
       aforo,
       grupo,
       encargado,
@@ -89,10 +92,27 @@ class EventCreateForm extends Component {
             </label>
             <input type="number" id="aforo" className="input" ref={this.aforo} required />
 
-            <label htmlFor="fecha" className="required label">
-              Fecha / Hora:
+            <label htmlFor="fechaInicio" className="required label">
+              Fecha / Hora - Inicio:
             </label>
-            <input type="datetime-local" id="fecha" className="input" ref={this.fecha} required />
+            <input
+              type="datetime-local"
+              id="fechaInicio"
+              className="input"
+              ref={this.fechaInicio}
+              required
+            />
+
+            <label htmlFor="fechaFin" className="required label">
+              Fecha / Hora - Fin:
+            </label>
+            <input
+              type="datetime-local"
+              id="fechaFin"
+              className="input"
+              ref={this.fechaFin}
+              required
+            />
 
             <label htmlFor="lugar" className="required label">
               Lugar:

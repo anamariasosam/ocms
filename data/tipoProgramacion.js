@@ -11,15 +11,15 @@ module.exports = [
   },
   {
     _id: ObjectId('5c0fca8539336a4fc02a2e63'),
-    nombre: 'Examenes Finales',
+    nombre: 'Exámenes Finales',
   },
   {
     _id: ObjectId('5c0fca8539336a4fc02a2e64'),
-    nombre: 'Programacion Académica',
+    nombre: 'Programación Académica',
   },
   {
     _id: ObjectId('5c0fca8539336a4fc02a2e65'),
-    nombre: 'Examenes Parciales',
+    nombre: 'Exámenes Parciales',
   },
   {
     _id: ObjectId('5c0fca8539336a4fc02a2e66'),

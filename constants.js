@@ -5,7 +5,7 @@
 
 exports.CEREMONIA_DE_GRADOS = 'Ceremonia de Grados'
 exports.SUPLETORIOS_PARCIALES = 'Supletorios Parciales'
-exports.EXAMENES_FINALES = 'Examenes Finales'
-exports.PROGRAMACION_ACADEMICA = 'Programacion Académica'
-exports.EXAMENES_PARCIALES = 'Examenes Parciales'
+exports.EXAMENES_FINALES = 'Exámenes Finales'
+exports.PROGRAMACION_ACADEMICA = 'Programación Académica'
+exports.EXAMENES_PARCIALES = 'Exámenes Parciales'
 exports.SUPLETORIOS_FINALES = 'Supletorios Finales'
