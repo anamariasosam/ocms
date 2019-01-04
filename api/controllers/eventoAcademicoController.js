@@ -6,7 +6,8 @@ const mongoose = require('mongoose'),
   GrupoUsuario = mongoose.model('GrupoUsuario'),
   Asignatura = mongoose.model('Asignatura'),
   Grupo = mongoose.model('Grupo'),
-  utils = require('../handlers/utils')
+  utils = require('../handlers/utils'),
+  PROGRAMACION_ACADEMICA = require('../../constants').PROGRAMACION_ACADEMICA
 
 const lugar = {
   path: 'lugar',
@@ -186,7 +187,7 @@ const getEventosAcademicos = eventosAcademicos => {
     const hora = moment(evento.fechaInicio)
       .utc()
       .format('h:mm a')
-    const nombre = evento.grupo.asignatura.nombre
+    const nombre = (evento.grupo && evento.grupo.asignatura.nombre) || evento.nombre
     const lugar = evento.lugar.nombre
     const tipo = evento.programacion.tipo
 
@@ -234,31 +235,36 @@ exports.calendario = (req, res) => {
     }
 
     GrupoUsuario.find({ usuario, tipo }).exec((err, usuarios) => {
-      const ids = usuarios.map(usuario => usuario.grupo._id)
+      const grupoIds = usuarios.map(usuario => usuario.grupo._id)
 
-      EventoAcademico.find({
-        fecha: {
-          $gt: fechaInicio,
-          $lt: fechaFin,
-        },
-        grupo: { $in: ids },
-      })
-        .populate('encargado', 'nombre')
-        .populate('programacion', 'tipo')
-        .populate(lugar)
-        .populate(grupo)
-        .sort('fechaInicio')
-        .exec((err, eventosAcademicos) => {
-          const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
-          const eventosAgenda = getEventosAcademicos(eventosAcademicos)
+      Programacion.find({ tipo: PROGRAMACION_ACADEMICA }).exec((err, programacion) => {
+        const programacionIds = programacion.map(p => p._id)
 
-          const eventos = Object.assign(fechasCalendario, eventosAgenda)
-
-          res.status(200).json({
-            agenda,
-            eventos,
-          })
+        EventoAcademico.find({
+          fechaInicio: {
+            $gt: fechaInicio,
+            $lt: fechaFin,
+          },
         })
+          .or([{ grupo: { $in: grupoIds } }, { programacion: { $in: programacionIds } }])
+          .populate('encargado', 'nombre')
+          .populate('programacion', 'tipo')
+          .populate(lugar)
+          .populate(grupo)
+          .sort('fechaInicio')
+          .exec((err, eventosAcademicos) => {
+            const fechasCalendario = crearCalendario(fechaInicio, fechaFin)
+
+            const eventosAgenda = getEventosAcademicos(eventosAcademicos)
+
+            const eventos = Object.assign(fechasCalendario, eventosAgenda)
+
+            res.status(200).json({
+              agenda,
+              eventos,
+            })
+          })
+      })
     })
   })
 }

@@ -1,7 +1,7 @@
 exports.show = function(res, err, data) {
   if (err) {
-    res.status(500).send({
-      message: 'Some error occurred while retrieving data.',
+    res.status(422).send({
+      error: 'Ocurrió un error, revisa la información',
       description: err,
     })
   } else {
