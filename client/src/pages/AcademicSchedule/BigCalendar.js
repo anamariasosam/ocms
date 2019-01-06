@@ -78,7 +78,6 @@ class BigCalendar extends Component {
             startAccessor="start"
             endAccessor="end"
             defaultDate={moment(calendarDate).toDate()}
-            popup
             onSelectEvent={e =>
               swal({
                 content: <EventAlert event={e} />,
