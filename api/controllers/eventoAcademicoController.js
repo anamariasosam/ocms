@@ -95,40 +95,53 @@ exports.createMultipleEvents = (req, res) => {
   const { eventos, programacion, programacionNombre } = req.body
 
   const asignaturas = Object.keys(eventos)
-
   asignaturas.map(asignatura => {
     Grupo.find({ asignatura }).exec((err, grupos) => {
       grupos.map(grupo => {
         const grupoId = grupo._id
 
-        GrupoUsuario.findOne({ grupo: grupoId, tipo: 'Profesor', semestre: '2018-2' }).exec(
-          async (err, grupo) => {
-            const contadorEventos = await EventoAcademico.count({ programacion })
-            const nombre = `${programacionNombre}-${contadorEventos + 1}`
+        EventoAcademico.findOne({ programacion, grupo: grupoId }).exec((err, evento) => {
+          if (evento) {
+            const { nombre } = evento
+            EventoAcademico.findOneAndUpdate(
+              { nombre },
+              {
+                fechaInicio: eventos[asignatura],
+                fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
+              },
+              { new: true },
+              (err, evento) => {},
+            )
+          } else {
+            const semestre = programacionNombre.slice(0, 6)
+            GrupoUsuario.findOne({ grupo: grupoId, tipo: 'Profesor', semestre }).exec(
+              async (err, grupo) => {
+                const contadorEventos = await EventoAcademico.count({ programacion })
+                const nombre = `${programacionNombre}-${contadorEventos + 1}`
 
-            const evento = {
-              nombre,
-              fechaInicio: eventos[asignatura],
-              fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
-              aforo: 30,
-              grupo: grupoId,
-              encargado: grupo.usuario,
-              programacion,
-              lugar: '5c1940efbfe2bf4774a2186a',
-            }
+                const evento = {
+                  nombre,
+                  fechaInicio: eventos[asignatura],
+                  fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
+                  aforo: 30,
+                  grupo: grupoId,
+                  //encargado: grupo.usuario,
+                  programacion,
+                  lugar: '5c1940efbfe2bf4774a2186a',
+                }
 
-            const eventoAcademico = new EventoAcademico(evento)
+                const eventoAcademico = new EventoAcademico(evento)
 
-            eventoAcademico.save()
-          },
-        )
+                eventoAcademico.save()
+              },
+            )
+          }
+        })
       })
     })
   })
 
-  res.status(200).json({
-    creado: 'hi',
-  })
+  res.status(200).json(asignaturas)
 }
 
 exports.update = (req, res) => {

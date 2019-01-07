@@ -24,7 +24,6 @@ export const createEvent = data => {
 export const createEvents = data => {
   const redirect = `/calendarioAcademico/evento/show/${data.programacionNombre}`
   const url = '/eventosAcademicos/eventos'
-
   return dispatch => postData(CREATE_EVENT, EVENT_ERROR, true, url, dispatch, data, redirect)
 }
 
@@ -63,7 +62,7 @@ export const fetchPlaces = () => {
   return dispatch => getData(FETCH_PLACES, EVENT_ERROR, false, url, dispatch)
 }
 
-export const fetchAsignaturasEventos = () => {
-  const url = '/asignaturas/eventos?programacionNombre=2018-2-1'
-  return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch)
+export const fetchAsignaturasEventos = params => {
+  const url = '/asignaturas/eventos'
+  return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch, params)
 }

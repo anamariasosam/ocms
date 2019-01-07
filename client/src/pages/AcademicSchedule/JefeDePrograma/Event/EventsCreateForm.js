@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import AditionalInfo from '../../../../components/AditionalInfo'
-import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
 import { fetchAsignaturas, createEvents, fetchAsignaturasEventos } from '../../../../actions/event'
 
@@ -11,6 +11,7 @@ class EventsCreateForm extends Component {
     super(props)
 
     this.fecha = React.createRef()
+    this.toolbarDOM = React.createRef()
 
     this.state = {
       eventos: {},
@@ -21,9 +22,26 @@ class EventsCreateForm extends Component {
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchAsignaturasEventos } = this.props
+    const { fetchAsignaturas, fetchAsignaturasEventos, location } = this.props
+    const { schedule } = location.state
     fetchAsignaturas()
-    fetchAsignaturasEventos()
+    fetchAsignaturasEventos({ programacionNombre: schedule.nombre })
+    document.addEventListener('scroll', this.handleSticky.bind(this))
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handleSticky.bind(this))
+  }
+
+  handleSticky() {
+    const scroll = window.innerHeight + window.pageYOffset
+    const limit = document.body.offsetHeight - 450
+
+    if (scroll > limit) {
+      this.toolbarDOM.current.style.bottom = scroll - limit + 'px'
+    } else {
+      this.toolbarDOM.current.style.bottom = 0
+    }
   }
 
   handleSubmit(e) {
@@ -83,8 +101,8 @@ class EventsCreateForm extends Component {
               </thead>
               <tbody>{this.renderAsignaturas()}</tbody>
             </table>
-            <div className="form--controls">
-              <input type="submit" value="Guardar" className="reset--button button" />
+            <div className="form--controls toolbar sticky-in" ref={this.toolbarDOM}>
+              <input type="submit" value="Guardar" className="reset--button button saveBtn" />
             </div>
           </form>
 
@@ -95,10 +113,13 @@ class EventsCreateForm extends Component {
   }
 
   renderAsignaturas() {
-    const { asignaturas } = this.props
+    const { asignaturas, events } = this.props
 
     return asignaturas.map(asignatura => {
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
+      const fecha = events[asignatura.nombre]
+      const fechaFormato = moment(fecha).format('YYYY-MM-DD[T]hh:mm')
+      const defaultValue = (fecha && fechaFormato) || ''
 
       return (
         <tr key={asignatura._id} className={rowClass}>
@@ -111,6 +132,7 @@ class EventsCreateForm extends Component {
               id={asignatura._id}
               className="input events--inputs"
               onChange={this.handleChange}
+              defaultValue={defaultValue}
             />
           </td>
         </tr>
@@ -119,14 +141,10 @@ class EventsCreateForm extends Component {
   }
 
   renderAlert() {
-    const { errorMessage, successMessage } = this.props
+    const { errorMessage } = this.props
 
     if (errorMessage) {
       return <Error description={errorMessage} />
-    }
-
-    if (successMessage) {
-      return <Success description={successMessage} />
     }
   }
 }
@@ -135,6 +153,7 @@ EventsCreateForm.propTypes = {
   fetchAsignaturas: PropTypes.func.isRequired,
   createEvents: PropTypes.func.isRequired,
   asignaturas: PropTypes.array.isRequired,
+  events: PropTypes.any.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
   location: PropTypes.object.isRequired,

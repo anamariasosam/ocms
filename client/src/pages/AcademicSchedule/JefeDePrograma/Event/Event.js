@@ -124,7 +124,7 @@ class Event extends Component {
             {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
               event.nombre}
           </td>
-          <td>{event.encargado.nombre}</td>
+          <td>{(event.encargado && event.encargado.nombre) || 'Pendiente'}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
           <td>{moment(event.fechaInicio).format('h:mm a')}</td>
           <td>{event.aforo}</td>
