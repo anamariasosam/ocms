@@ -4,7 +4,6 @@ const mongoose = require('mongoose'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
   GrupoUsuario = mongoose.model('GrupoUsuario'),
-  Asignatura = mongoose.model('Asignatura'),
   Grupo = mongoose.model('Grupo'),
   utils = require('../handlers/utils'),
   PROGRAMACION_ACADEMICA = require('../../constants').PROGRAMACION_ACADEMICA

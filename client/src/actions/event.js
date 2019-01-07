@@ -62,3 +62,8 @@ export const fetchPlaces = () => {
   const url = '/lugares'
   return dispatch => getData(FETCH_PLACES, EVENT_ERROR, false, url, dispatch)
 }
+
+export const fetchAsignaturasEventos = () => {
+  const url = '/asignaturas/eventos?programacionNombre=2018-2-1'
+  return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch)
+}

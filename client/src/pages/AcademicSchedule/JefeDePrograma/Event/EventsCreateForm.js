@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
-import { fetchAsignaturas, createEvents } from '../../../../actions/event'
+import { fetchAsignaturas, createEvents, fetchAsignaturasEventos } from '../../../../actions/event'
 
 class EventsCreateForm extends Component {
   constructor(props) {
@@ -21,8 +21,9 @@ class EventsCreateForm extends Component {
   }
 
   componentDidMount() {
-    const { fetchAsignaturas } = this.props
+    const { fetchAsignaturas, fetchAsignaturasEventos } = this.props
     fetchAsignaturas()
+    fetchAsignaturasEventos()
   }
 
   handleSubmit(e) {
@@ -140,7 +141,7 @@ EventsCreateForm.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, successMessage, asignaturas, grupos, profesores } = state.event
+  const { errorMessage, successMessage, asignaturas, grupos, profesores, events } = state.event
 
   return {
     errorMessage,
@@ -148,10 +149,11 @@ function mapStateToProps(state) {
     asignaturas,
     grupos,
     profesores,
+    events,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, createEvents },
+  { fetchAsignaturas, createEvents, fetchAsignaturasEventos },
 )(EventsCreateForm)
