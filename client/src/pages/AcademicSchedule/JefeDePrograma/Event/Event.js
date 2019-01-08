@@ -102,7 +102,7 @@ class Event extends Component {
           {allType && (
             <Link
               to={{
-                pathname: '/calendarioAcademico/eventos/create',
+                pathname: '/calendarioAcademico/evento/asignatura/',
                 state: { schedule: schedules },
               }}
               className="reset--link button"

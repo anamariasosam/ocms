@@ -251,7 +251,7 @@ body {
 .form--controls {
   width: 105%;
   margin-top: 30px;
-  text-align: right;
+  text-align: left;
 }
 
 .select--input {
@@ -553,6 +553,7 @@ body {
 
 .events--inputs {
   width: auto;
+  min-width: auto;
   margin: 0;
 }
 
@@ -573,7 +574,7 @@ body {
   width: 100%;
   padding: 10px;
   text-align: right;
-  background: white;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .sticky-in {
@@ -586,4 +587,9 @@ body {
 
 .saveBtn {
   display: block;
+}
+
+.isDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

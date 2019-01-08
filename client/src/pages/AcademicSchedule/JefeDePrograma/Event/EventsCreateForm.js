@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Error from '../../../../components/Error'
 import { fetchAsignaturas, createEvents, fetchAsignaturasEventos } from '../../../../actions/event'
@@ -19,6 +20,7 @@ class EventsCreateForm extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleSticky = this.handleSticky.bind(this)
   }
 
   componentDidMount() {
@@ -26,16 +28,16 @@ class EventsCreateForm extends Component {
     const { schedule } = location.state
     fetchAsignaturas()
     fetchAsignaturasEventos({ programacionNombre: schedule.nombre })
-    document.addEventListener('scroll', this.handleSticky.bind(this))
+    document.addEventListener('scroll', this.handleSticky)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleSticky.bind(this))
+    document.removeEventListener('scroll', this.handleSticky)
   }
 
   handleSticky() {
     const scroll = window.innerHeight + window.pageYOffset
-    const limit = document.body.offsetHeight - 450
+    const limit = document.body.offsetHeight - 500
 
     if (scroll > limit) {
       this.toolbarDOM.current.style.bottom = scroll - limit + 'px'
@@ -97,6 +99,7 @@ class EventsCreateForm extends Component {
                   <th>NOMBRE</th>
                   <th>CRÉDITOS</th>
                   <th>ELEGIR FECHA</th>
+                  <th>ACCIONES</th>
                 </tr>
               </thead>
               <tbody>{this.renderAsignaturas()}</tbody>
@@ -113,13 +116,16 @@ class EventsCreateForm extends Component {
   }
 
   renderAsignaturas() {
-    const { asignaturas, events } = this.props
-
+    const { asignaturas, events, match, location } = this.props
+    const { url } = match
+    const { schedule } = location.state
     return asignaturas.map(asignatura => {
+      const pathname = url + asignatura.nombre
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
       const fecha = events[asignatura.nombre]
       const fechaFormato = moment(fecha).format('YYYY-MM-DD[T]hh:mm')
       const defaultValue = (fecha && fechaFormato) || ''
+      const isDisabled = events[asignatura.nombre] ? '' : 'isDisabled'
 
       return (
         <tr key={asignatura._id} className={rowClass}>
@@ -134,6 +140,22 @@ class EventsCreateForm extends Component {
               onChange={this.handleChange}
               defaultValue={defaultValue}
             />
+          </td>
+          <td>
+            <Link
+              className={`reset--link ${isDisabled}`}
+              to={{
+                pathname,
+                state: { asignatura, fecha, schedule },
+              }}
+              title="Editar"
+            >
+              <img
+                src={require('../../../../images/edit.png')}
+                alt="edit"
+                className="action--image"
+              />
+            </Link>
           </td>
         </tr>
       )

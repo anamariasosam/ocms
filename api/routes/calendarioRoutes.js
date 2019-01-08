@@ -9,8 +9,6 @@ const requireAuth = passport.authenticate('jwt', { session: false })
 
 const router = express.Router()
 
-autenticacion.roleAuthorization(ROL_JEFE_DE_PROGRAMA)
-
 router.post(
   '/calendarios',
   requireAuth,

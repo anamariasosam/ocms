@@ -11,6 +11,7 @@ import EventsCreateForm from '../JefeDePrograma/Event/EventsCreateForm'
 import CalendarEditForm from '../JefeDePrograma/Calendar/CalendarEditForm'
 import AgendaEditForm from '../JefeDePrograma/Agenda/AgendaEditForm'
 import EventEditForm from '../JefeDePrograma/Event/EventEditForm'
+import EventAsignaturaEdit from '../JefeDePrograma/Event/EventAsignaturaEdit'
 
 const currentYear = 2018
 
@@ -63,12 +64,16 @@ export const jefeDeProgramaRoutes = [
     component: EventCreateForm,
   },
   {
-    path: '/calendarioAcademico/eventos/create',
+    path: '/calendarioAcademico/evento/asignatura/',
     component: EventsCreateForm,
   },
   {
     path: '/calendarioAcademico/evento/edit/:nombre/',
     component: EventEditForm,
+  },
+  {
+    path: '/calendarioAcademico/evento/asignatura/:nombre/',
+    component: EventAsignaturaEdit,
   },
   {
     path: '/calendarioAcademico/:programacionNombre?',

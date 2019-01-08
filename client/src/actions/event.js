@@ -66,3 +66,14 @@ export const fetchAsignaturasEventos = params => {
   const url = '/asignaturas/eventos'
   return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch, params)
 }
+
+export const fetchAsignaturaGrupos = params => {
+  const url = '/asignatura/grupos'
+  return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch, params)
+}
+
+export const updateGrupoEvent = data => {
+  const redirect = `/calendarioAcademico/evento/show/${data.data.programacionNombre}`
+  const url = '/asignatura/grupos'
+  return dispatch => putData(UPDATE_EVENT, EVENT_ERROR, true, url, dispatch, data, redirect)
+}
