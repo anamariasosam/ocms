@@ -66,8 +66,6 @@ class Event extends Component {
 
     return (
       <Fragment>
-        <h2>Eventos</h2>
-
         <AditionalInfo data={schedules} titles={titles} handleSelect={this.handleTipoEvento} />
 
         <div className="module--container">
@@ -77,7 +75,8 @@ class Event extends Component {
               <thead className="thead">
                 <tr>
                   <th>NOMBRE</th>
-                  <th>ENCARGADO</th>
+                  <th>DOCENTE</th>
+                  <th>OBSERVADOR</th>
                   <th>FECHA</th>
                   <th>HORA</th>
                   <th>AFORO</th>
@@ -107,7 +106,7 @@ class Event extends Component {
               }}
               className="reset--link button"
             >
-              + Múltiples Eventos
+              Múltiples Eventos
             </Link>
           )}
         </div>
@@ -120,11 +119,12 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td>
+          <td className="fixedWidth">
             {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
               event.nombre}
           </td>
-          <td>{(event.encargado && event.encargado.nombre) || 'Pendiente'}</td>
+          <td className="fixedWidth">{event.docente.nombre}</td>
+          <td className="fixedWidth">{event.encargado.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
           <td>{moment(event.fechaInicio).format('h:mm a')}</td>
           <td>{event.aforo}</td>

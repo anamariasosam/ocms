@@ -32,7 +32,6 @@ class SelectInput extends Component {
     if (this.props.type === 'semestre') {
       return (
         <Fragment>
-          <option value="2018-2">2018-2</option>
           <option value="2019-1">2019-1</option>
           <option value="2019-2">2019-2</option>
           <option value="2020-1">2020-1</option>

@@ -2,10 +2,6 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 module.exports = [
   {
-    _id: ObjectId('5c0fca8539336a4fc02a2e61'),
-    nombre: 'Ceremonia de Grados',
-  },
-  {
     _id: ObjectId('5c0fca8539336a4fc02a2e62'),
     nombre: 'Supletorios Parciales',
   },

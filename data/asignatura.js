@@ -4,6 +4,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653571'),
     nombre: 'Actividad deportiva o cultural',
+    troncoComun: true,
     creditos: 0,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -11,6 +12,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653572'),
     nombre: 'Algebra y Trigonometría',
+    troncoComun: true,
     creditos: 3,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -18,6 +20,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653573'),
     nombre: 'Análisis Geométrico',
+    troncoComun: true,
     creditos: 4,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -25,6 +28,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653574'),
     nombre: 'Introducción a la Ingeniería de Sistemas',
+    troncoComun: false,
     creditos: 2,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -32,6 +36,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653575'),
     nombre: 'Fundamentos de Programación',
+    troncoComun: false,
     creditos: 3,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -39,6 +44,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653576'),
     nombre: 'Expresión Escrita',
+    troncoComun: true,
     creditos: 3,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -46,6 +52,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653577'),
     nombre: 'Programación Orientada a Objetos',
+    troncoComun: false,
     creditos: 2,
     nivel: 1,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -53,6 +60,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653578'),
     nombre: 'Algebra Lineal',
+    troncoComun: true,
     creditos: 3,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -60,6 +68,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653579'),
     nombre: 'Cálculo Diferencial',
+    troncoComun: true,
     creditos: 3,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -67,6 +76,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357a'),
     nombre: 'Matemáticas Especiales',
+    troncoComun: false,
     creditos: 3,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -74,6 +84,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357b'),
     nombre: 'Lenguajes de Programación I',
+    troncoComun: false,
     creditos: 3,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -81,6 +92,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357c'),
     nombre: 'Expresión Gráfica',
+    troncoComun: true,
     creditos: 2,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -88,6 +100,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357d'),
     nombre: 'Ciencia y Libertad',
+    troncoComun: true,
     creditos: 2,
     nivel: 2,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -95,6 +108,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357e'),
     nombre: 'Cálculo Integral',
+    troncoComun: true,
     creditos: 3,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -102,6 +116,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465357f'),
     nombre: 'Lenguajes de Programación II',
+    troncoComun: false,
     creditos: 2,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -109,6 +124,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653580'),
     nombre: 'Física I',
+    troncoComun: true,
     creditos: 3,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -116,6 +132,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653581'),
     nombre: 'Estructura de Datos',
+    troncoComun: false,
     creditos: 3,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -123,6 +140,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653582'),
     nombre: 'Sistemas de Información y Organizaciones I',
+    troncoComun: false,
     creditos: 2,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -130,6 +148,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653583'),
     nombre: 'Legislación',
+    troncoComun: false,
     creditos: 3,
     nivel: 3,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -137,6 +156,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653584'),
     nombre: 'Cálculo de Varias Variables',
+    troncoComun: true,
     creditos: 3,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -144,6 +164,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653585'),
     nombre: 'Física II',
+    troncoComun: true,
     creditos: 3,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -151,6 +172,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653586'),
     nombre: 'Estadística y Probabilidad',
+    troncoComun: true,
     creditos: 3,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -158,6 +180,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653587'),
     nombre: 'Ingeniería de Software I',
+    troncoComun: false,
     creditos: 2,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -165,6 +188,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653588'),
     nombre: 'Electrónica Básica',
+    troncoComun: false,
     creditos: 3,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -172,6 +196,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653589'),
     nombre: 'Bases de Datos',
+    troncoComun: false,
     creditos: 3,
     nivel: 4,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -179,6 +204,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358a'),
     nombre: 'Ecuaciones Diferenciales',
+    troncoComun: true,
     creditos: 3,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -186,6 +212,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358b'),
     nombre: 'Libre Elección I',
+    troncoComun: true,
     creditos: 2,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -193,6 +220,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358c'),
     nombre: 'Estadística Aplicada',
+    troncoComun: true,
     creditos: 3,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -200,6 +228,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358d'),
     nombre: 'Ingeniería de Software II',
+    troncoComun: false,
     creditos: 2,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -207,6 +236,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358e'),
     nombre: 'Telemática',
+    troncoComun: false,
     creditos: 3,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -214,6 +244,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465358f'),
     nombre: 'Desarrollo Software en la WEB',
+    troncoComun: false,
     creditos: 3,
     nivel: 5,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -221,6 +252,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653590'),
     nombre: 'Ciberseguridad',
+    troncoComun: false,
     creditos: 3,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -228,6 +260,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653591'),
     nombre: 'Técnicas Avanzadas en Bases de Datos',
+    troncoComun: false,
     creditos: 3,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -235,6 +268,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653592'),
     nombre: 'Libre Elección II',
+    troncoComun: true,
     creditos: 2,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -242,6 +276,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653593'),
     nombre: 'Investigación de Operaciones I',
+    troncoComun: false,
     creditos: 3,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -249,6 +284,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653594'),
     nombre: 'Ingeniería de Software III',
+    troncoComun: false,
     creditos: 2,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -256,6 +292,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653595'),
     nombre: 'Sistemas Digitales',
+    troncoComun: false,
     creditos: 3,
     nivel: 6,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -263,6 +300,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653596'),
     nombre: 'Arquitectura del Computador',
+    troncoComun: false,
     creditos: 3,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -270,6 +308,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653597'),
     nombre: 'Sistemas de Información y Organizaciones II',
+    troncoComun: false,
     creditos: 3,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -277,6 +316,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653598'),
     nombre: 'Ingeniería de Software IV',
+    troncoComun: false,
     creditos: 3,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -284,6 +324,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c54863124653599'),
     nombre: 'Investigación de Operaciones II',
+    troncoComun: false,
     creditos: 3,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -291,6 +332,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359a'),
     nombre: 'Libre Elección III',
+    troncoComun: true,
     creditos: 2,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -298,6 +340,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359b'),
     nombre: 'Tópicos especiales en Algoritmos',
+    troncoComun: false,
     creditos: 2,
     nivel: 7,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
@@ -305,6 +348,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359c'),
     nombre: 'Análisis Numérico',
+    troncoComun: false,
     creditos: 3,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -312,6 +356,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359d'),
     nombre: 'Taller Ingeniería de Software',
+    troncoComun: false,
     creditos: 3,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -319,6 +364,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359e'),
     nombre: 'Sistemas Operativos',
+    troncoComun: false,
     creditos: 3,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -326,6 +372,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c5486312465359f'),
     nombre: 'Ingeniería de Software V',
+    troncoComun: false,
     creditos: 3,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -333,6 +380,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a0'),
     nombre: 'Tópicos especiales en ambientes Computacionales',
+    troncoComun: false,
     creditos: 2,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -340,6 +388,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a1'),
     nombre: 'Formulación y Evaluación de Proyectos',
+    troncoComun: true,
     creditos: 3,
     nivel: 8,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),
@@ -347,13 +396,15 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a2'),
     nombre: 'Trabajo de grado - Práctica',
+    troncoComun: true,
     creditos: 12,
-    nivel: 12,
+    nivel: 9,
     uoc: ObjectId('5c0fd908ebe50e2ff4589021'),
   },
   {
     _id: ObjectId('5c0fd9d24c548631246535a3'),
     nombre: 'Línea de Énfasis I',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589022'),
@@ -361,6 +412,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a4'),
     nombre: 'Línea de Énfasis II',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589023'),
@@ -368,6 +420,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a5'),
     nombre: 'Línea de Énfasis III',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589024'),
@@ -375,6 +428,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a6'),
     nombre: 'Línea de Énfasis IV',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589025'),
@@ -382,6 +436,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a7'),
     nombre: 'Línea de Énfasis V',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589026'),
@@ -389,6 +444,7 @@ module.exports = [
   {
     _id: ObjectId('5c0fd9d24c548631246535a8'),
     nombre: 'Línea de Énfasis VI',
+    troncoComun: false,
     creditos: 2,
     nivel: 10,
     uoc: ObjectId('5c0fd908ebe50e2ff4589027'),

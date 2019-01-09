@@ -37,7 +37,7 @@ class EventsCreateForm extends Component {
 
   handleSticky() {
     const scroll = window.innerHeight + window.pageYOffset
-    const limit = document.body.offsetHeight - 500
+    const limit = document.body.offsetHeight - 450
 
     if (scroll > limit) {
       this.toolbarDOM.current.style.bottom = scroll - limit + 'px'
@@ -130,7 +130,7 @@ class EventsCreateForm extends Component {
       return (
         <tr key={asignatura._id} className={rowClass}>
           <td className="center">{asignatura.nivel}</td>
-          <td>{asignatura.nombre}</td>
+          <td className="fixedWidth">{asignatura.nombre}</td>
           <td className="center">{asignatura.creditos}</td>
           <td>
             <input

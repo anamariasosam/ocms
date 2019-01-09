@@ -4,7 +4,7 @@ const mongoose = require('mongoose'),
 
 const Lugar = new Schema(
   {
-    numero: Number,
+    numero: String,
     bloque: Number,
     capacidad: Number,
     observaciones: {

@@ -94,7 +94,8 @@ class Event extends Component {
                 <thead className="thead">
                   <tr>
                     <th>NOMBRE</th>
-                    <th>ENCARGADO</th>
+                    <th>DOCENTE</th>
+                    <th>OBSERVADOR</th>
                     <th>AFORO</th>
                     <th>LUGAR</th>
                   </tr>
@@ -118,11 +119,11 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td>
-            {' '}
+          <td className="fixedWidth">
             {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
               event.nombre}
           </td>
+          <td>{event.docente.nombre}</td>
           <td>
             <select
               className="input select--input events--inputs"

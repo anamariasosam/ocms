@@ -8,11 +8,7 @@
       "production": "https://ocms-udem.herokuapp.com"
     }
   },
-  "proxy": {
-    "/api": {
-      "target": "http://localhost:3001/"
-    }
-  },
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@sweetalert/with-react": "^0.1.1",
     "axios": "^0.18.0",

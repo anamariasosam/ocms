@@ -13,7 +13,7 @@ import AgendaEditForm from '../JefeDePrograma/Agenda/AgendaEditForm'
 import EventEditForm from '../JefeDePrograma/Event/EventEditForm'
 import EventAsignaturaEdit from '../JefeDePrograma/Event/EventAsignaturaEdit'
 
-const currentYear = 2018
+const currentYear = new Date().getFullYear()
 
 export const jefeDeProgramaMenu = [
   {
@@ -21,11 +21,11 @@ export const jefeDeProgramaMenu = [
     name: 'Calendarios',
   },
   {
-    path: `/calendarioAcademico/programacion/show/${currentYear}-2`,
+    path: `/calendarioAcademico/programacion/show/${currentYear}-1`,
     name: 'Programaciones',
   },
   {
-    path: `/calendarioAcademico/evento/show/${currentYear}-2-1`,
+    path: `/calendarioAcademico/evento/show/${currentYear}-1-1`,
     name: 'Eventos',
   },
 ]

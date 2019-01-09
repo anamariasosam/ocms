@@ -48,6 +48,7 @@ exports.eventos = (req, res) => {
     const programacionId = programacion._id
     EventoAcademico.find({ programacion: programacionId })
       .populate('encargado', 'nombre')
+      .populate('docente', 'nombre')
       .populate(lugar)
       .populate('programacion', 'tipo')
       .populate(grupo)

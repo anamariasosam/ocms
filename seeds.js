@@ -23,7 +23,7 @@ const eventoAcademicoData = require('./data/eventoAcademico')
 const lugarData = require('./data/lugar')
 
 db.then(async () => {
-  // await tipoProgramacion.insertMany(tipoProgramacionData)
+  //await tipoProgramacion.insertMany(tipoProgramacionData)
   // await calendario.insertMany(calendarioData)
   // await programacion.insertMany(programacionData)
 
@@ -31,12 +31,12 @@ db.then(async () => {
   //   await new usuario(usuarioData[i]).save()
   // }
 
-  // await uoc.insertMany(uocData)
+  //await uoc.insertMany(uocData)
   // await asignatura.insertMany(asignaturaData)
-  // await grupo.insertMany(grupoData)
-  // await grupoUsuario.insertMany(grupoUsuarioData)
+  //await grupo.insertMany(grupoData)
+  await grupoUsuario.insertMany(grupoUsuarioData)
   // await eventoAcademico.insertMany(eventoAcademicoData)
-  await lugar.insertMany(lugarData)
+  //await lugar.insertMany(lugarData)
 
   process.exit(1)
 })

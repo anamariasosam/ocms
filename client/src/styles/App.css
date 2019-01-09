@@ -360,6 +360,10 @@ body {
   border: 1px solid #ddd;
 }
 
+.fixedWidth {
+  max-width: 150px;
+}
+
 .table td:last-child {
   padding: 0.45rem;
   text-align: center;

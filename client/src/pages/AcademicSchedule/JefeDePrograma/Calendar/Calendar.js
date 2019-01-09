@@ -41,8 +41,6 @@ class Calendar extends Component {
   render() {
     return (
       <Fragment>
-        <h2>Calendarios</h2>
-
         <div className="module--container">
           <h3>Calendarios</h3>
           <table className="table">

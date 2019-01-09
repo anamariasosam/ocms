@@ -40,6 +40,7 @@ exports.eventos = (req, res) => {
 
     EventoAcademico.find({ grupo: { $in: grupoIds } })
       .populate('encargado', 'nombre')
+      .populate('docente', 'nombre')
       .populate(lugar)
       .populate(grupo)
       .exec((err, eventosAcademicos) => {

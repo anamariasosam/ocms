@@ -16,6 +16,10 @@ const Asignatura = new Schema({
     type: ObjectId,
     ref: 'UOC',
   },
+  troncoComun: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 module.exports = mongoose.model('Asignatura', Asignatura)

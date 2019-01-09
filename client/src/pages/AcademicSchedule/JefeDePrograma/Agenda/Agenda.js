@@ -58,8 +58,6 @@ class Agenda extends Component {
     const { schedules, calendars } = this.props
     return (
       <Fragment>
-        <h2>Programaciones</h2>
-
         <AditionalInfo data={calendars} titles={titles} handleSelect={this.handleSemestre} />
 
         <div className="module--container">
