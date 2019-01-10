@@ -145,6 +145,8 @@ class EventCreateForm extends Component {
     const { grupos, location } = this.props
     const { schedule } = location.state
 
+    console.log(schedule.tipo)
+
     if (schedule.tipo === 'Programación Académica') {
       return (
         <Fragment>

@@ -14,7 +14,6 @@ class Event extends Component {
     super(props)
 
     this.handleDelete = this.handleDelete.bind(this)
-    this.handleTipoEvento = this.handleTipoEvento.bind(this)
   }
 
   componentDidMount() {
@@ -34,15 +33,9 @@ class Event extends Component {
     fetchEvent({ programacionNombre: nombre })
   }
 
-  handleTipoEvento(nombre) {
-    console.log(nombre)
-  }
-
   handleUrls(id) {
     const urls = ['/calendarioAcademico/', '/calendarioAcademico/evento/edit/']
-    return urls.map(url => {
-      return url.concat(id)
-    })
+    return urls.map(url => url.concat(id))
   }
 
   handleDelete(id) {
@@ -60,7 +53,7 @@ class Event extends Component {
   }
 
   render() {
-    const { schedules } = this.props
+    const { schedules, events } = this.props
     const { tipo, nombre } = schedules
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
     const allType = schedules.tipo !== 'Programación Académica'
@@ -69,27 +62,34 @@ class Event extends Component {
 
     return (
       <Fragment>
-        <AditionalInfo data={schedules} titles={titles} handleSelect={this.handleTipoEvento} />
+        <AditionalInfo data={schedules} titles={titles} />
 
         <div className="module--container">
           <h3>Eventos</h3>
           <div className="table--responsive">
-            <table className="table" id="eventsTable">
-              <thead className="thead">
-                <tr>
-                  <th>GRUPO</th>
-                  <th className="fixedWidth">NOMBRE ASIGNATURA</th>
-                  <th>FECHA</th>
-                  <th className="hora-th">HORARIO</th>
-                  <th className="aforo-th">N° ESTUDIANTES</th>
-                  <th className="aula-th">AULA</th>
-                  <th className="fixedWidth">DOCENTE</th>
-                  <th className="fixedWidth">OBSERVADOR</th>
-                  <th>ACCIONES</th>
-                </tr>
-              </thead>
-              <tbody>{this.renderEvents()}</tbody>
-            </table>
+            {events.length > 0 ? (
+              <table className="table" id="eventsTable">
+                <thead className="thead">
+                  <tr>
+                    <th>GRUPO</th>
+                    <th className="fixedWidth">NOMBRE ASIGNATURA</th>
+                    <th>FECHA</th>
+                    <th className="hora-th">HORARIO</th>
+                    <th className="aforo-th">N° ESTUDIANTES</th>
+                    <th className="aula-th">AULA</th>
+                    <th className="fixedWidth">DOCENTE</th>
+                    <th className="fixedWidth">OBSERVADOR</th>
+                    <th>ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderEvents()}</tbody>
+              </table>
+            ) : (
+              <div>
+                <p>No hay eventos todavía...</p>
+                <br />
+              </div>
+            )}
           </div>
 
           <Link
@@ -134,9 +134,11 @@ class Event extends Component {
           <td className="center">{event.grupo && event.grupo.nombre}</td>
           <td>{(event.grupo && event.grupo.asignatura.nombre) || event.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
-          <td>{`${moment(event.fechaInicio).format('HH:mm')}-${moment(event.fechaFin).format(
-            'HH:mm',
-          )}`}</td>
+          <td>
+            {`${moment(event.fechaInicio).format('HH:mm')}
+            -
+            ${moment(event.fechaFin).format('HH:mm')}`}
+          </td>
           <td className="center">{event.aforo}</td>
           <td>{event.lugar.nombre}</td>
           <td>{event.docente.nombre}</td>

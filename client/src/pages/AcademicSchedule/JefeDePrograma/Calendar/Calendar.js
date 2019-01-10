@@ -39,21 +39,30 @@ class Calendar extends Component {
   }
 
   render() {
+    const { calendars } = this.props
+
     return (
       <Fragment>
         <div className="module--container">
           <h3>Calendarios</h3>
-          <table className="table">
-            <thead className="thead">
-              <tr>
-                <th>SEMESTRE</th>
-                <th>FECHA INICIO</th>
-                <th>FECHA FIN</th>
-                <th>ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderCalendars()}</tbody>
-          </table>
+          {calendars.length > 0 ? (
+            <table className="table">
+              <thead className="thead">
+                <tr>
+                  <th>SEMESTRE</th>
+                  <th>FECHA INICIO</th>
+                  <th>FECHA FIN</th>
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>{this.renderCalendars()}</tbody>
+            </table>
+          ) : (
+            <div>
+              <p>No hay eventos todavía...</p>
+              <br />
+            </div>
+          )}
 
           <Link to="/calendarioAcademico/calendario/create" className="reset--link button">
             Añadir Calendario
