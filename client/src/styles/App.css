@@ -278,8 +278,9 @@ body {
   align-items: center;
   display: flex;
   width: 100%;
+  max-width: 250px;
   padding: 5px;
-  margin: 20px auto;
+  margin: 20px 0;
   -webkit-box-shadow: 0 0 8px #8c8c8c;
   box-shadow: 0 0 8px #8c8c8c;
   border: 1px solid transparent;
@@ -319,7 +320,7 @@ body {
 }
 
 .module--children-sidebar {
-  width: calc(100% - 305px);
+  width: calc(100% - 232px);
 }
 
 .module--children-fullWidth {
@@ -545,7 +546,7 @@ body {
   height: 8px;
 }
 
-.module-title--link {
+.defaultColor--link {
   color: black;
 }
 
@@ -574,10 +575,6 @@ body {
 
 .center {
   text-align: center;
-}
-
-.rbc-row-segment .rbc-event-content {
-  white-space: pre-line;
 }
 
 .table--responsive {
@@ -613,11 +610,31 @@ body {
   max-width: 40px;
 }
 
-.eventHour-td {
+.hora-th {
   min-width: 78px;
 }
 
 .aforo-th {
-  max-width: 51px;
+  max-width: 90px;
   word-break: break-word;
+}
+
+.aula-th {
+  min-width: 50px;
+}
+
+.rbc-show-more {
+  color: #000;
+}
+
+input:invalid + span:after {
+  padding-left: 5px;
+  color: 'red';
+  content: '✖';
+}
+
+input:valid + span:after {
+  padding-left: 5px;
+  color: 'green';
+  content: '✓';
 }

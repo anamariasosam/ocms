@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   Grupo = mongoose.model('Grupo'),
+  GrupoUsuario = mongoose.model('GrupoUsuario'),
   EventoAcademico = mongoose.model('EventoAcademico'),
   utils = require('../handlers/utils')
 
@@ -24,8 +25,14 @@ exports.show = (req, res) => {
       utils.show(res, err, grupo)
     })
   } else {
-    Grupo.find({})
-      .populate('asignatura', 'nombre')
+    GrupoUsuario.find({ semestre: '2019-1', tipo: 'Profesor' })
+      .populate({
+        path: 'grupo',
+        populate: {
+          path: 'asignatura',
+          select: 'nombre',
+        },
+      })
       .exec((err, grupos) => {
         utils.show(res, err, grupos)
       })

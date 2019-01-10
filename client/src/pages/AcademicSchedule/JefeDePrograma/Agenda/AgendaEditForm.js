@@ -55,6 +55,7 @@ class AgendaEditForm extends Component {
     const { tipoProgramacion, location } = this.props
     const titles = ['semestre', 'fecha Inicio', 'fecha Fin']
     const { calendar } = location.state
+    const { fechaInicio, fechaFin } = calendar
 
     this.renderAgendaValues()
     return (
@@ -74,16 +75,32 @@ class AgendaEditForm extends Component {
                 <option key={tipo._id}>{tipo.nombre}</option>
               ))}
             </select>
+
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
             </label>
-            <input type="date" id="fechaInicio" className="input" ref={this.fechaInicio} required />
+            <input
+              type="date"
+              id="fechaInicio"
+              className="input"
+              ref={this.fechaInicio}
+              required
+              min={fechaInicio.split('T')[0]}
+              max={fechaFin.split('T')[0]}
+            />
 
             <label htmlFor="fechaFin" className="required label">
               Fecha Fin:
             </label>
-            <input type="date" id="fechaFin" className="input" ref={this.fechaFin} required />
-
+            <input
+              type="date"
+              id="fechaFin"
+              className="input"
+              ref={this.fechaFin}
+              required
+              min={fechaInicio.split('T')[0]}
+              max={fechaFin.split('T')[0]}
+            />
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>

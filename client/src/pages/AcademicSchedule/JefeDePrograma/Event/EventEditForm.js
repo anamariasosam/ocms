@@ -86,6 +86,7 @@ class EventEditForm extends Component {
     const { profesores, location, lugares } = this.props
 
     const { schedule } = location.state
+    const { fechaInicio, fechaFin } = schedule
 
     this.renderEventValues()
     return (
@@ -99,7 +100,7 @@ class EventEditForm extends Component {
           <form onSubmit={this.handleSubmit}>
             {this.renderGroups()}
             <label htmlFor="encargado" className="required label">
-              Encargado:
+              Observador:
             </label>
             <select id="encargado" className="input select--input" ref={this.encargado}>
               {profesores.map(encargado => (
@@ -112,7 +113,7 @@ class EventEditForm extends Component {
             <label htmlFor="aforo" className="required label">
               Aforo:
             </label>
-            <input type="number" id="aforo" className="input" ref={this.aforo} required />
+            <input type="number" id="aforo" className="input" ref={this.aforo} required min="1" />
 
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
@@ -123,6 +124,8 @@ class EventEditForm extends Component {
               className="input"
               ref={this.fechaInicio}
               required
+              min={fechaInicio.split('.')[0]}
+              max={fechaFin.split('.')[0]}
             />
 
             <label htmlFor="fechaFin" className="required label">
@@ -134,6 +137,8 @@ class EventEditForm extends Component {
               className="input"
               ref={this.fechaFin}
               required
+              min={fechaInicio.split('.')[0]}
+              max={fechaFin.split('.')[0]}
             />
 
             <label htmlFor="lugar" className="required label">
@@ -181,11 +186,14 @@ class EventEditForm extends Component {
         </label>
         <select id="grupo" className="input select--input" ref={this.grupo}>
           {grupos &&
-            grupos.map(grupo => (
-              <option key={grupo._id} value={grupo._id}>
-                {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
-              </option>
-            ))}
+            grupos.map(grupoUsuario => {
+              const { grupo } = grupoUsuario
+              return (
+                <option key={grupo._id} value={grupo._id}>
+                  {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
+                </option>
+              )
+            })}
         </select>
       </Fragment>
     )

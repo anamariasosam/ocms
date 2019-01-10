@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import SelectInput from './SelectInput'
-
-const renderBox = (title, data, handleSelect) => {
+const renderBox = (title, data) => {
   const key = title.replace(/\s/g, '')
   const value =
     title.split(' ')[0] === 'fecha'
@@ -13,18 +11,9 @@ const renderBox = (title, data, handleSelect) => {
           .format('MMMM D YYYY')
       : data[key]
 
-  if (key === 'semestre') {
-    //const semestre = data.nombre && data.nombre.split('-').slice(0, -1).join('-')
-
-    return (
-      data[key] && (
-        <SelectInput handleSelectOption={handleSelect} defaultValue={data[key]} type={key} />
-      )
-    )
-  }
-
   return <span className="box">{value}</span>
 }
+
 const AditionalInfo = ({ data, titles, handleSelect }) => {
   return (
     <nav className="calendarInfo--container">

@@ -26,7 +26,7 @@ exports.show = (req, res) => {
       utils.show(res, err, asignatura)
     })
   } else {
-    Asignatura.find({})
+    Asignatura.find({ troncoComun: false })
       .sort('nivel')
       .exec((err, asignaturas) => {
         utils.show(res, err, asignaturas)

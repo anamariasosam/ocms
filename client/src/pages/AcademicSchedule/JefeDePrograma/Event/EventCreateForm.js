@@ -4,19 +4,12 @@ import { connect } from 'react-redux'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Success from '../../../../components/Success'
 import Error from '../../../../components/Error'
-import {
-  fetchAsignaturas,
-  fetchGrupos,
-  createEvent,
-  fetchAttendats,
-  fetchPlaces,
-} from '../../../../actions/event'
+import { fetchGrupos, createEvent, fetchAttendats, fetchPlaces } from '../../../../actions/event'
 
 class EventCreateForm extends Component {
   constructor(props) {
     super(props)
 
-    this.asignatura = React.createRef()
     this.encargado = React.createRef()
     this.fechaInicio = React.createRef()
     this.fechaFin = React.createRef()
@@ -29,9 +22,8 @@ class EventCreateForm extends Component {
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchGrupos, fetchAttendats, fetchPlaces } = this.props
+    const { fetchGrupos, fetchAttendats, fetchPlaces } = this.props
     fetchPlaces()
-    fetchAsignaturas()
     fetchGrupos()
     fetchAttendats()
   }
@@ -71,6 +63,8 @@ class EventCreateForm extends Component {
     const { profesores, location, lugares } = this.props
 
     const { schedule } = location.state
+    const { fechaInicio, fechaFin } = schedule
+
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -83,7 +77,7 @@ class EventCreateForm extends Component {
             {this.renderGroups()}
 
             <label htmlFor="encargado" className="required label">
-              Encargado:
+              Observador:
             </label>
             <select id="encargado" className="input select--input" ref={this.encargado}>
               {profesores.map(encargado => (
@@ -96,7 +90,7 @@ class EventCreateForm extends Component {
             <label htmlFor="aforo" className="required label">
               Aforo:
             </label>
-            <input type="number" id="aforo" className="input" ref={this.aforo} required />
+            <input type="number" id="aforo" className="input" ref={this.aforo} required min="1" />
 
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
@@ -107,6 +101,8 @@ class EventCreateForm extends Component {
               className="input"
               ref={this.fechaInicio}
               required
+              min={fechaInicio.split('.')[0]}
+              max={fechaFin.split('.')[0]}
             />
 
             <label htmlFor="fechaFin" className="required label">
@@ -118,6 +114,8 @@ class EventCreateForm extends Component {
               className="input"
               ref={this.fechaFin}
               required
+              min={fechaInicio.split('.')[0]}
+              max={fechaFin.split('.')[0]}
             />
 
             <label htmlFor="lugar" className="required label">
@@ -165,11 +163,15 @@ class EventCreateForm extends Component {
         </label>
         <select id="grupo" className="input select--input" ref={this.grupo}>
           {grupos &&
-            grupos.map(grupo => (
-              <option key={grupo._id} value={grupo._id}>
-                {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
-              </option>
-            ))}
+            grupos.map(grupoUsuario => {
+              const { grupo } = grupoUsuario
+
+              return (
+                <option key={grupo._id} value={grupo._id}>
+                  {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
+                </option>
+              )
+            })}
         </select>
       </Fragment>
     )
@@ -189,11 +191,9 @@ class EventCreateForm extends Component {
 }
 
 EventCreateForm.propTypes = {
-  fetchAsignaturas: PropTypes.func.isRequired,
   createEvent: PropTypes.func.isRequired,
   fetchGrupos: PropTypes.func.isRequired,
   fetchAttendats: PropTypes.func.isRequired,
-  asignaturas: PropTypes.array.isRequired,
   grupos: PropTypes.any.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
@@ -203,12 +203,11 @@ EventCreateForm.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, successMessage, asignaturas, grupos, profesores, lugares } = state.event
+  const { errorMessage, successMessage, grupos, profesores, lugares } = state.event
 
   return {
     errorMessage,
     successMessage,
-    asignaturas,
     grupos,
     profesores,
     lugares,
@@ -217,5 +216,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, fetchGrupos, createEvent, fetchAttendats, fetchPlaces },
+  { fetchGrupos, createEvent, fetchAttendats, fetchPlaces },
 )(EventCreateForm)

@@ -8,6 +8,8 @@ import {
   fetchPlaces,
   updateGrupoEvent,
 } from '../../../../actions/event'
+import Success from '../../../../components/Success'
+import Error from '../../../../components/Error'
 
 class Event extends Component {
   constructor(props) {
@@ -108,9 +110,22 @@ class Event extends Component {
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>
           </form>
+
+          {this.renderAlert()}
         </div>
       </Fragment>
     )
+  }
+
+  renderAlert() {
+    const { errorMessage, successMessage } = this.props
+
+    if (errorMessage) {
+      return <Error description={errorMessage} />
+    }
+    if (successMessage) {
+      return <Success description={successMessage} />
+    }
   }
 
   renderEvents() {
@@ -179,11 +194,12 @@ Event.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, events, profesores, lugares } = state.event
+  const { errorMessage, successMessage, events, profesores, lugares } = state.event
 
   return {
     errorMessage,
     events,
+    successMessage,
     profesores,
     lugares,
   }

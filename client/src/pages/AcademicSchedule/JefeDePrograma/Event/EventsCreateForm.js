@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Error from '../../../../components/Error'
+import Success from '../../../../components/Success'
 import { fetchAsignaturas, createEvents, fetchAsignaturasEventos } from '../../../../actions/event'
 
 class EventsCreateForm extends Component {
@@ -119,6 +120,8 @@ class EventsCreateForm extends Component {
     const { asignaturas, events, match, location } = this.props
     const { url } = match
     const { schedule } = location.state
+    const { fechaInicio, fechaFin } = schedule
+
     return asignaturas.map(asignatura => {
       const pathname = url + asignatura.nombre
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
@@ -139,6 +142,8 @@ class EventsCreateForm extends Component {
               className="input events--inputs"
               onChange={this.handleChange}
               defaultValue={defaultValue}
+              min={fechaInicio.split('.')[0]}
+              max={fechaFin.split('.')[0]}
             />
           </td>
           <td>
@@ -163,10 +168,14 @@ class EventsCreateForm extends Component {
   }
 
   renderAlert() {
-    const { errorMessage } = this.props
+    const { errorMessage, successMessage } = this.props
 
     if (errorMessage) {
       return <Error description={errorMessage} />
+    }
+
+    if (successMessage) {
+      return <Success description={successMessage} />
     }
   }
 }

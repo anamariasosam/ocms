@@ -68,7 +68,7 @@ class BigCalendar extends Component {
 
       return (
         <Fragment>
-          <CalendarLabels labels={Array.from(labels)} />
+          {labels && <CalendarLabels labels={Array.from(labels)} />}
           <Calendar
             localizer={localizer}
             defaultView="month"
@@ -78,6 +78,9 @@ class BigCalendar extends Component {
             startAccessor="start"
             endAccessor="end"
             defaultDate={moment(calendarDate).toDate()}
+            selectable
+            popup
+            popupOffset={{ x: 30, y: 20 }}
             onSelectEvent={e =>
               swal({
                 content: <EventAlert event={e} />,

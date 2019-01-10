@@ -56,7 +56,7 @@ class Calendar extends Component {
           </table>
 
           <Link to="/calendarioAcademico/calendario/create" className="reset--link button">
-            + Calendario
+            Añadir Calendario
           </Link>
         </div>
       </Fragment>

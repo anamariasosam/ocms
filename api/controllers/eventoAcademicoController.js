@@ -79,7 +79,7 @@ exports.create = async (req, res) => {
   const nombreEvento = nombre || `${programacionNombre}-${contadorEventos + 1}`
   const semestre = programacionNombre.slice(0, 6)
 
-  GrupoUsuario.findOne({ grupo, tipo: 'Profesor', semestre }).exec((err, grupo) => {
+  GrupoUsuario.findOne({ grupo, tipo: 'Profesor', semestre }).exec((err, grupoUsuario) => {
     const eventoAcademico = new EventoAcademico({
       nombre: nombreEvento,
       fechaInicio,
@@ -87,7 +87,7 @@ exports.create = async (req, res) => {
       aforo,
       grupo,
       encargado,
-      docente: grupo.usuario,
+      docente: grupoUsuario.usuario,
       programacion,
       lugar,
     })

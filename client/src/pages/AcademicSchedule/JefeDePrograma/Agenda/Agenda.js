@@ -13,7 +13,6 @@ class Agenda extends Component {
     super(props)
 
     this.handleDelete = this.handleDelete.bind(this)
-    this.handleSemestre = this.handleSemestre.bind(this)
   }
 
   componentDidMount() {
@@ -49,16 +48,12 @@ class Agenda extends Component {
     }
   }
 
-  handleSemestre(semestre) {
-    this.handleAgenda(semestre)
-  }
-
   render() {
     const titles = ['semestre', 'fecha Inicio', 'fecha Fin']
     const { schedules, calendars } = this.props
     return (
       <Fragment>
-        <AditionalInfo data={calendars} titles={titles} handleSelect={this.handleSemestre} />
+        <AditionalInfo data={calendars} titles={titles} />
 
         <div className="module--container">
           <h3>Programaciones</h3>
@@ -89,7 +84,7 @@ class Agenda extends Component {
             }}
             className="reset--link button"
           >
-            + Programación
+            Añadir Programación
           </Link>
         </div>
       </Fragment>

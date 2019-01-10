@@ -1,13 +1,13 @@
 import React, { Fragment, Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import DownloadExcel from 'react-html-table-to-excel'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import Options from '../../../../components/Options'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import { deleteEvent, fetchEvent } from '../../../../actions/event'
 import { fetchAgenda } from '../../../../actions/agenda'
-import DownloadExcel from 'react-html-table-to-excel'
 
 class Event extends Component {
   constructor(props) {
@@ -80,9 +80,9 @@ class Event extends Component {
                   <th>GRUPO</th>
                   <th className="fixedWidth">NOMBRE ASIGNATURA</th>
                   <th>FECHA</th>
-                  <th className="eventHour-td">HORARIO</th>
+                  <th className="hora-th">HORARIO</th>
                   <th className="aforo-th">N° ESTUDIANTES</th>
-                  <th>AULA</th>
+                  <th className="aula-th">AULA</th>
                   <th className="fixedWidth">DOCENTE</th>
                   <th className="fixedWidth">OBSERVADOR</th>
                   <th>ACCIONES</th>
@@ -99,7 +99,7 @@ class Event extends Component {
             }}
             className="reset--link button"
           >
-            + Evento
+            Añadir Evento
           </Link>
 
           {allType && (
@@ -116,6 +116,7 @@ class Event extends Component {
 
           <DownloadExcel
             className="button"
+            sheet=""
             table="eventsTable"
             filename={fileName}
             buttonText="Descargar Excel"
