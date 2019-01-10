@@ -12,7 +12,7 @@ const SideBar = ({ menu }) => {
 
   return (
     <div className="sidebar--container">
-      <h2>
+      <h2 className="sidebar--title">
         <Link to="/calendarioAcademico" className={`reset--link ${active}`}>
           Calendario Académico
         </Link>

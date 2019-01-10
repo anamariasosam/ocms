@@ -75,7 +75,7 @@ exports.create = async (req, res) => {
     fechaFin,
     lugar,
   } = req.body
-  const contadorEventos = await EventoAcademico.count({ programacion })
+  const contadorEventos = await EventoAcademico.countDocuments({ programacion })
   const nombreEvento = nombre || `${programacionNombre}-${contadorEventos + 1}`
   const semestre = programacionNombre.slice(0, 6)
 
@@ -98,13 +98,14 @@ exports.create = async (req, res) => {
   })
 }
 
-exports.createMultipleEvents = (req, res) => {
+exports.createMultipleEvents = async (req, res) => {
   const { eventos, programacion, programacionNombre } = req.body
+  let contadorEventos = await EventoAcademico.countDocuments({ programacion })
 
   const asignaturas = Object.keys(eventos)
   asignaturas.map(asignatura => {
     Grupo.find({ asignatura }).exec((err, grupos) => {
-      grupos.map((grupo, index) => {
+      grupos.map(grupo => {
         const grupoId = grupo._id
 
         EventoAcademico.findOne({ programacion, grupo: grupoId }).exec((err, evento) => {
@@ -122,9 +123,9 @@ exports.createMultipleEvents = (req, res) => {
           } else {
             const semestre = programacionNombre.slice(0, 6)
             GrupoUsuario.findOne({ grupo: grupoId, tipo: 'Profesor', semestre }).exec(
-              async (err, grupo) => {
-                const contadorEventos = await EventoAcademico.count({ programacion })
-                const nombre = `${programacionNombre}-${contadorEventos + 1}`
+              (err, grupo) => {
+                contadorEventos++
+                const nombre = `${programacionNombre}-${contadorEventos}`
 
                 const evento = {
                   nombre,
@@ -137,8 +138,6 @@ exports.createMultipleEvents = (req, res) => {
                   programacion,
                   lugar: '5c3629d870a35400ecaef217',
                 }
-
-                console.log(evento)
 
                 const eventoAcademico = new EventoAcademico(evento)
 

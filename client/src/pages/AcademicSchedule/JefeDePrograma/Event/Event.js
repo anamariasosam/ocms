@@ -7,6 +7,7 @@ import Options from '../../../../components/Options'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import { deleteEvent, fetchEvent } from '../../../../actions/event'
 import { fetchAgenda } from '../../../../actions/agenda'
+import DownloadExcel from 'react-html-table-to-excel'
 
 class Event extends Component {
   constructor(props) {
@@ -60,9 +61,11 @@ class Event extends Component {
 
   render() {
     const { schedules } = this.props
+    const { tipo, nombre } = schedules
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-
     const allType = schedules.tipo !== 'Programación Académica'
+    const semestre = nombre && nombre.slice(0, 6)
+    const fileName = `${semestre} ${tipo}`
 
     return (
       <Fragment>
@@ -71,16 +74,17 @@ class Event extends Component {
         <div className="module--container">
           <h3>Eventos</h3>
           <div className="table--responsive">
-            <table className="table">
+            <table className="table" id="eventsTable">
               <thead className="thead">
                 <tr>
-                  <th>NOMBRE</th>
-                  <th>DOCENTE</th>
-                  <th>OBSERVADOR</th>
+                  <th>GRUPO</th>
+                  <th className="fixedWidth">NOMBRE ASIGNATURA</th>
                   <th>FECHA</th>
-                  <th>HORA</th>
-                  <th>AFORO</th>
-                  <th>LUGAR</th>
+                  <th className="eventHour-td">HORARIO</th>
+                  <th className="aforo-th">N° ESTUDIANTES</th>
+                  <th>AULA</th>
+                  <th className="fixedWidth">DOCENTE</th>
+                  <th className="fixedWidth">OBSERVADOR</th>
                   <th>ACCIONES</th>
                 </tr>
               </thead>
@@ -109,6 +113,13 @@ class Event extends Component {
               Múltiples Eventos
             </Link>
           )}
+
+          <DownloadExcel
+            className="button"
+            table="eventsTable"
+            filename={fileName}
+            buttonText="Descargar Excel"
+          />
         </div>
       </Fragment>
     )
@@ -119,24 +130,22 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td className="fixedWidth">
-            {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
-              event.nombre}
-          </td>
-          <td className="fixedWidth">{event.docente.nombre}</td>
-          <td className="fixedWidth">{event.encargado.nombre}</td>
+          <td className="center">{event.grupo && event.grupo.nombre}</td>
+          <td>{(event.grupo && event.grupo.asignatura.nombre) || event.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
-          <td>{moment(event.fechaInicio).format('h:mm a')}</td>
-          <td>{event.aforo}</td>
+          <td>{`${moment(event.fechaInicio).format('HH:mm')}-${moment(event.fechaFin).format(
+            'HH:mm',
+          )}`}</td>
+          <td className="center">{event.aforo}</td>
           <td>{event.lugar.nombre}</td>
-          <td>
-            <Options
-              handleDelete={() => this.handleDelete(event._id)}
-              urls={this.handleUrls(event.nombre)}
-              state={{ schedule: schedules, event }}
-              showTitle={'Ver Calendario'}
-            />
-          </td>
+          <td>{event.docente.nombre}</td>
+          <td>{event.encargado.nombre}</td>
+          <Options
+            handleDelete={() => this.handleDelete(event._id)}
+            urls={this.handleUrls(event.nombre)}
+            state={{ schedule: schedules, event }}
+            showTitle="Ver Calendario"
+          />
         </tr>
       ))
     }

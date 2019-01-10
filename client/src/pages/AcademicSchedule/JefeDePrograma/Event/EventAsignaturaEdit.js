@@ -123,7 +123,7 @@ class Event extends Component {
             {(event.grupo && `${event.grupo.asignatura.nombre} (Grupo: ${event.grupo.nombre})`) ||
               event.nombre}
           </td>
-          <td>{event.docente.nombre}</td>
+          <td className="fixedWidth">{event.docente.nombre}</td>
           <td>
             <select
               className="input select--input events--inputs"
@@ -143,7 +143,7 @@ class Event extends Component {
             <input
               type="number"
               id={event._id}
-              className="input events--inputs"
+              className="input events--inputs aforo--input"
               onChange={this.handleEventChange}
               defaultValue={event.aforo}
               name="aforo"

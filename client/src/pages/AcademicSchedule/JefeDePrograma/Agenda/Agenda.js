@@ -112,14 +112,12 @@ class Agenda extends Component {
             .utc()
             .format('l')}
         </td>
-        <td>
-          <Options
-            handleDelete={() => this.handleDelete(schedule._id)}
-            urls={this.handleUrls(schedule.nombre)}
-            state={{ calendar: calendars }}
-            showTitle={'Ver Eventos'}
-          />
-        </td>
+        <Options
+          handleDelete={() => this.handleDelete(schedule._id)}
+          urls={this.handleUrls(schedule.nombre)}
+          state={{ calendar: calendars }}
+          showTitle={'Ver Eventos'}
+        />
       </tr>
     ))
   }

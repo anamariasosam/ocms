@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -14,7 +14,7 @@ const Options = ({ handleDelete, urls, state, showTitle }) => {
   }
 
   return (
-    <Fragment>
+    <td className="table--options">
       <Link className="reset--link" to={showUrl} title={showTitle}>
         <img src={require('../images/show.png')} alt="show" className="action--image" />
       </Link>
@@ -24,7 +24,7 @@ const Options = ({ handleDelete, urls, state, showTitle }) => {
       <button className="reset--button" onClick={handleDelete} type="button" title="Eliminar">
         <img src={require('../images/delete.png')} alt="remove" className="action--image" />
       </button>
-    </Fragment>
+    </td>
   )
 }
 

@@ -80,14 +80,12 @@ class Calendar extends Component {
               .utc()
               .format('l')}
           </td>
-          <td>
-            <Options
-              handleDelete={() => this.handleDelete(calendar._id)}
-              urls={this.handleUrls(calendar.semestre)}
-              state={{ calendar }}
-              showTitle={'Ver Programación'}
-            />
-          </td>
+          <Options
+            handleDelete={() => this.handleDelete(calendar._id)}
+            urls={this.handleUrls(calendar.semestre)}
+            state={{ calendar }}
+            showTitle={'Ver Programación'}
+          />
         </tr>
       ))
     }
