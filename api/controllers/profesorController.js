@@ -49,7 +49,11 @@ exports.eventos = (req, res) => {
         const programacionIds = programacion.map(p => p._id)
 
         EventoAcademico.find()
-          .or([{ grupo: { $in: grupoIds } }, { programacion: { $in: programacionIds } }])
+          .or([
+            { grupo: { $in: grupoIds } },
+            { programacion: { $in: programacionIds } },
+            { encargado: usuario },
+          ])
           .populate('encargado', 'nombre')
           .populate('programacion', 'tipo')
           .populate(lugar)

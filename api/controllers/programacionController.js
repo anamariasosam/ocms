@@ -34,9 +34,7 @@ exports.create = async (req, res) => {
   const programacion = new Programacion({
     nombre,
     fechaInicio,
-    fechaFin: moment(fechaFin)
-      .utc()
-      .add(23, 'hours'),
+    fechaFin: fechaFin.concat('T23:59:00'),
     tipo,
     calendario,
   })
@@ -54,9 +52,7 @@ exports.update = (req, res) => {
     { nombre },
     {
       fechaInicio,
-      fechaFin: moment(fechaFin)
-        .utc()
-        .add(23, 'hours'),
+      fechaFin: fechaFin.concat('T23:59:00'),
       tipo,
     },
     { new: true },
