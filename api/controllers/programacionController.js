@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+  moment = require('moment'),
   Programacion = mongoose.model('Programacion'),
   Calendario = mongoose.model('Calendario'),
   utils = require('../handlers/utils')
@@ -30,11 +31,10 @@ exports.create = async (req, res) => {
   const nombre = `${calendarioSemestre}-${contadorProgramaciones + 1}`
 
   const calendario = new Calendario({ _id: calendarioId })
-
   const programacion = new Programacion({
     nombre,
     fechaInicio,
-    fechaFin,
+    fechaFin: moment(fechaFin).add(18, 'hours'),
     tipo,
     calendario,
   })
@@ -52,7 +52,7 @@ exports.update = (req, res) => {
     { nombre },
     {
       fechaInicio,
-      fechaFin,
+      fechaFin: moment(fechaFin).add(18, 'hours'),
       tipo,
     },
     { new: true },
