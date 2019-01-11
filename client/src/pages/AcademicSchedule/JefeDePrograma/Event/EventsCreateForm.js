@@ -147,20 +147,28 @@ class EventsCreateForm extends Component {
             />
           </td>
           <td>
-            <Link
-              className={`reset--link ${isDisabled}`}
-              to={{
-                pathname,
-                state: { asignatura, fecha, schedule },
-              }}
-              title="Editar"
-            >
+            {isDisabled ? (
               <img
                 src={require('../../../../images/edit.png')}
                 alt="edit"
-                className="action--image"
+                className="action--image isDisabled"
               />
-            </Link>
+            ) : (
+              <Link
+                className={`reset--link`}
+                to={{
+                  pathname,
+                  state: { asignatura, fecha, schedule },
+                }}
+                title="Editar"
+              >
+                <img
+                  src={require('../../../../images/edit.png')}
+                  alt="edit"
+                  className="action--image"
+                />
+              </Link>
+            )}
           </td>
         </tr>
       )

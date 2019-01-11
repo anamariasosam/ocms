@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
+  ObjectId = Schema.Types.ObjectId,
+  EventoAcademico = require('./eventoAcademico')
 
 const Programacion = new Schema(
   {
@@ -23,5 +24,10 @@ const Programacion = new Schema(
     collection: 'programaciones',
   },
 )
+
+Programacion.pre('remove', function(next) {
+  EventoAcademico.remove({ programacion: this._id }).exec()
+  next()
+})
 
 module.exports = mongoose.model('Programacion', Programacion)

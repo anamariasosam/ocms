@@ -64,9 +64,11 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   const { calendarioId, programacionId } = req.query
-  Programacion.findOneAndDelete({ _id: programacionId }, (err, calendario) => {
-    Programacion.find({ calendario: calendarioId }).exec((err, programaciones) => {
-      utils.show(res, err, programaciones)
+  Programacion.findById(programacionId, (err, programacion) => {
+    programacion.remove(err => {
+      Programacion.find({ calendario: calendarioId }).exec((err, programaciones) => {
+        utils.show(res, err, programaciones)
+      })
     })
   })
 }

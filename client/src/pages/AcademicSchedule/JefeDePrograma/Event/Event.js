@@ -71,8 +71,13 @@ class Event extends Component {
               <table className="table" id="eventsTable">
                 <thead className="thead">
                   <tr>
-                    <th>GRUPO</th>
-                    <th className="fixedWidth">NOMBRE ASIGNATURA</th>
+                    {allType && (
+                      <Fragment>
+                        <th>GRUPO</th>
+                        <th className="fixedWidth">NOMBRE ASIGNATURA</th>
+                      </Fragment>
+                    )}
+                    {!allType && <th className="fixedWidth">NOMBRE EVENTO</th>}
                     <th>FECHA</th>
                     <th className="hora-th">HORARIO</th>
                     <th className="aforo-th">N° ESTUDIANTES</th>
@@ -131,7 +136,7 @@ class Event extends Component {
     if (events.length > 0) {
       return events.map(event => (
         <tr key={event._id}>
-          <td className="center">{event.grupo && event.grupo.nombre}</td>
+          {event.grupo && <td className="center">{event.grupo && event.grupo.nombre}</td>}
           <td>{(event.grupo && event.grupo.asignatura.nombre) || event.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
           <td>

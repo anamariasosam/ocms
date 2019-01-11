@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
+  ObjectId = Schema.Types.ObjectId,
+  Programacion = require('./programacion')
 
 const Calendario = new Schema({
   semestre: String,
@@ -12,6 +13,11 @@ const Calendario = new Schema({
       ref: 'Programacion',
     },
   ],
+})
+
+Calendario.pre('remove', function(next) {
+  Programacion.remove({ calendario: this._id }).exec()
+  next()
 })
 
 module.exports = mongoose.model('Calendario', Calendario)

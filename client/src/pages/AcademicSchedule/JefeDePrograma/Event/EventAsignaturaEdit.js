@@ -72,7 +72,7 @@ class Event extends Component {
   }
 
   render() {
-    const { location } = this.props
+    const { location, history } = this.props
     const { asignatura, fecha } = location.state
 
     const data = {
@@ -107,6 +107,13 @@ class Event extends Component {
             </div>
 
             <div className="form--controls">
+              <input
+                type="button"
+                value="Ir atrás"
+                className="reset--button button"
+                onClick={() => history.goBack()}
+              />
+
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>
           </form>

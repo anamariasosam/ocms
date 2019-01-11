@@ -50,9 +50,11 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  Calendario.findOneAndDelete({ _id: req.query.calendarioId }, (err, calendario) => {
-    Calendario.find({}).exec((err, calendarios) => {
-      utils.show(res, err, calendarios)
+  Calendario.findById(req.query.calendarioId, (err, calendario) => {
+    calendario.remove(err => {
+      Calendario.find({}).exec((err, calendarios) => {
+        utils.show(res, err, calendarios)
+      })
     })
   })
 }
