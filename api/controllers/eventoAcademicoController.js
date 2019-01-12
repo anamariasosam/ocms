@@ -269,7 +269,11 @@ exports.calendario = (req, res) => {
             $lt: fechaFin,
           },
         })
-          .or([{ grupo: { $in: grupoIds } }, { programacion: { $in: programacionIds } }])
+          .or([
+            { grupo: { $in: grupoIds } },
+            { programacion: { $in: programacionIds } },
+            { encargado: usuario },
+          ])
           .populate('encargado', 'nombre')
           .populate('docente', 'nombre')
           .populate('programacion', 'tipo')
