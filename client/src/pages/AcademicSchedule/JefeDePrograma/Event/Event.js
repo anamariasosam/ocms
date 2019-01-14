@@ -65,7 +65,7 @@ class Event extends Component {
         <AditionalInfo data={schedules} titles={titles} />
 
         <div className="module--container">
-          <h3>Eventos</h3>
+          <h3>Programación para todos los niveles</h3>
           <div className="table--responsive">
             {events.length > 0 ? (
               <table className="table" id="eventsTable">
@@ -115,7 +115,7 @@ class Event extends Component {
               }}
               className="reset--link button"
             >
-              Múltiples Eventos
+              Programación discriminada por nivel
             </Link>
           )}
 

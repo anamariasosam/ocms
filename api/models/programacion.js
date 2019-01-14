@@ -9,6 +9,10 @@ const Programacion = new Schema(
     fechaInicio: Date,
     fechaFin: Date,
     tipo: String,
+    todosLosNiveles: {
+      type: Boolean,
+      default: false,
+    },
     calendario: {
       type: ObjectId,
       ref: 'Calendario',

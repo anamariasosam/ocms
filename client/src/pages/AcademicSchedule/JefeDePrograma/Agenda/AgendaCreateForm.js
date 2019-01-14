@@ -13,6 +13,7 @@ class AgendaCreateForm extends Component {
     this.fechaInicio = React.createRef()
     this.fechaFin = React.createRef()
     this.tipo = React.createRef()
+    this.todosLosNiveles = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -91,6 +92,14 @@ class AgendaCreateForm extends Component {
               min={fechaInicio.split('T')[0]}
               max={fechaFin.split('T')[0]}
             />
+
+            <label htmlFor="fechaFin" className="required label">
+              ¿Esta es una programación discriminada por nivel?:
+            </label>
+            <label>
+              <input type="radio" ref={this.todosLosNiveles} className="form-check-input" />
+              Sí
+            </label>
 
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import DownloadExcel from 'react-html-table-to-excel'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import AditionalInfo from '../../../../components/AditionalInfo'
@@ -83,7 +84,9 @@ class EventsCreateForm extends Component {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
     const { location } = this.props
     const { schedule } = location.state
-
+    const { tipo, nombre } = schedule
+    const semestre = nombre && nombre.slice(0, 6)
+    const fileName = `${semestre} ${tipo}`
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -91,9 +94,9 @@ class EventsCreateForm extends Component {
         <AditionalInfo data={schedule} titles={titles} />
 
         <div>
-          <h3 className="form--title">Crear Múltiples Eventos</h3>
+          <h3 className="form--title">Crear programación discriminada por nivel</h3>
           <form onSubmit={this.handleSubmit}>
-            <table className="table">
+            <table className="table" id="eventsTable">
               <thead className="thead">
                 <tr>
                   <th>NIVEL</th>
