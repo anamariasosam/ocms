@@ -50,9 +50,9 @@ export const postData = (action, errorType, isAuthReq, url, dispatch, data, redi
         payload,
       })
 
-      setTimeout(() => {
-        window.location.href = CLIENT_ROOT_URL + redirect
-      }, 500)
+      // setTimeout(() => {
+      //   window.location.href = CLIENT_ROOT_URL + redirect
+      // }, 500)
     })
     .catch(error => {
       errorHandler(dispatch, error.response, errorType)

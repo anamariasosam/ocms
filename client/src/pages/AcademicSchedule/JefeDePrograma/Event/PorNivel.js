@@ -41,6 +41,12 @@ class EventsCreateForm extends Component {
     document.addEventListener('scroll', this.handleSticky)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(this.props.events !== nextProps.events)
+
+    return this.props.events != nextProps.events
+  }
+
   componentWillUnmount() {
     document.removeEventListener('scroll', this.handleSticky)
   }
@@ -64,6 +70,7 @@ class EventsCreateForm extends Component {
     const { createEvents, location } = this.props
     const { schedule } = location.state
     const { _id: programacion, nombre: programacionNombre } = schedule
+    console.log(grupos)
 
     const data = {
       grupos,
@@ -141,11 +148,14 @@ class EventsCreateForm extends Component {
     const { schedule } = location.state
     const { fechaInicio, fechaFin } = schedule
 
+    // console.log(events);
+
     return grupos.map(grupoUsuario => {
       const { grupo, usuario } = grupoUsuario
       const { nombre: docente } = usuario
       const { asignatura, nombre } = grupo
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
+      console.log(events[grupo._id] && events[grupo._id].fechaInicio)
 
       return (
         <tr key={grupo._id} className={rowClass}>
@@ -161,10 +171,7 @@ class EventsCreateForm extends Component {
               onChange={this.handleInputChange}
               min={fechaInicio.split('.')[0]}
               max={fechaFin.split('.')[0]}
-              defaultValue={
-                events[grupo._id] &&
-                moment(events[grupo._id].fechaInicio).format('YYYY-MM-DD[T]hh:mm')
-              }
+              defaultValue={events[grupo._id] && events[grupo._id].fechaInicio.split('.')[0]}
             />
           </td>
           <td>
@@ -184,7 +191,7 @@ class EventsCreateForm extends Component {
               onChange={this.handleInputChange}
               id={grupo._id}
               name="encargado"
-              defaultValue={events[grupo._id] && events[grupo._id].encargado}
+              defaultValue={events[grupo._id] ? events[grupo._id].encargado : ''}
             >
               <option value="" />
               {profesores.map(encargado => (

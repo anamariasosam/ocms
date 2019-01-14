@@ -120,8 +120,8 @@ exports.createMultipleEvents = async (req, res) => {
             nombre,
             grupo,
             programacion,
-            fechaInicio,
-            fechaFin,
+            fechaInicio: moment(new Date(fechaInicio)).utc(-5),
+            fechaFin: moment(new Date(fechaFin)).utc(-5),
             aforo: aforo || 0,
             encargado: encargado || grupoUsuario.usuario,
           }
