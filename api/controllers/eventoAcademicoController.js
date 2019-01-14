@@ -27,7 +27,6 @@ exports.show = (req, res) => {
   if (nombre) {
     EventoAcademico.findOne({ nombre: nombre })
       .populate('encargado', 'nombre')
-      .populate('docente', 'nombre')
       .populate('programacion', 'tipo')
       .populate(lugar)
       .populate(grupo)
@@ -40,7 +39,6 @@ exports.show = (req, res) => {
       const programacionId = programacion._id
       EventoAcademico.find({ programacion: programacionId })
         .populate('encargado', 'nombre')
-        .populate('docente', 'nombre')
         .populate(lugar)
         .populate('programacion', 'tipo')
         .populate(grupo)
@@ -52,7 +50,6 @@ exports.show = (req, res) => {
   } else {
     EventoAcademico.find({})
       .populate('encargado', 'nombre')
-      .populate('docente', 'nombre')
       .populate(lugar)
       .populate('programacion', 'tipo nombre')
       .populate(grupo)
@@ -80,7 +77,6 @@ exports.create = async (req, res) => {
   const semestre = programacionNombre.slice(0, 6)
 
   GrupoUsuario.findOne({ grupo, tipo: 'Profesor', semestre }).exec((err, grupoUsuario) => {
-    const docente = (grupoUsuario && grupoUsuario.usuario) || encargado
     const eventoAcademico = new EventoAcademico({
       nombre: nombreEvento,
       fechaInicio,
@@ -88,7 +84,6 @@ exports.create = async (req, res) => {
       aforo,
       grupo,
       encargado,
-      docente,
       programacion,
       lugar,
     })
@@ -100,58 +95,46 @@ exports.create = async (req, res) => {
 }
 
 exports.createMultipleEvents = async (req, res) => {
-  const { eventos, programacion, programacionNombre } = req.body
+  const { grupos, programacion, programacionNombre } = req.body
   let contadorEventos = await EventoAcademico.countDocuments({ programacion })
 
-  const asignaturas = Object.keys(eventos)
-  asignaturas.map(asignatura => {
-    Grupo.find({ asignatura }).exec((err, grupos) => {
-      grupos.map(grupo => {
-        const grupoId = grupo._id
+  Object.keys(grupos).map(grupo => {
+    EventoAcademico.findOne({ programacion, grupo }).exec((err, evento) => {
+      if (evento) {
+        const { nombre } = evento
 
-        EventoAcademico.findOne({ programacion, grupo: grupoId }).exec((err, evento) => {
-          if (evento) {
-            const { nombre } = evento
-            EventoAcademico.findOneAndUpdate(
-              { nombre },
-              {
-                fechaInicio: eventos[asignatura],
-                fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
-              },
-              { new: true },
-              (err, evento) => {},
-            )
-          } else {
-            const semestre = programacionNombre.slice(0, 6)
-            GrupoUsuario.findOne({ grupo: grupoId, tipo: 'Profesor', semestre }).exec(
-              (err, grupo) => {
-                contadorEventos++
-                const nombre = `${programacionNombre}-${contadorEventos}`
+        EventoAcademico.findOneAndUpdate(
+          { nombre },
+          grupos[grupo],
+          { new: true },
+          (err, evento) => {},
+        )
+      } else {
+        const semestre = programacionNombre.slice(0, 6)
+        GrupoUsuario.findOne({ grupo, tipo: 'Profesor', semestre }).exec((err, grupoUsuario) => {
+          contadorEventos++
+          const nombre = `${programacionNombre}-${contadorEventos}`
+          const { fechaInicio, aforo, encargado, fechaFin } = grupos[grupo]
 
-                const evento = {
-                  nombre,
-                  fechaInicio: eventos[asignatura],
-                  fechaFin: moment(eventos[asignatura]).add(2, 'hours'),
-                  aforo: 30,
-                  grupo: grupoId,
-                  encargado: grupo.usuario,
-                  docente: grupo.usuario,
-                  programacion,
-                  lugar: '5c3629d870a35400ecaef217',
-                }
-
-                const eventoAcademico = new EventoAcademico(evento)
-
-                eventoAcademico.save()
-              },
-            )
+          const evento = {
+            nombre,
+            grupo,
+            programacion,
+            fechaInicio,
+            fechaFin,
+            aforo: aforo || 0,
+            encargado: encargado || grupoUsuario.usuario,
           }
+
+          const eventoAcademico = new EventoAcademico(evento)
+
+          eventoAcademico.save()
         })
-      })
+      }
     })
   })
 
-  res.status(200).json(asignaturas)
+  res.status(200).json({})
 }
 
 exports.update = (req, res) => {
@@ -191,7 +174,6 @@ exports.delete = (req, res) => {
   EventoAcademico.findOneAndDelete({ _id: eventoAcademicoId }, (err, evento) => {
     EventoAcademico.find({ programacion: programacionId })
       .populate('encargado', 'nombre')
-      .populate('docente', 'nombre')
       .populate(lugar)
       .populate(grupo)
       .sort('fechaInicio')
@@ -275,7 +257,6 @@ exports.calendario = (req, res) => {
             { encargado: usuario },
           ])
           .populate('encargado', 'nombre')
-          .populate('docente', 'nombre')
           .populate('programacion', 'tipo')
           .populate(lugar)
           .populate(grupo)

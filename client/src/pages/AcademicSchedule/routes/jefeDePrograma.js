@@ -6,7 +6,7 @@ import JefeDeProgramaCalendar from '../JefeDePrograma/Calendar'
 import CalendarCreateForm from '../JefeDePrograma/Calendar/CalendarCreateForm'
 import AgendaCreateForm from '../JefeDePrograma/Agenda/AgendaCreateForm'
 import EventCreateForm from '../JefeDePrograma/Event/EventCreateForm'
-import EventsCreateForm from '../JefeDePrograma/Event/EventsCreateForm'
+import PorNivel from '../JefeDePrograma/Event/PorNivel'
 
 import CalendarEditForm from '../JefeDePrograma/Calendar/CalendarEditForm'
 import AgendaEditForm from '../JefeDePrograma/Agenda/AgendaEditForm'
@@ -23,10 +23,6 @@ export const jefeDeProgramaMenu = [
   {
     path: `/calendarioAcademico/programacion/show/${currentYear}-1`,
     name: 'Programaciones',
-  },
-  {
-    path: `/calendarioAcademico/evento/show/${currentYear}-1-1`,
-    name: 'Eventos',
   },
 ]
 
@@ -64,8 +60,8 @@ export const jefeDeProgramaRoutes = [
     component: EventCreateForm,
   },
   {
-    path: '/calendarioAcademico/evento/asignatura/',
-    component: EventsCreateForm,
+    path: '/calendarioAcademico/evento/asignaturas/:nombre',
+    component: PorNivel,
   },
   {
     path: '/calendarioAcademico/evento/edit/:nombre/',

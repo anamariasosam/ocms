@@ -13,7 +13,6 @@ const EventoAcademico = new Schema(
       ref: 'Grupo',
     },
     encargado: { type: ObjectId, ref: 'Usuario' },
-    docente: { type: ObjectId, ref: 'Usuario' },
     medios: String,
     programacion: {
       type: ObjectId,

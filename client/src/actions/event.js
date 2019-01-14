@@ -22,7 +22,7 @@ export const createEvent = data => {
 }
 
 export const createEvents = data => {
-  const redirect = `/calendarioAcademico/evento/show/${data.programacionNombre}`
+  const redirect = `/calendarioAcademico/evento/asignaturas/${data.programacionNombre}`
   const url = '/eventosAcademicos/eventos'
   return dispatch => postData(CREATE_EVENT, EVENT_ERROR, true, url, dispatch, data, redirect)
 }

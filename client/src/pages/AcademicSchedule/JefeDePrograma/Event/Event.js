@@ -56,7 +56,6 @@ class Event extends Component {
     const { schedules, events } = this.props
     const { tipo, nombre } = schedules
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const allType = schedules.tipo !== 'Programación Académica'
     const semestre = nombre && nombre.slice(0, 6)
     const fileName = `${semestre} ${tipo}`
 
@@ -71,19 +70,12 @@ class Event extends Component {
               <table className="table" id="eventsTable">
                 <thead className="thead">
                   <tr>
-                    {allType && (
-                      <Fragment>
-                        <th>GRUPO</th>
-                        <th className="fixedWidth">NOMBRE ASIGNATURA</th>
-                      </Fragment>
-                    )}
-                    {!allType && <th className="fixedWidth">NOMBRE EVENTO</th>}
+                    <th className="fixedWidth">NOMBRE EVENTO</th>
                     <th>FECHA</th>
                     <th className="hora-th">HORARIO</th>
-                    <th className="aforo-th">N° ESTUDIANTES</th>
-                    <th className="aula-th">AULA</th>
-                    <th className="fixedWidth">DOCENTE</th>
-                    <th className="fixedWidth">OBSERVADOR</th>
+                    <th className="aforo-th">AFORO</th>
+                    <th className="aula-th">LUGAR</th>
+                    <th className="fixedWidth">ENCARGADO</th>
                     <th>ACCIONES</th>
                   </tr>
                 </thead>
@@ -106,18 +98,6 @@ class Event extends Component {
           >
             Añadir Evento
           </Link>
-
-          {allType && (
-            <Link
-              to={{
-                pathname: '/calendarioAcademico/evento/asignatura/',
-                state: { schedule: schedules },
-              }}
-              className="reset--link button"
-            >
-              Programación discriminada por nivel
-            </Link>
-          )}
 
           <DownloadExcel
             className="button"
@@ -146,7 +126,6 @@ class Event extends Component {
           </td>
           <td className="center">{event.aforo}</td>
           <td>{event.lugar.nombre}</td>
-          <td>{event.docente.nombre}</td>
           <td>{event.encargado.nombre}</td>
           <Options
             handleDelete={() => this.handleDelete(event._id)}

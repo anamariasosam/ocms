@@ -13,6 +13,7 @@ class AgendaCreateForm extends Component {
     this.fechaInicio = React.createRef()
     this.fechaFin = React.createRef()
     this.tipo = React.createRef()
+    this.discriminadaPorNivel = React.createRef()
     this.todosLosNiveles = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,6 +31,7 @@ class AgendaCreateForm extends Component {
     const fechaInicio = this.fechaInicio.current.value
     const fechaFin = this.fechaFin.current.value
     const tipo = this.tipo.current.value
+    const discriminadaPorNivel = this.discriminadaPorNivel.current.checked
 
     const { _id: calendarioId, semestre: calendarioSemestre } = location.state.calendar
 
@@ -39,6 +41,7 @@ class AgendaCreateForm extends Component {
       tipo,
       calendarioId,
       calendarioSemestre,
+      discriminadaPorNivel,
     }
 
     createAgenda(data)
@@ -66,7 +69,6 @@ class AgendaCreateForm extends Component {
                 <option key={tipo._id}>{tipo.nombre}</option>
               ))}
             </select>
-
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
             </label>
@@ -79,7 +81,6 @@ class AgendaCreateForm extends Component {
               min={fechaInicio.split('T')[0]}
               max={fechaFin.split('T')[0]}
             />
-
             <label htmlFor="fechaFin" className="required label">
               Fecha Fin:
             </label>
@@ -92,15 +93,15 @@ class AgendaCreateForm extends Component {
               min={fechaInicio.split('T')[0]}
               max={fechaFin.split('T')[0]}
             />
-
-            <label htmlFor="fechaFin" className="required label">
-              ¿Esta es una programación discriminada por nivel?:
-            </label>
-            <label>
-              <input type="radio" ref={this.todosLosNiveles} className="form-check-input" />
-              Sí
-            </label>
-
+            <label className="label">¿Esta es una programación discriminada por nivel?:</label>
+            <input
+              type="radio"
+              name="discriminadaPorNivel"
+              ref={this.discriminadaPorNivel}
+              defaultChecked
+            />{' '}
+            Sí
+            <input type="radio" name="discriminadaPorNivel" ref={this.todosLosNiveles} /> No
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>

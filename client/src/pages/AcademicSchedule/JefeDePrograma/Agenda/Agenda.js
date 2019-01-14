@@ -27,8 +27,13 @@ class Agenda extends Component {
     fetchAgenda({ semestre })
   }
 
-  handleUrls(id) {
-    const urls = ['/calendarioAcademico/evento/show/', '/calendarioAcademico/programacion/edit/']
+  // eslint-disable-next-line class-methods-use-this
+  handleUrls(id, discriminadaPorNivel) {
+    const showUrl = discriminadaPorNivel
+      ? '/calendarioAcademico/evento/asignaturas/'
+      : '/calendarioAcademico/evento/show/'
+    const urls = [showUrl, '/calendarioAcademico/programacion/edit/']
+
     return urls.map(url => url.concat(id))
   }
 
@@ -109,8 +114,8 @@ class Agenda extends Component {
         </td>
         <Options
           handleDelete={() => this.handleDelete(schedule._id)}
-          urls={this.handleUrls(schedule.nombre)}
-          state={{ calendar: calendars }}
+          urls={this.handleUrls(schedule.nombre, schedule.discriminadaPorNivel)}
+          state={{ calendar: calendars, schedule }}
           showTitle={'Ver Eventos'}
         />
       </tr>

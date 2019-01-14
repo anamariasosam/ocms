@@ -14,6 +14,8 @@ class AgendaEditForm extends Component {
     this.fechaInicio = React.createRef()
     this.fechaFin = React.createRef()
     this.tipo = React.createRef()
+    this.discriminadaPorNivel = React.createRef()
+    this.todosLosNiveles = React.createRef()
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -31,6 +33,7 @@ class AgendaEditForm extends Component {
     const fechaInicio = this.fechaInicio.current.value
     const fechaFin = this.fechaFin.current.value
     const tipo = this.tipo.current.value
+    const discriminadaPorNivel = this.discriminadaPorNivel.current.checked
 
     const { match, location, updateAgenda } = this.props
     const { nombre } = match.params
@@ -45,6 +48,7 @@ class AgendaEditForm extends Component {
         fechaInicio,
         fechaFin,
         calendarioSemestre,
+        discriminadaPorNivel,
       },
     }
 
@@ -71,11 +75,11 @@ class AgendaEditForm extends Component {
               Tipo de Evento:
             </label>
             <select id="tipo" ref={this.tipo} className="input select--input">
+              <option value="" />
               {tipoProgramacion.map(tipo => (
                 <option key={tipo._id}>{tipo.nombre}</option>
               ))}
             </select>
-
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
             </label>
@@ -88,7 +92,6 @@ class AgendaEditForm extends Component {
               min={fechaInicio.split('T')[0]}
               max={fechaFin.split('T')[0]}
             />
-
             <label htmlFor="fechaFin" className="required label">
               Fecha Fin:
             </label>
@@ -101,6 +104,9 @@ class AgendaEditForm extends Component {
               min={fechaInicio.split('T')[0]}
               max={fechaFin.split('T')[0]}
             />
+            <label className="label">¿Esta es una programación discriminada por nivel?:</label>
+            <input type="radio" name="discriminadaPorNivel" ref={this.discriminadaPorNivel} /> Sí
+            <input type="radio" name="discriminadaPorNivel" ref={this.todosLosNiveles} /> No
             <div className="form--controls">
               <input type="submit" value="Guardar" className="reset--button button" />
             </div>
@@ -126,7 +132,7 @@ class AgendaEditForm extends Component {
 
   renderAgendaValues() {
     const { schedules } = this.props
-    const { fechaInicio, fechaFin, tipo } = schedules
+    const { fechaInicio, fechaFin, tipo, discriminadaPorNivel } = schedules
 
     if (fechaInicio) {
       this.fechaInicio.current.value = moment(fechaInicio)
@@ -142,6 +148,14 @@ class AgendaEditForm extends Component {
 
     if (tipo) {
       this.tipo.current.value = tipo
+    }
+
+    if (discriminadaPorNivel !== undefined) {
+      if (discriminadaPorNivel) {
+        this.discriminadaPorNivel.current.checked = true
+      } else {
+        this.todosLosNiveles.current.checked = true
+      }
     }
   }
 }

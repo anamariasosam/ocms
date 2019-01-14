@@ -22,9 +22,13 @@ class EventCreateForm extends Component {
   }
 
   componentDidMount() {
-    const { fetchGrupos, fetchAttendats, fetchPlaces } = this.props
+    const { fetchGrupos, fetchAttendats, fetchPlaces, location } = this.props
+    const { schedule } = location.state
+    const { nombre } = schedule
+    const semestre = nombre.slice(0, 6)
+
     fetchPlaces()
-    fetchGrupos()
+    fetchGrupos({ semestre })
     fetchAttendats()
   }
 
@@ -74,10 +78,13 @@ class EventCreateForm extends Component {
         <div className="form--container">
           <h3 className="form--title">Crear Evento</h3>
           <form onSubmit={this.handleSubmit}>
-            {this.renderGroups()}
+            <label htmlFor="nombre" className="required label">
+              Nombre:
+            </label>
+            <input type="text" id="nombre" className="input" ref={this.nombre} required />
 
             <label htmlFor="encargado" className="required label">
-              Observador:
+              Encargado:
             </label>
             <select id="encargado" className="input select--input" ref={this.encargado}>
               {profesores.map(encargado => (
@@ -137,42 +144,6 @@ class EventCreateForm extends Component {
 
           {this.renderAlert()}
         </div>
-      </Fragment>
-    )
-  }
-
-  renderGroups() {
-    const { grupos, location } = this.props
-    const { schedule } = location.state
-
-    if (schedule.tipo === 'Programación Académica') {
-      return (
-        <Fragment>
-          <label htmlFor="nombre" className="required label">
-            Nombre:
-          </label>
-          <input type="text" id="nombre" className="input" ref={this.nombre} required />
-        </Fragment>
-      )
-    }
-
-    return (
-      <Fragment>
-        <label htmlFor="grupo" className="label">
-          Grupo:
-        </label>
-        <select id="grupo" className="input select--input" ref={this.grupo}>
-          {grupos &&
-            grupos.map(grupoUsuario => {
-              const { grupo } = grupoUsuario
-
-              return (
-                <option key={grupo._id} value={grupo._id}>
-                  {`${grupo.asignatura.nombre}: ${grupo.nombre}`}
-                </option>
-              )
-            })}
-        </select>
       </Fragment>
     )
   }

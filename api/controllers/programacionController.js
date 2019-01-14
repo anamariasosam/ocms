@@ -25,7 +25,14 @@ exports.show = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { calendarioId, tipo, calendarioSemestre, fechaInicio, fechaFin } = req.body
+  const {
+    calendarioId,
+    tipo,
+    calendarioSemestre,
+    fechaInicio,
+    fechaFin,
+    discriminadaPorNivel,
+  } = req.body
 
   const contadorProgramaciones = await Programacion.count({ calendario: calendarioId })
   const nombre = `${calendarioSemestre}-${contadorProgramaciones + 1}`
@@ -37,6 +44,7 @@ exports.create = async (req, res) => {
     fechaFin: fechaFin.concat('T23:59:00'),
     tipo,
     calendario,
+    discriminadaPorNivel,
   })
 
   programacion.save((err, programacion) => {
@@ -46,7 +54,7 @@ exports.create = async (req, res) => {
 
 exports.update = (req, res) => {
   const { nombre } = req.body.params
-  const { fechaInicio, fechaFin, tipo } = req.body.data
+  const { fechaInicio, fechaFin, tipo, discriminadaPorNivel } = req.body.data
 
   Programacion.findOneAndUpdate(
     { nombre },
@@ -54,6 +62,7 @@ exports.update = (req, res) => {
       fechaInicio,
       fechaFin: fechaFin.concat('T23:59:00'),
       tipo,
+      discriminadaPorNivel,
     },
     { new: true },
     (err, programacion) => {

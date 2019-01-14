@@ -1,13 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import DownloadExcel from 'react-html-table-to-excel'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Error from '../../../../components/Error'
 import Success from '../../../../components/Success'
-import { fetchAsignaturas, createEvents, fetchAsignaturasEventos } from '../../../../actions/event'
+import {
+  fetchGrupos,
+  createEvents,
+  fetchAsignaturasEventos,
+  fetchAttendats,
+} from '../../../../actions/event'
 
 class EventsCreateForm extends Component {
   constructor(props) {
@@ -17,19 +20,24 @@ class EventsCreateForm extends Component {
     this.toolbarDOM = React.createRef()
 
     this.state = {
-      eventos: {},
+      grupos: {},
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSticky = this.handleSticky.bind(this)
   }
 
   componentDidMount() {
-    const { fetchAsignaturas, fetchAsignaturasEventos, location } = this.props
+    const { fetchGrupos, fetchAsignaturasEventos, fetchAttendats, location } = this.props
     const { schedule } = location.state
-    fetchAsignaturas()
-    fetchAsignaturasEventos({ programacionNombre: schedule.nombre })
+    const { nombre } = schedule
+    const semestre = nombre.slice(0, 6)
+
+    fetchGrupos({ semestre })
+    fetchAttendats()
+    fetchAsignaturasEventos({ programacionNombre: nombre })
+
     document.addEventListener('scroll', this.handleSticky)
   }
 
@@ -42,7 +50,7 @@ class EventsCreateForm extends Component {
     const limit = document.body.offsetHeight - 450
 
     if (scroll > limit) {
-      this.toolbarDOM.current.style.bottom = scroll - limit + 'px'
+      this.toolbarDOM.current.style.bottom = `${scroll - limit}px`
     } else {
       this.toolbarDOM.current.style.bottom = 0
     }
@@ -51,14 +59,14 @@ class EventsCreateForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    const { eventos } = this.state
+    const { grupos } = this.state
 
     const { createEvents, location } = this.props
     const { schedule } = location.state
     const { _id: programacion, nombre: programacionNombre } = schedule
 
     const data = {
-      eventos,
+      grupos,
       programacion,
       programacionNombre,
     }
@@ -66,17 +74,26 @@ class EventsCreateForm extends Component {
     createEvents(data)
   }
 
-  handleChange(e) {
-    const { eventos } = this.state
+  handleInputChange(e) {
+    const { grupos } = this.state
+    const { id: event, value } = e.target
 
-    const { id: asignatura, value: fecha } = e.target
     const evento = {}
-    evento[asignatura] = fecha
+    evento[event] = (grupos[event] && { ...grupos[event] }) || {}
+    evento[event][e.target.name] = value
 
-    const newEvents = Object.assign(eventos, evento)
+    if (e.target.name === 'fechaInicio') {
+      const fechaFin = moment(value)
+        .add(2, 'hours')
+        .format('YYYY-MM-DD[T]hh:mm')
+
+      evento[event].fechaFin = fechaFin
+    }
+
+    const newEvents = Object.assign(grupos, evento)
 
     this.setState({
-      eventos: newEvents,
+      grupos: newEvents,
     })
   }
 
@@ -84,9 +101,7 @@ class EventsCreateForm extends Component {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
     const { location } = this.props
     const { schedule } = location.state
-    const { tipo, nombre } = schedule
-    const semestre = nombre && nombre.slice(0, 6)
-    const fileName = `${semestre} ${tipo}`
+
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -94,16 +109,18 @@ class EventsCreateForm extends Component {
         <AditionalInfo data={schedule} titles={titles} />
 
         <div>
-          <h3 className="form--title">Crear programación discriminada por nivel</h3>
+          <h3 className="form--title">Programación discriminada por nivel</h3>
           <form onSubmit={this.handleSubmit}>
             <table className="table" id="eventsTable">
               <thead className="thead">
                 <tr>
                   <th>NIVEL</th>
-                  <th>NOMBRE</th>
-                  <th>CRÉDITOS</th>
-                  <th>ELEGIR FECHA</th>
-                  <th>ACCIONES</th>
+                  <th>GRUPO</th>
+                  <th className="fixedWidth">NOMBRE ASIGNATURA</th>
+                  <th>FECHA / HORA</th>
+                  <th className="aforo-th">N° ESTUDIANTES</th>
+                  <th className="fixedWidth">DOCENTE</th>
+                  <th className="fixedWidth">OBSERVADOR</th>
                 </tr>
               </thead>
               <tbody>{this.renderAsignaturas()}</tbody>
@@ -120,58 +137,62 @@ class EventsCreateForm extends Component {
   }
 
   renderAsignaturas() {
-    const { asignaturas, events, match, location } = this.props
-    const { url } = match
+    const { location, grupos, profesores, events } = this.props
     const { schedule } = location.state
     const { fechaInicio, fechaFin } = schedule
 
-    return asignaturas.map(asignatura => {
-      const pathname = url + asignatura.nombre
+    return grupos.map(grupoUsuario => {
+      const { grupo, usuario } = grupoUsuario
+      const { nombre: docente } = usuario
+      const { asignatura, nombre } = grupo
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
-      const fecha = events[asignatura.nombre]
-      const fechaFormato = moment(fecha).format('YYYY-MM-DD[T]hh:mm')
-      const defaultValue = (fecha && fechaFormato) || ''
-      const isDisabled = events[asignatura.nombre] ? '' : 'isDisabled'
 
       return (
-        <tr key={asignatura._id} className={rowClass}>
+        <tr key={grupo._id} className={rowClass}>
           <td className="center">{asignatura.nivel}</td>
+          <td>{nombre}</td>
           <td className="fixedWidth">{asignatura.nombre}</td>
-          <td className="center">{asignatura.creditos}</td>
           <td>
             <input
               type="datetime-local"
-              id={asignatura._id}
+              id={grupo._id}
+              name="fechaInicio"
               className="input events--inputs"
-              onChange={this.handleChange}
-              defaultValue={defaultValue}
+              onChange={this.handleInputChange}
               min={fechaInicio.split('.')[0]}
               max={fechaFin.split('.')[0]}
+              defaultValue={
+                events[grupo._id] &&
+                moment(events[grupo._id].fechaInicio).format('YYYY-MM-DD[T]hh:mm')
+              }
             />
           </td>
           <td>
-            {isDisabled ? (
-              <img
-                src={require('../../../../images/edit.png')}
-                alt="edit"
-                className="action--image isDisabled"
-              />
-            ) : (
-              <Link
-                className={`reset--link`}
-                to={{
-                  pathname,
-                  state: { asignatura, fecha, schedule },
-                }}
-                title="Editar"
-              >
-                <img
-                  src={require('../../../../images/edit.png')}
-                  alt="edit"
-                  className="action--image"
-                />
-              </Link>
-            )}
+            <input
+              type="number"
+              id={grupo._id}
+              className="input events--inputs aforo--input"
+              onChange={this.handleInputChange}
+              name="aforo"
+              defaultValue={events[grupo._id] && events[grupo._id].aforo}
+            />
+          </td>
+          <td>{docente}</td>
+          <td>
+            <select
+              className="input select--input events--inputs"
+              onChange={this.handleInputChange}
+              id={grupo._id}
+              name="encargado"
+              defaultValue={events[grupo._id] && events[grupo._id].encargado}
+            >
+              <option value="" />
+              {profesores.map(encargado => (
+                <option key={encargado._id} value={encargado._id}>
+                  {encargado.nombre}
+                </option>
+              ))}
+            </select>
           </td>
         </tr>
       )
@@ -192,9 +213,8 @@ class EventsCreateForm extends Component {
 }
 
 EventsCreateForm.propTypes = {
-  fetchAsignaturas: PropTypes.func.isRequired,
+  fetchGrupos: PropTypes.func.isRequired,
   createEvents: PropTypes.func.isRequired,
-  asignaturas: PropTypes.array.isRequired,
   events: PropTypes.any.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
@@ -216,5 +236,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { fetchAsignaturas, createEvents, fetchAsignaturasEventos },
+  { fetchAttendats, fetchGrupos, fetchAsignaturasEventos, createEvents },
 )(EventsCreateForm)

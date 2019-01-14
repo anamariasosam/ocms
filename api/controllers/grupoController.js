@@ -19,18 +19,21 @@ const grupo = {
 }
 
 exports.show = (req, res) => {
-  const { grupoId } = req.query
+  const { grupoId, semestre } = req.query
   if (grupoId) {
     Grupo.findById(grupoId).exec((err, grupo) => {
       utils.show(res, err, grupo)
     })
   } else {
-    GrupoUsuario.find({ semestre: '2019-1', tipo: 'Profesor' })
+    GrupoUsuario.find({ semestre, tipo: 'Profesor' })
+      .populate('usuario', 'nombre')
       .populate({
         path: 'grupo',
         populate: {
           path: 'asignatura',
-          select: 'nombre',
+          options: {
+            sort: '-nivel',
+          },
         },
       })
       .exec((err, grupos) => {

@@ -9,9 +9,9 @@ const Programacion = new Schema(
     fechaInicio: Date,
     fechaFin: Date,
     tipo: String,
-    todosLosNiveles: {
+    discriminadaPorNivel: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     calendario: {
       type: ObjectId,

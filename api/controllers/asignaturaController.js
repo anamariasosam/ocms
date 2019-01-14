@@ -47,8 +47,6 @@ exports.eventos = (req, res) => {
   Programacion.findOne({ nombre: programacionNombre }).exec((err, programacion) => {
     const programacionId = programacion._id
     EventoAcademico.find({ programacion: programacionId })
-      .populate('encargado', 'nombre')
-      .populate('docente', 'nombre')
       .populate(lugar)
       .populate('programacion', 'tipo')
       .populate(grupo)
@@ -56,7 +54,12 @@ exports.eventos = (req, res) => {
       .exec((err, eventosAcademicos) => {
         const eventos = {}
         eventosAcademicos.map(evento => {
-          eventos[evento.grupo.asignatura.nombre] = evento.fechaInicio
+          const { fechaInicio, aforo, encargado } = evento
+          eventos[evento.grupo._id] = {
+            fechaInicio,
+            aforo,
+            encargado,
+          }
         })
         utils.show(res, err, eventos)
       })
