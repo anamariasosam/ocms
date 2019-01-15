@@ -6,7 +6,7 @@
 
 ## Install Dependencies
 
-Note: Arkadia requires Node.js v4 or newer
+Note: OCMS requires Node.js v4 or newer
 
 ```bash
 npm install
@@ -22,4 +22,4 @@ mongoURI=data_base_url
 
 The API ships with several convenience commands (runnable via `npm`):
 
-- `yarn dev`: start the server with nodemon and react
+- `npm run dev`: start the server with nodemon and react
