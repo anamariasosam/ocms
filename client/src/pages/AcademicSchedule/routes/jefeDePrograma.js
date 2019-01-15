@@ -17,11 +17,11 @@ const currentYear = new Date().getFullYear()
 export const jefeDeProgramaMenu = [
   {
     path: '/calendarioAcademico/calendario',
-    name: 'Calendarios',
+    name: 'Gestionar Calendario',
   },
   {
     path: `/calendarioAcademico/programacion/show/${currentYear}-1`,
-    name: 'Programaciones',
+    name: 'Realizar Programación',
   },
 ]
 
