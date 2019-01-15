@@ -193,7 +193,7 @@ const getEventosAcademicos = eventosAcademicos => {
       .utc()
       .format('h:mm a')
     const nombre = (evento.grupo && evento.grupo.asignatura.nombre) || evento.nombre
-    const lugar = evento.lugar.nombre
+    const lugar = (event.lugar && evento.lugar.nombre) || 'Pendiente'
     const tipo = evento.programacion.tipo
 
     const agenda = {
