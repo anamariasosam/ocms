@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import DownloadExcel from 'react-html-table-to-excel'
 import AditionalInfo from '../../../../components/AditionalInfo'
+import ExcelTable from '../../../../components/ExcelTable'
 import Error from '../../../../components/Error'
 import Success from '../../../../components/Success'
 import {
@@ -108,9 +110,11 @@ class EventsCreateForm extends Component {
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { location } = this.props
+    const { location, events } = this.props
     const { schedule } = location.state
-
+    const { tipo, nombre } = schedule
+    const semestre = nombre && nombre.slice(0, 6)
+    const fileName = `${semestre} ${tipo}`
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -119,8 +123,9 @@ class EventsCreateForm extends Component {
 
         <div>
           <h3 className="form--title">Programación discriminada por nivel</h3>
+
           <form onSubmit={this.handleSubmit}>
-            <table className="table" id="eventsTable">
+            <table className="table">
               <thead className="thead">
                 <tr>
                   <th>NIVEL</th>
@@ -135,10 +140,20 @@ class EventsCreateForm extends Component {
               <tbody>{this.renderAsignaturas()}</tbody>
             </table>
             <div className="form--controls toolbar sticky-in" ref={this.toolbarDOM}>
-              <input type="submit" value="Guardar" className="reset--button button saveBtn" />
+              <input type="submit" value="Guardar" className="reset--button button" />
+
+              <DownloadExcel
+                className="button"
+                sheet=""
+                table="excelTable"
+                filename={fileName}
+                buttonText="Descargar Excel"
+              />
             </div>
           </form>
-
+          {Object.keys(events).length > 0 && (
+            <ExcelTable events={events} programacionNombre={nombre} />
+          )}
           {this.renderAlert()}
         </div>
       </Fragment>

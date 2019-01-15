@@ -11,7 +11,6 @@ import PorNivel from '../JefeDePrograma/Event/PorNivel'
 import CalendarEditForm from '../JefeDePrograma/Calendar/CalendarEditForm'
 import AgendaEditForm from '../JefeDePrograma/Agenda/AgendaEditForm'
 import EventEditForm from '../JefeDePrograma/Event/EventEditForm'
-import EventAsignaturaEdit from '../JefeDePrograma/Event/EventAsignaturaEdit'
 
 const currentYear = new Date().getFullYear()
 
@@ -66,10 +65,6 @@ export const jefeDeProgramaRoutes = [
   {
     path: '/calendarioAcademico/evento/edit/:nombre/',
     component: EventEditForm,
-  },
-  {
-    path: '/calendarioAcademico/evento/asignatura/:nombre/',
-    component: EventAsignaturaEdit,
   },
   {
     path: '/calendarioAcademico/:programacionNombre?',
