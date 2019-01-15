@@ -33,7 +33,6 @@ class EventsCreateForm extends Component {
     const { schedule } = location.state
     const { nombre } = schedule
     const semestre = nombre.slice(0, 6)
-
     fetchGrupos({ semestre })
     fetchAttendats()
     fetchAsignaturasEventos({ programacionNombre: nombre })
@@ -42,9 +41,7 @@ class EventsCreateForm extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(this.props.events !== nextProps.events)
-
-    return this.props.events != nextProps.events
+    return this.props.events !== nextProps.events
   }
 
   componentWillUnmount() {
@@ -70,7 +67,6 @@ class EventsCreateForm extends Component {
     const { createEvents, location } = this.props
     const { schedule } = location.state
     const { _id: programacion, nombre: programacionNombre } = schedule
-    console.log(grupos)
 
     const data = {
       grupos,
@@ -90,11 +86,17 @@ class EventsCreateForm extends Component {
     evento[event][e.target.name] = value
 
     if (e.target.name === 'fechaInicio') {
-      const fechaFin = moment(value)
+      evento[event][e.target.name] = moment(new Date(value))
+        .utc(-5)
+        .toISOString()
+      evento[event].fechaFin = moment(new Date(value))
+        .utc(-5)
         .add(2, 'hours')
-        .format('YYYY-MM-DD[T]hh:mm')
+        .toISOString()
+    }
 
-      evento[event].fechaFin = fechaFin
+    if (e.target.name === 'encargado' && value === '') {
+      evento[event][e.target.name] = document.querySelector(`.docente-${event}`).innerText
     }
 
     const newEvents = Object.assign(grupos, evento)
@@ -148,14 +150,11 @@ class EventsCreateForm extends Component {
     const { schedule } = location.state
     const { fechaInicio, fechaFin } = schedule
 
-    // console.log(events);
-
     return grupos.map(grupoUsuario => {
       const { grupo, usuario } = grupoUsuario
       const { nombre: docente } = usuario
       const { asignatura, nombre } = grupo
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
-      console.log(events[grupo._id] && events[grupo._id].fechaInicio)
 
       return (
         <tr key={grupo._id} className={rowClass}>
@@ -184,7 +183,7 @@ class EventsCreateForm extends Component {
               defaultValue={events[grupo._id] && events[grupo._id].aforo}
             />
           </td>
-          <td>{docente}</td>
+          <td className={`docente-${grupo._id}`}>{docente}</td>
           <td>
             <select
               className="input select--input events--inputs"

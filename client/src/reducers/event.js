@@ -25,8 +25,6 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_EVENT:
-      console.log(action)
-
       return { ...state, successMessage: action.payload.successMessage }
     case DELETE_EVENT:
     case FETCH_EVENT:

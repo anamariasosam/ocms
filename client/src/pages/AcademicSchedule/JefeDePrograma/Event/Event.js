@@ -125,7 +125,7 @@ class Event extends Component {
             ${moment(event.fechaFin).format('HH:mm')}`}
           </td>
           <td className="center">{event.aforo}</td>
-          <td>{event.lugar.nombre}</td>
+          <td>{event.lugar && event.lugar.nombre}</td>
           <td>{event.encargado.nombre}</td>
           <Options
             handleDelete={() => this.handleDelete(event._id)}
