@@ -9,9 +9,13 @@ const EventAlert = ({ event }) => {
       <p>
         <b>Tipo Evento:</b> {tipo}
       </p>
-      <p>
-        <b>Lugar:</b> {lugar}
-      </p>
+      {lugar && (
+        <p>
+          <b>Lugar:</b>
+          {lugar}
+        </p>
+      )}
+
       <p>
         <b>Hora:</b> {moment(start).format('h:mm a')} - {moment(end).format('h:mm a')}
       </p>

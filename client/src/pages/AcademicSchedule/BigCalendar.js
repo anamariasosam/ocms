@@ -62,7 +62,7 @@ class BigCalendar extends Component {
           end: moment(event.fechaFin).toDate(),
           title: (event.grupo && event.grupo.asignatura.nombre) || event.nombre,
           tipo: event.programacion.tipo,
-          lugar: (event.lugar && event.lugar.nombre) || 'Pendiente',
+          lugar: event.lugar && event.lugar.nombre,
         }
       })
 

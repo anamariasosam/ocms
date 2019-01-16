@@ -49,8 +49,12 @@ class EventEditForm extends Component {
     e.preventDefault()
 
     const { match, location, updateEvent } = this.props
-    const fechaInicio = this.fechaInicio.current.value
-    const fechaFin = this.fechaFin.current.value
+    const fechaInicio = moment(new Date(this.fechaInicio.current.value))
+      .utc(-5)
+      .toISOString()
+    const fechaFin = moment(new Date(this.fechaFin.current.value))
+      .utc(-5)
+      .toISOString()
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
     const lugar = this.lugar.current.value
@@ -115,10 +119,10 @@ class EventEditForm extends Component {
               ))}
             </select>
 
-            <label htmlFor="aforo" className="required label">
+            <label htmlFor="aforo" className="label">
               Aforo:
             </label>
-            <input type="number" id="aforo" className="input" ref={this.aforo} required min="1" />
+            <input type="number" id="aforo" className="input" ref={this.aforo} />
 
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
@@ -150,6 +154,7 @@ class EventEditForm extends Component {
               Lugar:
             </label>
             <select id="lugar" className="input select--input" ref={this.lugar}>
+              <option value="" />
               {lugares &&
                 lugares.map(lugar => (
                   <option key={lugar._id} value={lugar._id}>

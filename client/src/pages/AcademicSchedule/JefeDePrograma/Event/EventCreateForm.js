@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import AditionalInfo from '../../../../components/AditionalInfo'
 import Success from '../../../../components/Success'
@@ -35,8 +36,12 @@ class EventCreateForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    const fechaInicio = this.fechaInicio.current.value
-    const fechaFin = this.fechaFin.current.value
+    const fechaInicio = moment(new Date(this.fechaInicio.current.value))
+      .utc(-5)
+      .toISOString()
+    const fechaFin = moment(new Date(this.fechaFin.current.value))
+      .utc(-5)
+      .toISOString()
     const aforo = this.aforo.current.value
     const encargado = this.encargado.current.value
     const lugar = this.lugar.current.value
@@ -94,10 +99,10 @@ class EventCreateForm extends Component {
               ))}
             </select>
 
-            <label htmlFor="aforo" className="required label">
+            <label htmlFor="aforo" className="label">
               Aforo:
             </label>
-            <input type="number" id="aforo" className="input" ref={this.aforo} required min="1" />
+            <input type="number" id="aforo" className="input" ref={this.aforo} />
 
             <label htmlFor="fechaInicio" className="required label">
               Fecha Inicio:
@@ -125,10 +130,11 @@ class EventCreateForm extends Component {
               max={fechaFin.split('.')[0]}
             />
 
-            <label htmlFor="lugar" className="required label">
+            <label htmlFor="lugar" className="label">
               Lugar:
             </label>
             <select id="lugar" className="input select--input" ref={this.lugar}>
+              <option value="" />
               {lugares &&
                 lugares.map(lugar => (
                   <option key={lugar._id} value={lugar._id}>
