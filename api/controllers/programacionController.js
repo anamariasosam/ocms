@@ -15,7 +15,7 @@ exports.show = (req, res) => {
       if (calendario) {
         const calendarioId = calendario._id
         Programacion.find({ calendario: calendarioId })
-          .sort('nombre')
+          .sort('fechaInicio')
           .exec((err, programaciones) => {
             utils.show(res, err, programaciones)
           })
@@ -34,8 +34,7 @@ exports.create = async (req, res) => {
     discriminadaPorNivel,
   } = req.body
 
-  const contadorProgramaciones = await Programacion.count({ calendario: calendarioId })
-  const nombre = `${calendarioSemestre}-${contadorProgramaciones + 1}`
+  const nombre = `${calendarioSemestre}-${tipo}`
 
   const calendario = new Calendario({ _id: calendarioId })
   const programacion = new Programacion({

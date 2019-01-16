@@ -29,6 +29,8 @@ const Programacion = new Schema(
   },
 )
 
+Programacion.index({ calendario: 1, tipo: 1 }, { unique: true })
+
 Programacion.pre('remove', function(next) {
   EventoAcademico.remove({ programacion: this._id }).exec()
   next()

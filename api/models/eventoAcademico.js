@@ -7,7 +7,10 @@ const EventoAcademico = new Schema(
     nombre: { type: String, unique: true, lowercase: true },
     fechaInicio: Date,
     fechaFin: Date,
-    aforo: Number,
+    aforo: {
+      type: Number,
+      default: 0,
+    },
     grupo: {
       type: ObjectId,
       ref: 'Grupo',

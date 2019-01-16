@@ -67,7 +67,6 @@ class Agenda extends Component {
               <thead className="thead">
                 <tr>
                   <th>NOMBRE</th>
-                  <th>TIPO</th>
                   <th>FECHA INICIO</th>
                   <th>FECHA FIN</th>
                   <th>ACCIONES</th>
@@ -100,7 +99,6 @@ class Agenda extends Component {
     const { schedules, calendars } = this.props
     return schedules.map(schedule => (
       <tr key={schedule._id}>
-        <td>{schedule.nombre}</td>
         <td>{schedule.tipo}</td>
         <td>
           {moment(schedule.fechaInicio)

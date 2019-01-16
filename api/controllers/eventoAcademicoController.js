@@ -110,26 +110,23 @@ exports.createMultipleEvents = async (req, res) => {
           (err, evento) => {},
         )
       } else {
-        const semestre = programacionNombre.slice(0, 6)
-        GrupoUsuario.findOne({ grupo, tipo: 'Profesor', semestre }).exec((err, grupoUsuario) => {
-          contadorEventos++
-          const nombre = `${programacionNombre}-${contadorEventos}`
-          const { fechaInicio, aforo, encargado, fechaFin } = grupos[grupo]
+        contadorEventos++
+        const nombre = `${programacionNombre}-${contadorEventos}`
+        const { fechaInicio, aforo, encargado, fechaFin } = grupos[grupo]
 
-          const evento = {
-            nombre,
-            grupo,
-            programacion,
-            fechaInicio,
-            fechaFin,
-            aforo: aforo || 0,
-            encargado: encargado || grupoUsuario.usuario,
-          }
+        const evento = {
+          nombre,
+          grupo,
+          programacion,
+          fechaInicio,
+          fechaFin,
+          aforo,
+          encargado,
+        }
 
-          const eventoAcademico = new EventoAcademico(evento)
+        const eventoAcademico = new EventoAcademico(evento)
 
-          eventoAcademico.save()
-        })
+        eventoAcademico.save()
       }
     })
   })

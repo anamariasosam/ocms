@@ -43,7 +43,7 @@ class EventsCreateForm extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.events !== nextProps.events
+    return Object.keys(this.props.events).length !== Object.keys(nextProps.events).length
   }
 
   componentWillUnmount() {
@@ -85,6 +85,7 @@ class EventsCreateForm extends Component {
 
     const evento = {}
     evento[event] = (grupos[event] && { ...grupos[event] }) || {}
+    evento[event].encargado = document.querySelector(`.docente-${event}`).id
     evento[event][e.target.name] = value
 
     if (e.target.name === 'fechaInicio') {
@@ -98,7 +99,7 @@ class EventsCreateForm extends Component {
     }
 
     if (e.target.name === 'encargado' && value === '') {
-      evento[event][e.target.name] = document.querySelector(`.docente-${event}`).innerText
+      evento[event][e.target.name] = document.querySelector(`.docente-${event}`).id
     }
 
     const newEvents = Object.assign(grupos, evento)
@@ -110,7 +111,7 @@ class EventsCreateForm extends Component {
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { location, events } = this.props
+    const { location, events, grupos } = this.props
     const { schedule } = location.state
     const { tipo, nombre } = schedule
     const semestre = nombre && nombre.slice(0, 6)
@@ -125,30 +126,38 @@ class EventsCreateForm extends Component {
           <h3 className="form--title">Programación discriminada por nivel</h3>
 
           <form onSubmit={this.handleSubmit}>
-            <table className="table">
-              <thead className="thead">
-                <tr>
-                  <th>NIVEL</th>
-                  <th>GRUPO</th>
-                  <th className="fixedWidth">NOMBRE ASIGNATURA</th>
-                  <th>FECHA / HORA</th>
-                  <th className="aforo-th">N° ESTUDIANTES</th>
-                  <th className="fixedWidth">DOCENTE</th>
-                  <th className="fixedWidth">OBSERVADOR</th>
-                </tr>
-              </thead>
-              <tbody>{this.renderAsignaturas()}</tbody>
-            </table>
+            {grupos.length > 0 ? (
+              <table className="table">
+                <thead className="thead">
+                  <tr>
+                    <th>NIVEL</th>
+                    <th>GRUPO</th>
+                    <th className="fixedWidth">NOMBRE ASIGNATURA</th>
+                    <th>FECHA / HORA</th>
+                    <th className="aforo-th">N° ESTUDIANTES</th>
+                    <th className="fixedWidth">DOCENTE</th>
+                    <th className="fixedWidth">OBSERVADOR</th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderAsignaturas()}</tbody>
+              </table>
+            ) : (
+              <div className="module--container center">
+                <img src={require('../../../../images/loading.svg')} alt="loading" />
+              </div>
+            )}
+
             <div className="form--controls toolbar sticky-in" ref={this.toolbarDOM}>
               <input type="submit" value="Guardar" className="reset--button button" />
-
-              <DownloadExcel
-                className="button"
-                sheet=""
-                table="excelTable"
-                filename={fileName}
-                buttonText="Descargar Excel"
-              />
+              {Object.keys(events).length > 0 && (
+                <DownloadExcel
+                  className="button"
+                  sheet=""
+                  table="excelTable"
+                  filename={fileName}
+                  buttonText="Descargar Excel"
+                />
+              )}
             </div>
           </form>
           {Object.keys(events).length > 0 && (
@@ -167,15 +176,15 @@ class EventsCreateForm extends Component {
 
     return grupos.map(grupoUsuario => {
       const { grupo, usuario } = grupoUsuario
-      const { nombre: docente } = usuario
+      const { nombre: docente, _id: docenteId } = usuario
       const { asignatura, nombre } = grupo
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
 
       return (
         <tr key={grupo._id} className={rowClass}>
           <td className="center">{asignatura.nivel}</td>
-          <td>{nombre}</td>
-          <td className="fixedWidth">{asignatura.nombre}</td>
+          <td className={`grupo-${grupo._id}`}>{nombre}</td>
+          <td className={`asignatura-${grupo._id} fixedWidth`}>{asignatura.nombre}</td>
           <td>
             <input
               type="datetime-local"
@@ -198,7 +207,9 @@ class EventsCreateForm extends Component {
               defaultValue={events[grupo._id] && events[grupo._id].aforo}
             />
           </td>
-          <td className={`docente-${grupo._id}`}>{docente}</td>
+          <td className={`docente-${grupo._id}`} id={docenteId}>
+            {docente}
+          </td>
           <td>
             <select
               className="input select--input events--inputs"

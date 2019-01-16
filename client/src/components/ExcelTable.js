@@ -43,7 +43,7 @@ class Event extends Component {
       )
     }
 
-    return <p>No eventos</p>
+    return ''
   }
 
   renderEvents() {
