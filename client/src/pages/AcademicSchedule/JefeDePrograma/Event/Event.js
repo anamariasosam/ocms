@@ -120,9 +120,13 @@ class Event extends Component {
           <td>{(event.grupo && event.grupo.asignatura.nombre) || event.nombre}</td>
           <td>{moment(event.fechaInicio).format('l')}</td>
           <td>
-            {`${moment(event.fechaInicio).format('HH:mm')}
+            {`${moment(event.fechaInicio)
+              .utc()
+              .format('HH:mm')}
             -
-            ${moment(event.fechaFin).format('HH:mm')}`}
+            ${moment(event.fechaFin)
+              .utc()
+              .format('HH:mm')}`}
           </td>
           <td className="center">{event.aforo}</td>
           <td>{event.lugar && event.lugar.nombre}</td>

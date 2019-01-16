@@ -134,7 +134,6 @@ class EventCreateForm extends Component {
               Lugar:
             </label>
             <select id="lugar" className="input select--input" ref={this.lugar}>
-              <option value="" />
               {lugares &&
                 lugares.map(lugar => (
                   <option key={lugar._id} value={lugar._id}>

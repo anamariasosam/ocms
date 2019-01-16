@@ -11,7 +11,7 @@ const EventAlert = ({ event }) => {
       </p>
       {lugar && (
         <p>
-          <b>Lugar:</b>
+          <b>Lugar: </b>
           {lugar}
         </p>
       )}

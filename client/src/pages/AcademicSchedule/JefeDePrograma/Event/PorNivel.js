@@ -43,7 +43,10 @@ class EventsCreateForm extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return Object.keys(this.props.events).length !== Object.keys(nextProps.events).length
+    return (
+      Object.keys(this.props.events).length !== Object.keys(nextProps.events).length ||
+      this.props.grupos !== nextProps.grupos
+    )
   }
 
   componentWillUnmount() {

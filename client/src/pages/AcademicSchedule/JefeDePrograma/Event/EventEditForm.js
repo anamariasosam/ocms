@@ -154,7 +154,6 @@ class EventEditForm extends Component {
               Lugar:
             </label>
             <select id="lugar" className="input select--input" ref={this.lugar}>
-              <option value="" />
               {lugares &&
                 lugares.map(lugar => (
                   <option key={lugar._id} value={lugar._id}>
@@ -190,11 +189,15 @@ class EventEditForm extends Component {
     const { fechaInicio, fechaFin, aforo, encargado, lugar, grupo, nombre } = events
 
     if (fechaInicio) {
-      this.fechaInicio.current.value = moment(fechaInicio).format('YYYY-MM-DD[T]hh:mm')
+      this.fechaInicio.current.value = moment(fechaInicio)
+        .utc()
+        .format('YYYY-MM-DD[T]hh:mm')
     }
 
     if (fechaFin) {
-      this.fechaFin.current.value = moment(fechaFin).format('YYYY-MM-DD[T]hh:mm')
+      this.fechaFin.current.value = moment(fechaFin)
+        .utc()
+        .format('YYYY-MM-DD[T]hh:mm')
     }
 
     if (aforo) {
