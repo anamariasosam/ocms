@@ -10,6 +10,7 @@ import {
   GROUPS_ERROR,
   FETCH_ATTENDANTS,
   FETCH_PLACES,
+  FETCH_EVENT_ASIGNATURA,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -20,6 +21,7 @@ const INITIAL_STATE = {
   grupos: [],
   events: [],
   profesores: [],
+  asignaturasEventos: {},
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -29,6 +31,8 @@ export default function(state = INITIAL_STATE, action) {
     case DELETE_EVENT:
     case FETCH_EVENT:
       return { ...state, events: action.payload }
+    case FETCH_EVENT_ASIGNATURA:
+      return { ...state, asignaturasEventos: action.payload }
     case UPDATE_EVENT:
       return { ...state, successMessage: action.payload.successMessage }
     case FETCH_SUBJECTS:

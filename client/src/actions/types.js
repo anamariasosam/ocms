@@ -26,6 +26,7 @@ export const FETCH_EVENT = 'fetch_event'
 export const DELETE_EVENT = 'delete_event'
 export const UPDATE_EVENT = 'update_event'
 export const FETCH_ATTENDANTS = 'fetch_attendants'
+export const FETCH_EVENT_ASIGNATURA = 'fetch_event_asignatura'
 
 export const FETCH_GROUPS = 'fetch_groups'
 export const GROUPS_ERROR = 'groups_error'

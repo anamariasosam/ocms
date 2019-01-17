@@ -11,6 +11,7 @@ import {
   GROUPS_ERROR,
   FETCH_ATTENDANTS,
   FETCH_PLACES,
+  FETCH_EVENT_ASIGNATURA,
 } from './types'
 
 const EVENT_ENDPOINT = '/eventosAcademicos'
@@ -64,7 +65,7 @@ export const fetchPlaces = () => {
 
 export const fetchAsignaturasEventos = params => {
   const url = '/asignaturas/eventos'
-  return dispatch => getData(FETCH_EVENT, EVENT_ERROR, false, url, dispatch, params)
+  return dispatch => getData(FETCH_EVENT_ASIGNATURA, EVENT_ERROR, false, url, dispatch, params)
 }
 
 export const fetchAsignaturaGrupos = params => {

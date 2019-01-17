@@ -35,16 +35,17 @@ class EventsCreateForm extends Component {
     const { schedule } = location.state
     const { nombre } = schedule
     const semestre = nombre.slice(0, 6)
+
     fetchGrupos({ semestre })
-    fetchAttendats()
     fetchAsignaturasEventos({ programacionNombre: nombre })
+    fetchAttendats()
 
     document.addEventListener('scroll', this.handleSticky)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      Object.keys(this.props.events).length !== Object.keys(nextProps.events).length ||
+      this.props.asignaturasEventos !== nextProps.asignaturasEventos ||
       this.props.grupos !== nextProps.grupos
     )
   }
@@ -114,11 +115,12 @@ class EventsCreateForm extends Component {
 
   render() {
     const titles = ['tipo', 'fecha Inicio', 'fecha Fin']
-    const { location, events, grupos } = this.props
+    const { location, asignaturasEventos, grupos } = this.props
     const { schedule } = location.state
     const { tipo, nombre } = schedule
     const semestre = nombre && nombre.slice(0, 6)
     const fileName = `${semestre} ${tipo}`
+    console.log(asignaturasEventos)
     return (
       <Fragment>
         <h2>Programar Evento</h2>
@@ -152,7 +154,7 @@ class EventsCreateForm extends Component {
 
             <div className="form--controls toolbar sticky-in" ref={this.toolbarDOM}>
               <input type="submit" value="Guardar" className="reset--button button" />
-              {Object.keys(events).length > 0 && (
+              {Object.keys(asignaturasEventos).length > 0 && (
                 <DownloadExcel
                   className="button"
                   sheet=""
@@ -163,8 +165,8 @@ class EventsCreateForm extends Component {
               )}
             </div>
           </form>
-          {Object.keys(events).length > 0 && (
-            <ExcelTable events={events} programacionNombre={nombre} />
+          {Object.keys(asignaturasEventos).length > 0 && (
+            <ExcelTable events={asignaturasEventos} programacionNombre={nombre} />
           )}
           {this.renderAlert()}
         </div>
@@ -173,7 +175,7 @@ class EventsCreateForm extends Component {
   }
 
   renderAsignaturas() {
-    const { location, grupos, profesores, events } = this.props
+    const { location, grupos, profesores, asignaturasEventos } = this.props
     const { schedule } = location.state
     const { fechaInicio, fechaFin } = schedule
 
@@ -182,7 +184,7 @@ class EventsCreateForm extends Component {
       const { nombre: docente, _id: docenteId } = usuario
       const { asignatura, nombre } = grupo
       const rowClass = asignatura.nivel % 2 === 0 ? 'par' : 'impar'
-
+      const encargado = asignaturasEventos[grupo._id] ? asignaturasEventos[grupo._id].encargado : ''
       return (
         <tr key={grupo._id} className={rowClass}>
           <td className="center">{asignatura.nivel}</td>
@@ -197,7 +199,10 @@ class EventsCreateForm extends Component {
               onChange={this.handleInputChange}
               min={fechaInicio.split('.')[0]}
               max={fechaFin.split('.')[0]}
-              defaultValue={events[grupo._id] && events[grupo._id].fechaInicio.split('.')[0]}
+              defaultValue={
+                asignaturasEventos[grupo._id] &&
+                asignaturasEventos[grupo._id].fechaInicio.split('.')[0]
+              }
             />
           </td>
           <td>
@@ -207,27 +212,34 @@ class EventsCreateForm extends Component {
               className="input events--inputs aforo--input"
               onChange={this.handleInputChange}
               name="aforo"
-              defaultValue={events[grupo._id] && events[grupo._id].aforo}
+              defaultValue={asignaturasEventos[grupo._id] && asignaturasEventos[grupo._id].aforo}
             />
           </td>
           <td className={`docente-${grupo._id}`} id={docenteId}>
             {docente}
           </td>
           <td>
-            <select
-              className="input select--input events--inputs"
-              onChange={this.handleInputChange}
-              id={grupo._id}
-              name="encargado"
-              defaultValue={events[grupo._id] ? events[grupo._id].encargado : ''}
-            >
-              <option value="" />
-              {profesores.map(encargado => (
-                <option key={encargado._id} value={encargado._id}>
-                  {encargado.nombre}
-                </option>
-              ))}
-            </select>
+            {profesores.length > 0 ? (
+              <select
+                className="input select--input events--inputs"
+                onChange={this.handleInputChange}
+                id={grupo._id}
+                name="encargado"
+              >
+                <option value="" />
+                {profesores.map(profesor => (
+                  <option
+                    key={profesor._id}
+                    value={profesor._id}
+                    selected={encargado === profesor._id}
+                  >
+                    {profesor.nombre}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              ''
+            )}
           </td>
         </tr>
       )
@@ -250,14 +262,20 @@ class EventsCreateForm extends Component {
 EventsCreateForm.propTypes = {
   fetchGrupos: PropTypes.func.isRequired,
   createEvents: PropTypes.func.isRequired,
-  events: PropTypes.any.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
   location: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
-  const { errorMessage, successMessage, asignaturas, grupos, profesores, events } = state.event
+  const {
+    errorMessage,
+    successMessage,
+    asignaturas,
+    grupos,
+    profesores,
+    asignaturasEventos,
+  } = state.event
 
   return {
     errorMessage,
@@ -265,11 +283,11 @@ function mapStateToProps(state) {
     asignaturas,
     grupos,
     profesores,
-    events,
+    asignaturasEventos,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchAttendats, fetchGrupos, fetchAsignaturasEventos, createEvents },
+  { fetchAttendats, fetchAsignaturasEventos, fetchGrupos, createEvents },
 )(EventsCreateForm)

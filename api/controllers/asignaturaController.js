@@ -61,6 +61,10 @@ exports.eventos = (req, res) => {
             encargado,
           }
         })
+
+        console.log('====================================')
+        console.log(eventos)
+        console.log('====================================')
         utils.show(res, err, eventos)
       })
   })
