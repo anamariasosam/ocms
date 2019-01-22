@@ -72,7 +72,7 @@ class BigCalendar extends Component {
           <Calendar
             localizer={localizer}
             defaultView="month"
-            views={['month', 'agenda', 'day']}
+            views={['month']}
             events={bigCalendarEvents}
             style={{ height: '100vh' }}
             startAccessor="start"

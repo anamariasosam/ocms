@@ -17,7 +17,14 @@ const EventAlert = ({ event }) => {
       )}
 
       <p>
-        <b>Hora:</b> {moment(start).format('h:mm a')} - {moment(end).format('h:mm a')}
+        <b>Hora:</b>{' '}
+        {moment(start)
+          .utc()
+          .format('h:mm a')}{' '}
+        -{' '}
+        {moment(end)
+          .utc()
+          .format('h:mm a')}
       </p>
     </div>
   )

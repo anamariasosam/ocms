@@ -120,7 +120,7 @@ class EventsCreateForm extends Component {
     const { tipo, nombre } = schedule
     const semestre = nombre && nombre.slice(0, 6)
     const fileName = `${semestre} ${tipo}`
-    console.log(asignaturasEventos)
+
     return (
       <Fragment>
         <h2>Programar Evento</h2>

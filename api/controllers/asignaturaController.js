@@ -62,9 +62,6 @@ exports.eventos = (req, res) => {
           }
         })
 
-        console.log('====================================')
-        console.log(eventos)
-        console.log('====================================')
         utils.show(res, err, eventos)
       })
   })
